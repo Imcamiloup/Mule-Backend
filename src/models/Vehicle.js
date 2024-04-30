@@ -1,7 +1,6 @@
-const { DataTypes, UUIDV4 } = require("sequelize");
+import { DataTypes, UUIDV4 } from "sequelize";
 
-module.exports = (sequelize) => {
-  // defino el modelo
+export default (sequelize) => {
   sequelize.define(
     "Vehicle",
     {
@@ -20,7 +19,7 @@ module.exports = (sequelize) => {
         allowNull: true,
       },
       numero_seguro: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: true,
       },
       placa: {
