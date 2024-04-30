@@ -1,28 +1,28 @@
-const { DataTypes, UUIDV4 } = require('sequelize');
+import { DataTypes, UUIDV4 } from "sequelize";
 
-module.exports = (sequelize) => {
-  // defino el modelo
-  sequelize.define('Freigth', {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      unique: true,
+export default (sequelize) => {
+  sequelize.define(
+    "Freigth",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        unique: true,
+      },
+      weigth: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      measures: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      type: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
-    weigth: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    measures: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    type: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-  },
-  { timestamps: false });
+    { timestamps: false }
+  );
 };
-
-

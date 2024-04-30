@@ -1,12 +1,12 @@
-const express = require("express");
+import express from "express";
+import { json, urlencoded } from "express";
+import testRouter from "./routes/test.routes.js";
+
 const server = express();
 
-const { json } = require(express);
-const testRouter = require("./routes/test.routes");
-
 server.use(json());
-server.use(express.urlencoded({ extended: true }));
+server.use(urlencoded({ extended: true }));
 
 server.use("/", testRouter);
 
-module.exports = server;
+export default server;
