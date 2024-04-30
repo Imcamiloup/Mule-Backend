@@ -1,11 +1,12 @@
-const { Sequelize } = require("sequelize");
+import { Sequelize } from "sequelize";
+
 const { DB_USER, DB_PASSWORD, DB_HOST, DATABASE_NAME } = process.env;
 
-const AdminModel = require("../models/Admin");
-const ClientModel = require("../models/Client");
-const DriverModel = require("../models/Driver");
-const FreigthModel = require("../models/Freigth");
-const VehicleModel = require("../models/Vehicle");
+import AdminModel from "../models/Admin.js";
+import ClientModel from "../models/Client.js";
+import DriverModel from "../models/Driver.js";
+import FreigthModel from "../models/Freigth.js";
+import VehicleModel from "../models/Vehicle.js";
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DATABASE_NAME}`,
@@ -20,6 +21,10 @@ VehicleModel(sequelize);
 
 const { Admin, Client, Driver, Freigth, Vehicle } = sequelize.models;
 
+//relacion de los modelos: (One-to-One, One-to-Many, Many-to-Many)
 
 
-module.exports = sequelize;
+
+
+
+export default sequelize;
