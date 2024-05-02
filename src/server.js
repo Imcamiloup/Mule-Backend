@@ -5,17 +5,15 @@ import testRouter from "./routes/test.routes.js"
 import morgan  from "morgan";
 import cors  from "cors";
 import { json, urlencoded } from "express";
+import vehicleRouter from "./routes/vehicle.routes.js";
 
 const server = express();
 
-server.use(morgan("dev")); //midleware get
-// Importar y utilizar las funciones de middleware de Express
-server.use(json()); // Middleware para parsear JSON
-
 server.use(cors());
+server.use(morgan("dev"));
+server.use(json());
 
 server.use(urlencoded({ extended: true }));
-
 //Use the router for manage the routes
 server.use(router);
 
@@ -24,6 +22,6 @@ server.get("/ping",function(req, res){
 });
 
 
-server.use("/", testRouter);
+server.use("/vehicle", vehicleRouter);
 
 export default server;
