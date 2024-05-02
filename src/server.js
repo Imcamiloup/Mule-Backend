@@ -1,4 +1,5 @@
 import express  from "express";
+import jwt from "jsonwebtoken";
 import router from "./routes/index.js";
 import testRouter from "./routes/test.routes.js"
 import morgan  from "morgan";
@@ -14,6 +15,7 @@ server.use(json()); // Middleware para parsear JSON
 server.use(cors());
 
 server.use(urlencoded({ extended: true }));
+
 //Use the router for manage the routes
 server.use(router);
 
