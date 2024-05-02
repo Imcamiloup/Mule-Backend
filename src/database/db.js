@@ -23,8 +23,6 @@ const { Admin, Client, Driver, Freigth, Vehicle } = sequelize.models;
 
 //relacion de los modelos: (One-to-One, One-to-Many, Many-to-Many)
 
-
-
-
+export { Admin, Client, Driver, Freigth, Vehicle };
 
 export default sequelize;

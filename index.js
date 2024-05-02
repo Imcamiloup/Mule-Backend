@@ -15,3 +15,4 @@ sequelize
   });
 
 export default sequelize;
+
