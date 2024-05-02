@@ -1,0 +1,1 @@
+Esta es un vercion de prueva previa a la asignacion del preoyecto de momento contamos con la base de datos, gracias al diagrama que nos proporcionó Luis eh decidido crear de momento los modelos que se iran encontrado en un inicio
