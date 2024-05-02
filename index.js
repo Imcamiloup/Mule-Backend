@@ -13,3 +13,5 @@ sequelize
   .catch((error) => {
     console.log("There was a mistake", error.message);
   });
+
+export default sequelize;
