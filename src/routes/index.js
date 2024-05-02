@@ -1,4 +1,4 @@
-const { Router } = require("express");
+import { Router } from "express";
 
 const router = Router();
 
@@ -12,9 +12,10 @@ router.use((req, res, next) => {
 
 
 // Here we define the routes
-router.use("/endpoint1", ()=> {
-    console.log("endpoint1");
+router.use("/endpoint1", ( req, res, next)=> {
+  console.log("endpoint1");
+  next();
 });
 
 
-module.exports = router;
+export default router;
