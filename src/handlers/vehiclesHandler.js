@@ -41,7 +41,7 @@ export const getVehicleByIdHandler = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const vehicleById = getVehicleById(id);
+    const vehicleById = await getVehicleById(id);
 
     res.status(200).json({ vehicle: vehicleById });
   } catch (error) {
