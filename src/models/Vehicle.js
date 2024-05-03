@@ -10,23 +10,42 @@ export default (sequelize) => {
         primaryKey: true,
         unique: true,
       },
-      marca: {
+
+      model: {
         type: DataTypes.STRING,
         allowNull: true,
+        validate: {
+          is: /^[A-HJ-NPR-Z0-9]{17}$/i,
+        },
       },
-      modelo: {
-        type: DataTypes.STRING,
+
+      state: {
+        type: DataTypes.ENUM("active", "inactive", "maintenance", "discharged"),
         allowNull: true,
       },
-      numero_seguro: {
+
+      car_insurance: {
         type: DataTypes.INTEGER,
         allowNull: true,
+        validate: {
+          len: [7, 10],
+        },
       },
-      placa: {
+
+      plate: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+          len: [3, 7],
+        },
+      },
+
+      fee: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      estado: {
+
+      antiquity: {
         type: DataTypes.STRING,
         allowNull: true,
       },
