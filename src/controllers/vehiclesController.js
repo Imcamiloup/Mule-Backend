@@ -8,42 +8,61 @@ export const createVehicle = async (
   fee,
   antiquity
 ) => {
-  if (fee < 1 || fee > 10) throw Error("Fee range is between 1 and 10.");
-
-  try {
-    await Vehicle.create({
-      model,
-      state,
-      car_insurance,
-      plate,
-      fee,
-      antiquity,
-    });
-  } catch (error) {
-    throw new Error("Error creating new vehicle: ", error.message);
-  }
+  await Vehicle.create({
+    model,
+    state,
+    car_insurance,
+    plate,
+    fee,
+    antiquity,
+  });
 };
 
 export const getVehicles = async () => {
-  try {
-    const vehicles = await Vehicle.findAll();
+  const vehicles = await Vehicle.findAll();
 
-    return vehicles;
-  } catch (error) {
-    throw new Error("Error finding vehicles: ", error.message);
-  }
+  if (vehicles.length === 0) throw Error("Vehicles not found");
+
+  return vehicles;
 };
 
 export const getVehicleById = async (id) => {
-  try {
-    const vehicleById = Vehicle.findByPk(id);
+  const vehicleById = Vehicle.findByPk(id);
 
-    return vehicleById;
-  } catch (error) {
-    throw new Error("Error finding vehicle by ID: ", error.message);
-  }
+  return vehicleById;
 };
 
-export const updateVehicle = async () => {};
+export const updateVehicle = async (
+  id,
+  model,
+  state,
+  car_insurance,
+  plate,
+  fee,
+  antiquity
+) => {
+  const vehicleById = await Vehicle.findByPk(id);
 
-export const deleteVehicle = async () => {};
+  if (!vehicleById) throw Error("Vehicle not found");
+
+  await vehicleById.update({
+    model,
+    state,
+    car_insurance,
+    plate,
+    fee,
+    antiquity,
+  });
+};
+
+export const deleteVehicle = async (id) => {
+  const vehicleById = await Vehicle.findByPk(id);
+
+  if (!vehicleById) throw Error("Vehicle not found");
+
+  await vehicleById.destroy({
+    where: {
+      id: id,
+    },
+  });
+};

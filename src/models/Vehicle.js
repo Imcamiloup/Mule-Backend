@@ -13,7 +13,7 @@ export default (sequelize) => {
 
       model: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
         validate: {
           is: /^[A-HJ-NPR-Z0-9]{17}$/i,
         },
@@ -21,12 +21,12 @@ export default (sequelize) => {
 
       state: {
         type: DataTypes.ENUM("active", "inactive", "maintenance", "discharged"),
-        allowNull: true,
+        allowNull: false,
       },
 
       car_insurance: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
+        type: DataTypes.BIGINT,
+        allowNull: false,
         validate: {
           len: [7, 10],
         },
@@ -34,15 +34,15 @@ export default (sequelize) => {
 
       plate: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
         validate: {
-          len: [3, 7],
+          len: [5, 8],
         },
       },
 
       fee: {
         type: DataTypes.FLOAT,
-        allowNull: true,
+        allowNull: false,
         validate: {
           min: 1,
           max: 10,
