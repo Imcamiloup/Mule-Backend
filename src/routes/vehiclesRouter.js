@@ -12,7 +12,7 @@ const vehiclesRouter = Router();
 vehiclesRouter.post("/", createVehicleHandler);
 vehiclesRouter.get("/", getVehiclesHandler);
 vehiclesRouter.get("/:id", getVehicleByIdHandler);
-// vehiclesRouter.put("/:id", getVehicleByIdHandler);
-// vehiclesRouter.delete("/:id", getVehicleByIdHandler);
+vehiclesRouter.put("/:id", updateVehicleHandler);
+vehiclesRouter.delete("/:id", deleteVehicleHandler);
 
 export default vehiclesRouter;
