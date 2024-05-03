@@ -41,8 +41,12 @@ export default (sequelize) => {
       },
 
       fee: {
-        type: DataTypes.STRING,
+        type: DataTypes.FLOAT,
         allowNull: true,
+        validate: {
+          min: 1,
+          max: 10,
+        },
       },
 
       antiquity: {

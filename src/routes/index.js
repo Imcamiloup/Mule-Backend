@@ -1,10 +1,9 @@
 import { Router } from "express";
 import usersRouter from "./usersRouter.js";
-import vehiclesRouter from "./vehicle.routes.js";
+import vehiclesRouter from "./vehiclesRouter.js";
+import driver from "./driverRoutes.js"
 
 const router = Router();
-
-// Deshabilitar CORS en este componente (SOLO PARA PRUEBAS LOCALES)
 
 router.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -12,9 +11,11 @@ router.use((req, res, next) => {
   next();
 });
 
+
 // Here we define the routes
 router.use("/users", usersRouter);
 router.use("/vehicles", vehiclesRouter);
+router.use("/driver", driver);
 // router.use("drivers", driversRouter);
 // router.use("trips", tripsRouter);
 // router.use("freights", authRouter);

@@ -8,6 +8,8 @@ export const createVehicle = async (
   fee,
   antiquity
 ) => {
+  if (fee < 1 || fee > 10) throw Error("Fee range is between 1 and 10.");
+
   try {
     await Vehicle.create({
       model,
