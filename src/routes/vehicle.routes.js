@@ -1,10 +1,12 @@
 import { Router } from "express";
-import createVehicleHandler from "../handlers/createVehicleHandler.js";
-import getVehiclesHandler from "../handlers/getVehiclesHandler.js"
+import {
+  getVehiclesHandler,
+  createVehicleHandler,
+} from "../handlers/vehiclesHandler.js";
 
-const vehicleRouter = Router();
+const vehiclesRouter = Router();
 
-vehicleRouter.post("/new_vehicle", createVehicleHandler);
-vehicleRouter.get("/vehicles", getVehiclesHandler);
+vehiclesRouter.post("/", createVehicleHandler);
+vehiclesRouter.get("/", getVehiclesHandler);
 
-export default vehicleRouter;
+export default vehiclesRouter;

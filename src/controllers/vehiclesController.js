@@ -1,6 +1,6 @@
 import { Vehicle } from "../database/db.js";
 
-const createVehicle = async (
+export const createVehicle = async (
   model,
   state,
   car_insurance,
@@ -11,4 +11,12 @@ const createVehicle = async (
   await Vehicle.create({ model, state, car_insurance, plate, fee, antiquity });
 };
 
-export default createVehicle;
+export const getVehicles = async () => {
+  const vehicles = await Vehicle.findAll();
+
+  return vehicles;
+};
+
+export const getVehicleById = () =>{
+  
+}

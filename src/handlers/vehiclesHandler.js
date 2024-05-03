@@ -1,6 +1,9 @@
-import createVehicle from "../controllers/createVehicle.js";
+import {
+  createVehicle,
+  getVehicles,
+} from "../controllers/vehiclesController.js";
 
-const createVehicleHandler = (req, res) => {
+export const createVehicleHandler = (req, res) => {
   const { model, state, car_insurance, plate, fee, antiquity } = req.body;
 
   const stateLowerCase = state.toLowerCase();
@@ -23,4 +26,12 @@ const createVehicleHandler = (req, res) => {
   }
 };
 
-export default createVehicleHandler;
+export const getVehiclesHandler = async (req, res) => {
+  try {
+    const vehicles = await getVehicles();
+
+    res.status(200).json({ vehicles: vehicles });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
