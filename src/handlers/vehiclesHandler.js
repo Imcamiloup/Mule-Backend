@@ -1,6 +1,7 @@
 import {
   createVehicle,
   getVehicles,
+  getVehicleById,
 } from "../controllers/vehiclesController.js";
 
 export const createVehicleHandler = (req, res) => {
@@ -34,4 +35,26 @@ export const getVehiclesHandler = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+};
+
+export const getVehicleByIdHandler = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const vehicleById = getVehicleById(id);
+
+    res.status(200).json({ vehicle: vehicleById });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export const updateVehicleHandler = async (req, res) => {
+  try {
+  } catch (error) {}
+};
+
+export const deleteVehicleHandler = async (req, res) => {
+  try {
+  } catch (error) {}
 };
