@@ -13,7 +13,7 @@ export const createVehicleHandler = async (req, res) => {
   const validateModel = /^[A-HJ-NPR-Z0-9]{17}$/i.test(model);
 
   try {
-    if (!validateModel) throw Error("Car model is incorrect");
+    if (!validateModel) throw Error("Vehicle model is incorrect");
 
     if (car_insurance.length < 7 || car_insurance.length > 10)
       throw Error(
