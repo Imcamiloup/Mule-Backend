@@ -1,5 +1,6 @@
 import { Router } from "express";
 import usersRouter from "./usersRouter.js";
+import driver from "./driversRoutes.js";
 
 const router = Router();
 
@@ -23,7 +24,7 @@ router.use("/endpoint1", (req, res, next) => {
   next();
 });
 
-router.use("/driver", driver);
+router.use("/driver", driver)
 
 
 
