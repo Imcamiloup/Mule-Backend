@@ -1,7 +1,8 @@
 import { Router } from "express";
 import usersRouter from "./usersRouter.js";
 import vehiclesRouter from "./vehiclesRouter.js";
-import driver from "./driverRoutes.js"
+import driver from "./driverRoutes.js";
+import enlistmentsRouter from "./enlistmentsRouter.js";
 
 const router = Router();
 
@@ -11,11 +12,11 @@ router.use((req, res, next) => {
   next();
 });
 
-
 // Here we define the routes
 router.use("/users", usersRouter);
 router.use("/vehicles", vehiclesRouter);
 router.use("/driver", driver);
+router.use("/enlistments", enlistmentsRouter);
 // router.use("drivers", driversRouter);
 // router.use("trips", tripsRouter);
 // router.use("freights", authRouter);
