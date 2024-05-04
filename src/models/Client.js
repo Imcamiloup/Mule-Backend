@@ -1,36 +1,36 @@
-const { DataTypes, UUIDV4 } = require('sequelize');
+import { DataTypes, UUIDV4 } from "sequelize";
 
-module.exports = (sequelize) => {
-  // defino el modelo
-  sequelize.define('Client', {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue:UUIDV4,
-      primaryKey: true,
-      unique: true,
+export default (sequelize) => {
+  sequelize.define(
+    "Client",
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: UUIDV4,
+        primaryKey: true,
+        unique: true,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      debt: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      antiquity: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      User_Type: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull:true
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull:true
-    },
-    debt: {
-      type: DataTypes.NUMBER,
-      allowNull:true
-    },
-    antiquity: {
-      type:DataTypes.STRING,
-      allowNull: true
-    },
-    User_Type: {
-      type: DataTypes.STRING,
-      allowNull:true
-    }
-  },
-  { timestamps: false });
+    { timestamps: false }
+  );
 };
-
-

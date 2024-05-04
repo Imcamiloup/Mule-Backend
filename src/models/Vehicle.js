@@ -1,7 +1,6 @@
-const { DataTypes, UUIDV4 } = require("sequelize");
+import { DataTypes, UUIDV4 } from "sequelize";
 
-module.exports = (sequelize) => {
-  // defino el modelo
+export default (sequelize) => {
   sequelize.define(
     "Vehicle",
     {
@@ -11,23 +10,46 @@ module.exports = (sequelize) => {
         primaryKey: true,
         unique: true,
       },
-      marca: {
+
+      model: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
+        validate: {
+          is: /^[A-HJ-NPR-Z0-9]{17}$/i,
+        },
       },
-      modelo: {
+
+      state: {
+        type: DataTypes.ENUM("active", "inactive", "maintenance", "discharged"),
+        allowNull: false,
+      },
+
+      car_insurance: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        validate: {
+          len: [7, 10],
+        },
+      },
+
+      plate: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
+        validate: {
+          len: [5, 8],
+        },
       },
-      numero_seguro: {
-        type: DataTypes.NUMBER,
-        allowNull: true,
+
+      fee: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        validate: {
+          min: 1,
+          max: 10,
+        },
       },
-      placa: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      estado: {
+
+      antiquity: {
         type: DataTypes.STRING,
         allowNull: true,
       },
