@@ -1,7 +1,11 @@
 import { Router } from "express";
 import usersRouter from "./usersRouter.js";
+
+import driver from "./driversRoutes.js";
+
 import vehiclesRouter from "./vehiclesRouter.js";
 import driver from "./driverRoutes.js"
+
 
 const router = Router();
 
