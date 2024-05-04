@@ -21,6 +21,11 @@ DriverModel(sequelize);
 FreigthModel(sequelize);
 VehicleModel(sequelize);
 
+// Sincronización de modelos con la base de datos
+(async () => {
+  await sequelize.sync({ alter: true }); // Esto sincronizará los modelos con la base de datos, alterando la estructura si es necesario.
+})();
+
 const {User, Admin, Client, Driver, Freigth, Vehicle } = sequelize.models;
 
 //relacion de los modelos: (One-to-One, One-to-Many, Many-to-Many)
