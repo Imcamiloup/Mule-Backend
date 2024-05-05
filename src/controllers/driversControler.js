@@ -1,5 +1,4 @@
-import {Driver} from "../database/db.js"
-import driver from "../routes/driversRoutes.js";
+import { Driver } from "../database/db.js";
 
 const getAllDriversController = async () => {
   try {
@@ -8,17 +7,16 @@ const getAllDriversController = async () => {
   } catch (error) {
     throw new Error("Error get users: " + error.message);
   }
-} 
+};
 
 const getDriverByIdController = async (id) => {
   try {
     const driver = await Driver.findByPk(id);
-    console.log(driver);
     return driver;
   } catch (error) {
     throw new Error("Error get user: " + error.message);
   }
-}
+};
 
 const getDriverbyNameController = async (name) => {
   try {
@@ -27,9 +25,16 @@ const getDriverbyNameController = async (name) => {
   } catch (error) {
     throw new Error("Error get user: " + error.message);
   }
-}
- 
-const createDriverController = async ( { name, email, password, debit, antiquity, User_Type } ) => {
+};
+
+const createDriverController = async ({
+  name,
+  email,
+  password,
+  debit,
+  antiquity,
+  User_Type,
+}) => {
   return await Driver.create({
     name: name,
     email: email,
@@ -38,12 +43,12 @@ const createDriverController = async ( { name, email, password, debit, antiquity
     antiquity: antiquity,
     User_Type: User_Type,
   });
-}
+};
 
-const updateDriverController = async (id, { name, email, password, debit, antiquity, User_Type }) => {
-  console.log(
-    id, { name, email, password, debit, antiquity, User_Type }
-  );
+const updateDriverController = async (
+  id,
+  { name, email, password, debit, antiquity, User_Type }
+) => {
   const driver = await getDriverByIdController(id);
   driver.name = name;
   driver.email = email;
@@ -53,12 +58,12 @@ const updateDriverController = async (id, { name, email, password, debit, antiqu
   driver.User_Type = User_Type;
   await driver.save();
   return driver;
-}
+};
 
 const deleteDriverController = async (id) => {
   const driver = await getDriverByIdController(id);
   await driver.destroy();
-}
+};
 
 export {
   getAllDriversController,
