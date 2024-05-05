@@ -92,8 +92,7 @@ export const getVehicleByIdHandler = async (req, res) => {
 
 export const updateVehicleHandler = async (req, res) => {
   const { id } = req.params;
-  const { model, state, car_insurance, plate, fee, antiquity, enlistments_id } =
-    req.body;
+  const { model, state, car_insurance, plate, fee, antiquity } = req.body;
 
   const stateLowerCase = state.toLowerCase();
   const validateModel = /^[A-HJ-NPR-Z0-9]{17}$/i.test(model);
@@ -122,8 +121,7 @@ export const updateVehicleHandler = async (req, res) => {
       car_insurance,
       plate,
       fee,
-      antiquity,
-      enlistments_id
+      antiquity
     );
 
     res.status(200).json({

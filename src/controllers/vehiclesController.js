@@ -50,8 +50,7 @@ export const updateVehicle = async (
   car_insurance,
   plate,
   fee,
-  antiquity,
-  enlistments_id
+  antiquity
 ) => {
   const vehicleById = await Vehicle.findByPk(id);
 
@@ -64,7 +63,6 @@ export const updateVehicle = async (
     plate,
     fee,
     antiquity,
-    Enlistments: enlistments_id,
   });
 };
 
