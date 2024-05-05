@@ -45,6 +45,41 @@ export const getEnlistmentById = async (id) => {
   return enlistmentById;
 };
 
-export const updateEnlistment = async () => {};
+export const updateEnlistment = async (
+  id,
+  destiny,
+  state,
+  distance,
+  delivery_time
+  // order_time,
+  // price_order,
+  // qualify_user,
+  // qualify_order,
+) => {
+  const enlistmentById = await Enlistment.findByPk(id);
 
-export const deleteEnlistment = async () => {};
+  if (!enlistmentById) throw Error("Enlistment not found");
+
+  await enlistmentById.update({
+    destiny,
+    state,
+    distance,
+    delivery_time,
+    // order_time,
+    // price_order,
+    // qualify_user,
+    // qualify_order,
+  });
+};
+
+export const deleteEnlistment = async (id) => {
+  const enlistmentById = await Enlistment.findByPk(id);
+
+  if (!enlistmentById) throw Error("Enlistmen not found");
+
+  await enlistmentById.destroy({
+    where: {
+      id: id,
+    },
+  });
+};
