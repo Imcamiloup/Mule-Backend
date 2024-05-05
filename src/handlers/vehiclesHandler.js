@@ -7,7 +7,8 @@ import {
 } from "../controllers/vehiclesController.js";
 
 export const createVehicleHandler = async (req, res) => {
-  const { model, state, car_insurance, plate, fee, antiquity } = req.body;
+  const { model, state, car_insurance, plate, fee, antiquity, enlistments_id } =
+    req.body;
 
   const stateLowerCase = state.toLowerCase();
   const validateModel = /^[A-HJ-NPR-Z0-9]{17}$/i.test(model);
@@ -33,7 +34,8 @@ export const createVehicleHandler = async (req, res) => {
       car_insurance,
       plate,
       fee,
-      antiquity
+      antiquity,
+      enlistments_id
     );
 
     res.status(201).json({
@@ -55,7 +57,20 @@ export const getVehiclesHandler = async (req, res) => {
   try {
     const vehicles = await getVehicles();
 
-    res.status(200).json({ vehicles: vehicles });
+    const vehiclesMaped = vehicles.map((elem) => {
+      return {
+        id: elem.id,
+        model: elem.model,
+        state: elem.state,
+        car_insurance: elem.car_insurance,
+        plate: elem.plate,
+        fee: elem.fee,
+        antiquity: elem.antiquity,
+        enlistments: elem.Enlistments.map((elem) => elem.id),
+      };
+    });
+
+    res.status(200).json({ vehicles: vehiclesMaped });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -77,7 +92,8 @@ export const getVehicleByIdHandler = async (req, res) => {
 
 export const updateVehicleHandler = async (req, res) => {
   const { id } = req.params;
-  const { model, state, car_insurance, plate, fee, antiquity } = req.body;
+  const { model, state, car_insurance, plate, fee, antiquity, enlistments_id } =
+    req.body;
 
   const stateLowerCase = state.toLowerCase();
   const validateModel = /^[A-HJ-NPR-Z0-9]{17}$/i.test(model);
@@ -106,7 +122,8 @@ export const updateVehicleHandler = async (req, res) => {
       car_insurance,
       plate,
       fee,
-      antiquity
+      antiquity,
+      enlistments_id
     );
 
     res.status(200).json({

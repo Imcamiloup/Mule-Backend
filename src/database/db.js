@@ -8,6 +8,7 @@ import ClientModel from "../models/Client.js";
 import DriverModel from "../models/Driver.js";
 import FreigthModel from "../models/Freigth.js";
 import VehicleModel from "../models/Vehicle.js";
+import EnlistmentModel from "../models/Enlistment.js";
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DATABASE_NAME}`,
@@ -20,18 +21,26 @@ ClientModel(sequelize);
 DriverModel(sequelize);
 FreigthModel(sequelize);
 VehicleModel(sequelize);
+EnlistmentModel(sequelize);
 
-// Sincronización de modelos con la base de datos
-(async () => {
-  await sequelize.sync({ alter: true }); // Esto sincronizará los modelos con la base de datos, alterando la estructura si es necesario.
-})();
+const { User, Admin, Client, Driver, Freigth, Vehicle, Enlistment } =
+  sequelize.models;
 
-const {User, Admin, Client, Driver, Freigth, Vehicle } = sequelize.models;
 
-//relacion de los modelos: (One-to-One, One-to-Many, Many-to-Many)
+const {User, Admin, Client, Driver, Freigth, Vehicle, Enlistment } = sequelize.models;
 
-export { User, Admin, Client, Driver, Freigth, Vehicle };
+Client.belongsToMany(Enlistment, { through: "enlistment_client" });
+Enlistment.belongsToMany(Client, { through: "enlistment_client" });
+
+Driver.belongsToMany(Enlistment, { through: "enlistment_driver" });
+Enlistment.belongsToMany(Driver, { through: "enlistment_driver" });
+
+Vehicle.belongsToMany(Enlistment, { through: "enlistment_vehicle" });
+Enlistment.belongsToMany(Vehicle, { through: "enlistment_vehicle" });
+
+Freigth.belongsToMany(Enlistment, { through: "enlistment_freigth" });
+Enlistment.belongsToMany(Freigth, { through: "enlistment_freigth" });
+
+export { User, Admin, Client, Driver, Freigth, Vehicle, Enlistment };
 
 export default sequelize;
-
-// Path: src/models/Admin.js
