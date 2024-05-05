@@ -14,12 +14,16 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       password: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      debt: {
-        type: DataTypes.INTEGER,
+      debit: {
+        type: DataTypes.BIGINT,
         allowNull: true,
       },
       antiquity: {
