@@ -7,8 +7,7 @@ import {
 } from "../controllers/vehiclesController.js";
 
 export const createVehicleHandler = async (req, res) => {
-  const { model, state, car_insurance, plate, fee, antiquity, enlistments_id } =
-    req.body;
+  const { model, state, car_insurance, plate, fee, antiquity } = req.body;
 
   const stateLowerCase = state.toLowerCase();
   const validateModel = /^[A-HJ-NPR-Z0-9]{17}$/i.test(model);
@@ -34,8 +33,7 @@ export const createVehicleHandler = async (req, res) => {
       car_insurance,
       plate,
       fee,
-      antiquity,
-      enlistments_id
+      antiquity
     );
 
     res.status(201).json({

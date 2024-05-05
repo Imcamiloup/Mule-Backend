@@ -6,8 +6,7 @@ export const createVehicle = async (
   car_insurance,
   plate,
   fee,
-  antiquity,
-  enlistments_id
+  antiquity
 ) => {
   const newVehicle = await Vehicle.create({
     model,
@@ -17,8 +16,6 @@ export const createVehicle = async (
     fee,
     antiquity,
   });
-
-  newVehicle.addEnlistments(enlistments_id);
 
   return newVehicle;
 };
