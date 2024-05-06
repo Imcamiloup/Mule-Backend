@@ -1,4 +1,5 @@
 import { DataTypes, UUIDV4 } from "sequelize";
+import Enlistment from "./Enlistment.js";
 
 export default (sequelize) => {
   sequelize.define(
@@ -38,20 +39,6 @@ export default (sequelize) => {
         validate: {
           len: [5, 8],
         },
-      },
-
-      fee: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-        validate: {
-          min: 1,
-          max: 10,
-        },
-      },
-
-      antiquity: {
-        type: DataTypes.STRING,
-        allowNull: true,
       },
     },
     { timestamps: false }

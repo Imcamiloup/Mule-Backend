@@ -9,6 +9,10 @@ export const createEnlistment = async (
   // price_order,
   // qualify_user,
   // qualify_order,
+  freigth_description,
+  freigth_weigth,
+  freigth_measures,
+  freigth_type,
   vehicle_id
 ) => {
   const newEnlistment = await Enlistment.create({
@@ -20,6 +24,11 @@ export const createEnlistment = async (
     // price_order,
     // qualify_user,
     // qualify_order,
+    freigth_description,
+    freigth_weigth:
+      freigth_weigth == 1 ? `${freigth_weigth} kg` : `${freigth_weigth} kgs`,
+    freigth_measures,
+    freigth_type,
   });
 
   newEnlistment.addVehicles(vehicle_id);
@@ -50,11 +59,15 @@ export const updateEnlistment = async (
   destiny,
   state,
   distance,
-  delivery_time
+  delivery_time,
   // order_time,
   // price_order,
   // qualify_user,
   // qualify_order,
+  freigth_description,
+  freigth_weigth,
+  freigth_measures,
+  freigth_type
 ) => {
   const enlistmentById = await Enlistment.findByPk(id);
 
@@ -69,6 +82,11 @@ export const updateEnlistment = async (
     // price_order,
     // qualify_user,
     // qualify_order,
+    freigth_description,
+    freigth_weigth:
+      freigth_weigth == 1 ? `${freigth_weigth} kg` : `${freigth_weigth} kgs`,
+    freigth_measures,
+    freigth_type,
   });
 };
 

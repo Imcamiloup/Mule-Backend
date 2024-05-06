@@ -3,7 +3,7 @@ import sequelize from "./src/database/db.js";
 const { PORT } = process.env;
 
 sequelize
-  .sync({ alter: true })
+  .sync({ force: true })
   .then(() => {
     server.listen(PORT, () => {
       console.log("Database connection succesful!");

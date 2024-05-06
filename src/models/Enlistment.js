@@ -49,6 +49,26 @@ export default (sequelize) => {
       //   type: DataTypes.STRING,
       //   allowNull: false,
       // },
+
+      freigth_description: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+
+      freigth_weigth: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+
+      freigth_measures: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+
+      freigth_type: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     { timestamps: false }
   );
