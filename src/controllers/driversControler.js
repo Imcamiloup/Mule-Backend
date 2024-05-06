@@ -1,5 +1,4 @@
 import {Driver} from "../database/db.js"
-import driver from "../routes/driversRoutes.js";
 
 const getAllDriversController = async () => {
   try {
