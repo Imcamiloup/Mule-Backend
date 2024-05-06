@@ -1,4 +1,4 @@
-import { Vehicle } from "../database/db.js";
+import { Vehicle, Enlistment } from "../database/db.js";
 
 export const createVehicle = async (
   model,
@@ -8,7 +8,7 @@ export const createVehicle = async (
   fee,
   antiquity
 ) => {
-  await Vehicle.create({
+  const newVehicle = await Vehicle.create({
     model,
     state,
     car_insurance,
@@ -16,10 +16,18 @@ export const createVehicle = async (
     fee,
     antiquity,
   });
+
+  return newVehicle;
 };
 
 export const getVehicles = async () => {
-  const vehicles = await Vehicle.findAll();
+  const vehicles = await Vehicle.findAll({
+    include: {
+      model: Enlistment,
+      attributes: ["id"],
+      through: { attributes: [] },
+    },
+  });
 
   if (vehicles.length === 0) throw Error("Vehicles not found");
 
@@ -27,7 +35,7 @@ export const getVehicles = async () => {
 };
 
 export const getVehicleById = async (id) => {
-  const vehicleById = Vehicle.findByPk(id);
+  const vehicleById = await Vehicle.findByPk(id);
 
   return vehicleById;
 };

@@ -55,7 +55,20 @@ export const getVehiclesHandler = async (req, res) => {
   try {
     const vehicles = await getVehicles();
 
-    res.status(200).json({ vehicles: vehicles });
+    const vehiclesMaped = vehicles.map((elem) => {
+      return {
+        id: elem.id,
+        model: elem.model,
+        state: elem.state,
+        car_insurance: elem.car_insurance,
+        plate: elem.plate,
+        fee: elem.fee,
+        antiquity: elem.antiquity,
+        enlistments: elem.Enlistments.map((elem) => elem.id),
+      };
+    });
+
+    res.status(200).json({ vehicles: vehiclesMaped });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
