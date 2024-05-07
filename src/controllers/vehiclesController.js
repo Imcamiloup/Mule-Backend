@@ -25,7 +25,7 @@ export const getVehicles = async () => {
   return vehicles;
 };
 
-export const getVehiclesByState = async (query) => {
+export const getVehiclesByQuery = async (query) => {
   const vehiclesByState = await Vehicle.findAll({
     where: query,
 

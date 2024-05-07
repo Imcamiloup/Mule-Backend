@@ -1,7 +1,7 @@
 import {
   createVehicle,
   getVehicles,
-  getVehiclesByState,
+  getVehiclesByQuery,
   getVehicleById,
   updateVehicle,
   deleteVehicle,
@@ -56,7 +56,7 @@ export const getVehiclesHandler = async (req, res) => {
     if (plate) querys.plate = plate;
 
     querys
-      ? (vehicles = await getVehiclesByState(querys))
+      ? (vehicles = await getVehiclesByQuery(querys))
       : (vehicles = await getVehicles());
 
     const vehiclesMaped = vehicles.map((elem) => {
