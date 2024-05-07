@@ -1,5 +1,4 @@
 import { DataTypes, UUIDV4 } from "sequelize";
-import Enlistment from "./Enlistment.js";
 
 export default (sequelize) => {
   sequelize.define(
@@ -21,7 +20,7 @@ export default (sequelize) => {
       },
 
       state: {
-        type: DataTypes.ENUM("active", "inactive", "maintenance", "discharged"),
+        type: DataTypes.ENUM("active", "inactive", "maintenance"),
         allowNull: false,
       },
 
@@ -39,6 +38,10 @@ export default (sequelize) => {
         validate: {
           len: [5, 8],
         },
+      },
+      brand: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
       },
     },
     { timestamps: false }

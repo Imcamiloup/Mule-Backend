@@ -37,7 +37,11 @@ const getDriverByIdHandler = async (req, res) => {
 //Funciona
 const postDriverHandler = async (req, res) => {
   try {
-    const { name, email, password, debit, antiquity, User_Type } = req.body;
+    const { name, email, password, debit, antiquity, user_type } = req.body;
+
+    if (!name || !email || !password || !debit || !antiquity || !user_type) {
+      throw new Error("Faltan datos");
+    }
 
     const newDriver = await createDriverController({
       name,
@@ -45,12 +49,8 @@ const postDriverHandler = async (req, res) => {
       password,
       debit,
       antiquity,
-      User_Type,
+      user_type,
     }); // Pasar un objeto con todas las propiedades
-
-    if (!name || !email || !password || !debit || !antiquity || !User_Type) {
-      throw new Error("Faltan datos");
-    }
 
     res.status(200).send(newDriver);
   } catch (error) {
@@ -62,14 +62,14 @@ const postDriverHandler = async (req, res) => {
 const updateDriverHandler = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email, password, debit, antiquity, User_Type } = req.body;
+    const { name, email, password, debit, antiquity, user_type } = req.body;
     const driverModif = await updateDriverController(id, {
       name,
       email,
       password,
       debit,
       antiquity,
-      User_Type,
+      user_type,
     }); // Pasar un objeto con todas las propiedades
     res.status(200).send(driverModif);
   } catch (error) {

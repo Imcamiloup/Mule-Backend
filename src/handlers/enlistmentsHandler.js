@@ -1,6 +1,6 @@
 import {
   createEnlistment,
-  getEnlistsments,
+  getEnlistments,
   getEnlistmentById,
   updateEnlistment,
   deleteEnlistment,
@@ -8,52 +8,77 @@ import {
 
 export const createEnlistmentHandler = async (req, res) => {
   const {
+    shipping_date,
+    sender,
+    origin,
     destiny,
-    state,
-    distance,
-    delivery_time,
-    // order_time,
-    // price_order,
-    // qualify_user,
-    // qualify_order,
-    freigth_description,
-    freigth_weigth,
-    freigth_measures,
-    freigth_type,
+    status,
+    service_type,
     vehicle_id,
+    driver_id,
   } = req.body;
 
+  const validateShipping_date = /^\d{4}-\d{2}-\d{2}$/.test(shipping_date);
+
+  let senderFixed;
+  let senderSplit = sender.split(" ");
+
+  for (let i = 0; i < senderSplit.length; i++) {
+    senderSplit[i] =
+      senderSplit[i].charAt(0).toUpperCase() +
+      senderSplit[i].slice(1).toLowerCase();
+
+    senderFixed = senderSplit.join(" ");
+  }
+
+  const originLowerCase = origin.toLowerCase();
+  const destinyLowerCase = destiny.toLowerCase();
+  const statusLowerCase = status.toLowerCase();
+  const service_typeLowerCase = service_type.toLowerCase();
   try {
+    if (!validateShipping_date)
+      throw Error("Shipping date must be in this format: YYYY-MM-DD");
+
+    if (senderFixed.length < 3 || senderFixed.length > 30)
+      throw Error("Characters of sender must be between 3 and 30");
+
+    if (originLowerCase.length < 3 || originLowerCase.length > 30)
+      throw Error("Characters of origin must be between 3 and 30");
+
+    if (destinyLowerCase.length < 3 || destinyLowerCase.length > 30)
+      throw Error("Characters of destiny must be between 3 and 30");
+
+    if (statusLowerCase.length < 3 || statusLowerCase.length > 30)
+      throw Error("Characters of status must be between 3 and 30");
+
+    if (service_typeLowerCase.length < 3 || service_typeLowerCase.length > 30)
+      throw Error("Characters of service type must be between 3 and 30");
+
+    // if (vehicle_id.length !== 36)
+    //   throw Error("Characters of vehicle id must be 36");
+
+    // if (driver_id.length !== 36)
+    //   throw Error("Characters of vehicle id must be 36");
+
     await createEnlistment(
-      destiny,
-      state,
-      distance,
-      delivery_time,
-      // order_time,
-      // price_order,
-      // qualify_user,
-      // qualify_order,
-      freigth_description.trim(),
-      freigth_weigth.trim(),
-      freigth_measures.trim(),
-      freigth_type.trim(),
-      vehicle_id
+      shipping_date,
+      senderFixed.trim(),
+      originLowerCase.trim(),
+      destinyLowerCase.trim(),
+      statusLowerCase.trim(),
+      service_typeLowerCase.trim(),
+      vehicle_id.trim(),
+      driver_id.trim()
     );
 
     res.status(201).json({
       "Enlistment created": {
-        destiny,
-        state,
-        distance,
-        delivery_time,
-        // order_time,
-        // price_order,
-        // qualify_user,
-        // qualify_order,
-        freigth_description,
-        freigth_weigth,
-        freigth_measures,
-        freigth_type,
+        shipping_date,
+        sender: senderFixed.trim(),
+        origin: originLowerCase.trim(),
+        destiny: destinyLowerCase.trim(),
+        status: statusLowerCase.trim(),
+        service_type: service_typeLowerCase.trim(),
       },
     });
   } catch (error) {
@@ -63,26 +88,39 @@ export const createEnlistmentHandler = async (req, res) => {
 
 export const getEnlistmentsHandler = async (req, res) => {
   try {
-    const enlistments = await getEnlistsments();
+    const { shipping_date, sender, origin, destiny, status, service_type } =
+      req.query;
+    const querys = {};
+    let enlistments;
+
+    if (shipping_date) querys.shipping_date = shipping_date;
+    if (sender) querys.sender = sender;
+    if (origin) querys.origin = origin;
+    if (destiny) querys.destiny = destiny;
+    if (status) querys.status = status;
+    if (service_type) querys.service_type = service_type;
+
+    querys
+      ? (enlistments = await getEnlistments(querys))
+      : (enlistments = await getEnlistments());
 
     const enlistmentsMaped = enlistments.map((elem) => {
       return {
         id: elem.id,
+        shipping_date: elem.shipping_date,
+        sender: elem.sender,
+        origin: elem.origin,
         destiny: elem.destiny,
-        state: elem.state,
-        distance: elem.distance,
-        delivery_time: elem.delivery_time,
-        freigth_description: elem.freigth_description,
-        freigth_weigth: elem.freigth_weigth,
-        freigth_measures: elem.freigth_measures,
-        freigth_type: elem.freigth_type,
+        status: elem.status,
+        service_type: elem.service_type,
         vehicles: elem.Vehicles.map((elem) => elem.id),
+        drivers: elem.Drivers.map((elem) => elem.id),
       };
     });
 
-    res.status(200).json({ enlistments: enlistmentsMaped });
+    res.status(200).json(enlistmentsMaped);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(404).json({ error: error.message });
   }
 };
 
@@ -101,52 +139,16 @@ export const getEnlistmentByIdHandler = async (req, res) => {
 export const updateEnlistmentHandler = async (req, res) => {
   const { id } = req.params;
   const {
-    destiny,
-    state,
-    distance,
-    delivery_time,
-    // order_time,
-    // price_order,
-    // qualify_user,
-    // qualify_order,
-    freigth_description,
-    freigth_weigth,
-    freigth_measures,
-    freigth_type,
+    //
   } = req.body;
-
   try {
-    await updateEnlistment(
-      id,
-      destiny,
-      state,
-      distance,
-      delivery_time,
-      // order_time,
-      // price_order,
-      // qualify_user,
-      // qualify_order,
-      freigth_description.trim(),
-      freigth_weigth.trim(),
-      freigth_measures.trim(),
-      freigth_type.trim()
-    );
+    await updateEnlistment();
+
+    //
 
     res.status(200).json({
       "Enlistment updated": {
-        id,
-        destiny,
-        state,
-        distance,
-        delivery_time,
-        // order_time,
-        // price_order,
-        // qualify_user,
-        // qualify_order,
-        freigth_description,
-        freigth_weigth,
-        freigth_measures,
-        freigth_type,
+        //
       },
     });
   } catch (error) {
