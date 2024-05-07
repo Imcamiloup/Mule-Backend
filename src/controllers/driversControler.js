@@ -1,5 +1,6 @@
 import { Driver, Enlistment } from "../database/db.js";
 
+
 const getAllDriversController = async () => {
   try {
     const drivers = await Driver.findAll({
