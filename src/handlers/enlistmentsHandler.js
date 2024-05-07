@@ -16,6 +16,10 @@ export const createEnlistmentHandler = async (req, res) => {
     // price_order,
     // qualify_user,
     // qualify_order,
+    freigth_description,
+    freigth_weigth,
+    freigth_measures,
+    freigth_type,
     vehicle_id,
   } = req.body;
 
@@ -29,6 +33,10 @@ export const createEnlistmentHandler = async (req, res) => {
       // price_order,
       // qualify_user,
       // qualify_order,
+      freigth_description.trim(),
+      freigth_weigth.trim(),
+      freigth_measures.trim(),
+      freigth_type.trim(),
       vehicle_id
     );
 
@@ -42,6 +50,10 @@ export const createEnlistmentHandler = async (req, res) => {
         // price_order,
         // qualify_user,
         // qualify_order,
+        freigth_description,
+        freigth_weigth,
+        freigth_measures,
+        freigth_type,
       },
     });
   } catch (error) {
@@ -60,6 +72,10 @@ export const getEnlistmentsHandler = async (req, res) => {
         state: elem.state,
         distance: elem.distance,
         delivery_time: elem.delivery_time,
+        freigth_description: elem.freigth_description,
+        freigth_weigth: elem.freigth_weigth,
+        freigth_measures: elem.freigth_measures,
+        freigth_type: elem.freigth_type,
         vehicles: elem.Vehicles.map((elem) => elem.id),
       };
     });
@@ -93,6 +109,10 @@ export const updateEnlistmentHandler = async (req, res) => {
     // price_order,
     // qualify_user,
     // qualify_order,
+    freigth_description,
+    freigth_weigth,
+    freigth_measures,
+    freigth_type,
   } = req.body;
 
   try {
@@ -101,11 +121,15 @@ export const updateEnlistmentHandler = async (req, res) => {
       destiny,
       state,
       distance,
-      delivery_time
+      delivery_time,
       // order_time,
       // price_order,
       // qualify_user,
       // qualify_order,
+      freigth_description.trim(),
+      freigth_weigth.trim(),
+      freigth_measures.trim(),
+      freigth_type.trim()
     );
 
     res.status(200).json({
@@ -119,6 +143,10 @@ export const updateEnlistmentHandler = async (req, res) => {
         // price_order,
         // qualify_user,
         // qualify_order,
+        freigth_description,
+        freigth_weigth,
+        freigth_measures,
+        freigth_type,
       },
     });
   } catch (error) {

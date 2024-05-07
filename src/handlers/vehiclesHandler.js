@@ -1,13 +1,14 @@
 import {
   createVehicle,
   getVehicles,
+  getVehiclesByQuery,
   getVehicleById,
   updateVehicle,
   deleteVehicle,
 } from "../controllers/vehiclesController.js";
 
 export const createVehicleHandler = async (req, res) => {
-  const { model, state, car_insurance, plate, fee, antiquity } = req.body;
+  const { model, state, car_insurance, plate } = req.body;
 
   const stateLowerCase = state.toLowerCase();
   const validateModel = /^[A-HJ-NPR-Z0-9]{17}$/i.test(model);
@@ -25,15 +26,11 @@ export const createVehicleHandler = async (req, res) => {
         "Number of characters in the car plate must be between 5 and 8"
       );
 
-    if (fee < 1 || fee > 10) throw Error("Fee range is between 1 and 10.");
-
     await createVehicle(
-      model,
-      stateLowerCase,
-      car_insurance,
-      plate,
-      fee,
-      antiquity
+      model.trim(),
+      stateLowerCase.trim(),
+      car_insurance.trim(),
+      plate.trim()
     );
 
     res.status(201).json({
@@ -42,8 +39,6 @@ export const createVehicleHandler = async (req, res) => {
         stateLowerCase,
         car_insurance,
         plate,
-        fee,
-        antiquity,
       },
     });
   } catch (error) {
@@ -53,7 +48,16 @@ export const createVehicleHandler = async (req, res) => {
 
 export const getVehiclesHandler = async (req, res) => {
   try {
-    const vehicles = await getVehicles();
+    const { state, plate } = req.query;
+    const querys = {};
+    let vehicles;
+
+    if (state) querys.state = state;
+    if (plate) querys.plate = plate;
+
+    querys
+      ? (vehicles = await getVehiclesByQuery(querys))
+      : (vehicles = await getVehicles());
 
     const vehiclesMaped = vehicles.map((elem) => {
       return {
@@ -62,8 +66,6 @@ export const getVehiclesHandler = async (req, res) => {
         state: elem.state,
         car_insurance: elem.car_insurance,
         plate: elem.plate,
-        fee: elem.fee,
-        antiquity: elem.antiquity,
         enlistments: elem.Enlistments.map((elem) => elem.id),
       };
     });
@@ -90,7 +92,7 @@ export const getVehicleByIdHandler = async (req, res) => {
 
 export const updateVehicleHandler = async (req, res) => {
   const { id } = req.params;
-  const { model, state, car_insurance, plate, fee, antiquity } = req.body;
+  const { model, state, car_insurance, plate } = req.body;
 
   const stateLowerCase = state.toLowerCase();
   const validateModel = /^[A-HJ-NPR-Z0-9]{17}$/i.test(model);
@@ -110,16 +112,12 @@ export const updateVehicleHandler = async (req, res) => {
         "Number of characters in the car plate must be between 5 and 8"
       );
 
-    if (fee < 1 || fee > 10) throw Error("Fee range is between 1 and 10.");
-
     await updateVehicle(
       id,
-      model,
-      stateLowerCase,
-      car_insurance,
-      plate,
-      fee,
-      antiquity
+      model.trim(),
+      stateLowerCase.trim(),
+      car_insurance.trim(),
+      plate.trim()
     );
 
     res.status(200).json({
@@ -129,8 +127,6 @@ export const updateVehicleHandler = async (req, res) => {
         stateLowerCase,
         car_insurance,
         plate,
-        fee,
-        antiquity,
       },
     });
   } catch (error) {

@@ -35,9 +35,17 @@ Enlistment.belongsToMany(Driver, { through: "enlistment_driver" });
 Vehicle.belongsToMany(Enlistment, { through: "enlistment_vehicle" });
 Enlistment.belongsToMany(Vehicle, { through: "enlistment_vehicle" });
 
-Freigth.belongsToMany(Enlistment, { through: "enlistment_freigth" });
-Enlistment.belongsToMany(Freigth, { through: "enlistment_freigth" });
+// Freigth.belongsToMany(Enlistment, { through: "enlistment_freigth" });
+// Enlistment.belongsToMany(Freigth, { through: "enlistment_freigth" });
 
-export { User, Admin, Client, Driver, Freigth, Vehicle, Enlistment };
+export {
+  User,
+  Admin,
+  Client,
+  Driver,
+  //  Freigth,
+  Vehicle,
+  Enlistment,
+};
 
 export default sequelize;
