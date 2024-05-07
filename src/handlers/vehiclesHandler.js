@@ -48,12 +48,15 @@ export const createVehicleHandler = async (req, res) => {
 
 export const getVehiclesHandler = async (req, res) => {
   try {
-    const { state } = req.query;
-
+    const { state, plate } = req.query;
+    const querys = {};
     let vehicles;
 
-    state
-      ? (vehicles = await getVehiclesByState(state))
+    if (state) querys.state = state;
+    if (plate) querys.plate = plate;
+
+    querys
+      ? (vehicles = await getVehiclesByState(querys))
       : (vehicles = await getVehicles());
 
     const vehiclesMaped = vehicles.map((elem) => {

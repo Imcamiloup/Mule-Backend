@@ -27,9 +27,8 @@ export const getVehicles = async () => {
 
 export const getVehiclesByState = async (query) => {
   const vehiclesByState = await Vehicle.findAll({
-    where: {
-      state: query,
-    },
+    where: query,
+
     include: {
       model: Enlistment,
       attributes: ["id"],
