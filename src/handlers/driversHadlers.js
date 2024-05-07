@@ -19,7 +19,7 @@ const getAllDriversHandler = async (req, res) => {
       res.status(200).send(drivers);
     }
   } catch (error) {
-    res.status(500).send({ error: error.error });
+    res.status(500).send({ error: error.message });
   }
 };
 
@@ -73,12 +73,12 @@ const updateDriverHandler = async (req, res) => {
     }); // Pasar un objeto con todas las propiedades
     res.status(200).send(driverModif);
   } catch (error) {
-    res.status(500).send({ error: error.error });
+    res.status(500).send({ error: error.message });
   }
 };
 
 //
-const deleteDriverHandler = (req, res) => {
+const deleteDriverHandler = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -86,7 +86,7 @@ const deleteDriverHandler = (req, res) => {
 
     res.status(200).send(driverDelete);
   } catch (error) {
-    res.status(500).send({ error: error.error });
+    res.status(500).send({ error: error.message });
   }
 };
 
