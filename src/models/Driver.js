@@ -33,7 +33,7 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      User_Type: {
+      user_type: {
         type: DataTypes.STRING,
         allowNull: true,
       },

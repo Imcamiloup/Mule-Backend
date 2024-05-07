@@ -1,8 +1,14 @@
-import { Driver } from "../database/db.js";
+import { Driver, Enlistment } from "../database/db.js";
 
 const getAllDriversController = async () => {
   try {
-    const drivers = await Driver.findAll();
+    const drivers = await Driver.findAll({
+      include: {
+        model: Enlistment,
+        attributes: ["id"],
+        through: { attributes: [] },
+      },
+    });
     return drivers;
   } catch (error) {
     throw new Error("Error get users: " + error.message);
@@ -33,7 +39,7 @@ const createDriverController = async ({
   password,
   debit,
   antiquity,
-  User_Type,
+  user_type,
 }) => {
   return await Driver.create({
     name: name,
@@ -41,7 +47,7 @@ const createDriverController = async ({
     password: password,
     debit: debit,
     antiquity: antiquity,
-    User_Type: User_Type,
+    user_type: user_type,
   });
 };
 

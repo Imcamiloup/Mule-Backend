@@ -1,14 +1,19 @@
 import { Vehicle, Enlistment } from "../database/db.js";
 
-export const createVehicle = async (model, state, car_insurance, plate) => {
-  const newVehicle = await Vehicle.create({
+export const createVehicle = async (
+  model,
+  state,
+  car_insurance,
+  plate,
+  brand
+) => {
+  await Vehicle.create({
     model,
     state,
     car_insurance,
     plate,
+    brand,
   });
-
-  return newVehicle;
 };
 
 export const getVehicles = async () => {
@@ -26,9 +31,8 @@ export const getVehicles = async () => {
 };
 
 export const getVehiclesByQuery = async (query) => {
-  const vehiclesByState = await Vehicle.findAll({
+  const vehiclesByQuery = await Vehicle.findAll({
     where: query,
-
     include: {
       model: Enlistment,
       attributes: ["id"],
@@ -36,9 +40,9 @@ export const getVehiclesByQuery = async (query) => {
     },
   });
 
-  if (vehiclesByState.length === 0) throw Error("Vehicles not found");
+  if (vehiclesByQuery.length === 0) throw Error("Vehicles not found");
 
-  return vehiclesByState;
+  return vehiclesByQuery;
 };
 
 export const getVehicleById = async (id) => {
@@ -47,7 +51,14 @@ export const getVehicleById = async (id) => {
   return vehicleById;
 };
 
-export const updateVehicle = async (id, model, state, car_insurance, plate) => {
+export const updateVehicle = async (
+  id,
+  model,
+  state,
+  car_insurance,
+  plate,
+  brand
+) => {
   const vehicleById = await Vehicle.findByPk(id);
 
   if (!vehicleById) throw Error("Vehicle not found");
@@ -57,6 +68,7 @@ export const updateVehicle = async (id, model, state, car_insurance, plate) => {
     state,
     car_insurance,
     plate,
+    brand,
   });
 };
 
