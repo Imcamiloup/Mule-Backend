@@ -5,8 +5,6 @@ export default (sequelize) => {
     "User",
     {
       id: {
-        // type: DataTypes.UUID,
-        // defaultValue: UUIDV4,
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
@@ -31,5 +29,3 @@ export default (sequelize) => {
     { timestamps: false }
   );
 };
-
-// Path: src/models/User.js

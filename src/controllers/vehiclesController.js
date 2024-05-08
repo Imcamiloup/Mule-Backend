@@ -1,25 +1,30 @@
-import { Vehicle } from "../database/db.js";
+import { Vehicle, Enlistment } from "../database/db.js";
 
 export const createVehicle = async (
   model,
   state,
   car_insurance,
   plate,
-  fee,
-  antiquity
+  brand
 ) => {
   await Vehicle.create({
     model,
     state,
     car_insurance,
     plate,
-    fee,
-    antiquity,
+    brand,
   });
 };
 
-export const getVehicles = async () => {
-  const vehicles = await Vehicle.findAll();
+export const getVehicles = async (query) => {
+  const vehicles = await Vehicle.findAll({
+    where: query,
+    include: {
+      model: Enlistment,
+      attributes: ["id"],
+      through: { attributes: [] },
+    },
+  });
 
   if (vehicles.length === 0) throw Error("Vehicles not found");
 
@@ -27,7 +32,7 @@ export const getVehicles = async () => {
 };
 
 export const getVehicleById = async (id) => {
-  const vehicleById = Vehicle.findByPk(id);
+  const vehicleById = await Vehicle.findByPk(id);
 
   return vehicleById;
 };
@@ -38,8 +43,7 @@ export const updateVehicle = async (
   state,
   car_insurance,
   plate,
-  fee,
-  antiquity
+  brand
 ) => {
   const vehicleById = await Vehicle.findByPk(id);
 
@@ -50,8 +54,7 @@ export const updateVehicle = async (
     state,
     car_insurance,
     plate,
-    fee,
-    antiquity,
+    brand,
   });
 };
 

@@ -1,12 +1,20 @@
 import { Router } from "express";
-import { getDriverHandler } from "../handlers/getDriverHadlers.js";
-import { postDriverHandler } from "../handlers/postDriverHandlers.js";
-
-
+import {
+ getDriverByIdHandler,
+  postDriverHandler,
+  updateDriverHandler,
+  deleteDriverHandler,
+  getAllDriversHandler
+} from "../handlers/driversHadlers.js";
 const driver = Router();
 
-driver.get("/", getDriverHandler);
+driver.get("/", getAllDriversHandler);
+driver.get("/:id", getDriverByIdHandler);
 
 driver.post("/", postDriverHandler)
+
+driver.put("/:id", updateDriverHandler);
+
+driver.delete("/:id", deleteDriverHandler);
 
 export default driver;

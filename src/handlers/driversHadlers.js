@@ -1,27 +1,25 @@
 import {
-  getAllDriversController, 
+  getAllDriversController,
   getDriverByIdController,
   getDriverbyNameController,
-  createDriverController ,
+  createDriverController,
   updateDriverController,
   deleteDriverController,
- } from "../controllers/driversControler.js";
+} from "../controllers/driversControler.js";
 
- //Funciona
+//Funciona
 const getAllDriversHandler = async (req, res) => {
   const { name } = req.query;
-  console.log(name);
   try {
     if (name) {
       const drivers = await getDriverbyNameController(name);
-      console.log(drivers)
       res.status(200).send(drivers);
     } else {
       const drivers = await getAllDriversController();
       res.status(200).send(drivers);
     }
   } catch (error) {
-    res.status(500).send({ error: error.error });
+    res.status(500).send({ error: error.message });
   }
 };
 
@@ -36,18 +34,23 @@ const getDriverByIdHandler = async (req, res) => {
   }
 };
 
-
-
 //Funciona
 const postDriverHandler = async (req, res) => {
   try {
-    const { name, email, password, debit, antiquity, User_Type } = req.body;
+    const { name, email, password, debit, antiquity, user_type } = req.body;
 
-    const newDriver = await createDriverController({ name, email, password, debit, antiquity, User_Type }); // Pasar un objeto con todas las propiedades
-
-    if (!name || !email || !password || !debit || !antiquity || !User_Type) {
+    if (!name || !email || !password || !debit || !antiquity || !user_type) {
       throw new Error("Faltan datos");
     }
+
+    const newDriver = await createDriverController({
+      name,
+      email,
+      password,
+      debit,
+      antiquity,
+      user_type,
+    }); // Pasar un objeto con todas las propiedades
 
     res.status(200).send(newDriver);
   } catch (error) {
@@ -59,25 +62,31 @@ const postDriverHandler = async (req, res) => {
 const updateDriverHandler = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email, password, debit, antiquity, User_Type } = req.body;
-    const driverModif = await updateDriverController(id, { name, email, password, debit, antiquity, User_Type }); // Pasar un objeto con todas las propiedades
+    const { name, email, password, debit, antiquity, user_type } = req.body;
+    const driverModif = await updateDriverController(id, {
+      name,
+      email,
+      password,
+      debit,
+      antiquity,
+      user_type,
+    }); // Pasar un objeto con todas las propiedades
     res.status(200).send(driverModif);
   } catch (error) {
-    res.status(500).send({ error: error.error });
+    res.status(500).send({ error: error.message });
   }
 };
 
 //
-const deleteDriverHandler = (req, res) => {
+const deleteDriverHandler = async (req, res) => {
   try {
-
     const { id } = req.params;
-    
+
     const driverDelete = deleteDriverController(id);
 
     res.status(200).send(driverDelete);
   } catch (error) {
-    res.status(500).send({ error: error.error });
+    res.status(500).send({ error: error.message });
   }
 };
 
@@ -86,5 +95,5 @@ export {
   getDriverByIdHandler,
   postDriverHandler,
   updateDriverHandler,
-  deleteDriverHandler
+  deleteDriverHandler,
 };
