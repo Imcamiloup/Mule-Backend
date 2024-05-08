@@ -1,4 +1,5 @@
 import { Enlistment, Vehicle, Driver } from "../database/db.js";
+import { Op } from "sequelize";
 
 export const createEnlistment = async (
   shipping_date,
@@ -25,8 +26,26 @@ export const createEnlistment = async (
 
 export const getEnlistments = async (query) => {
   const enlistments = await Enlistment.findAll({
-    where: query ? query : null,
+    where: query,
 
+    include: [
+      { model: Vehicle, attributes: ["id"], through: { attributes: [] } },
+      { model: Driver, attributes: ["id"], through: { attributes: [] } },
+    ],
+  });
+
+  if (enlistments.length === 0) throw Error("Enlistments not found");
+
+  return enlistments;
+};
+
+export const getEnlistmentsByDateRange = async (start_date, end_date) => {
+  const enlistments = await Enlistment.findAll({
+    where: {
+      shipping_date: {
+        [Op.between]: [start_date, end_date],
+      },
+    },
     include: [
       { model: Vehicle, attributes: ["id"], through: { attributes: [] } },
       { model: Driver, attributes: ["id"], through: { attributes: [] } },
@@ -45,6 +64,7 @@ export const getEnlistmentById = async (id) => {
 };
 
 export const updateEnlistment = async (
+  id,
   shipping_date,
   sender,
   origin,
