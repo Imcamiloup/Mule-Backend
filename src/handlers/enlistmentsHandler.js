@@ -1,6 +1,7 @@
 import {
   createEnlistment,
   getEnlistments,
+  getEnlistmentsByDateRange,
   getEnlistmentById,
   updateEnlistment,
   deleteEnlistment,
@@ -54,11 +55,11 @@ export const createEnlistmentHandler = async (req, res) => {
     if (service_typeLowerCase.length < 3 || service_typeLowerCase.length > 30)
       throw Error("Characters of service type must be between 3 and 30");
 
-    // if (vehicle_id.length !== 36)
-    //   throw Error("Characters of vehicle id must be 36");
+    if (vehicle_id.length !== 36)
+      throw Error("Characters of vehicle id must be 36");
 
-    // if (driver_id.length !== 36)
-    //   throw Error("Characters of vehicle id must be 36");
+    if (driver_id.length !== 36)
+      throw Error("Characters of vehicle id must be 36");
 
     await createEnlistment(
       shipping_date,
@@ -88,9 +89,18 @@ export const createEnlistmentHandler = async (req, res) => {
 
 export const getEnlistmentsHandler = async (req, res) => {
   try {
-    const { shipping_date, sender, origin, destiny, status, service_type } =
-      req.query;
+    const {
+      shipping_date,
+      sender,
+      origin,
+      destiny,
+      status,
+      service_type,
+      start_date,
+      end_date,
+    } = req.query;
     const querys = {};
+
     let enlistments;
 
     if (shipping_date) querys.shipping_date = shipping_date;
@@ -100,7 +110,9 @@ export const getEnlistmentsHandler = async (req, res) => {
     if (status) querys.status = status;
     if (service_type) querys.service_type = service_type;
 
-    querys
+    start_date && start_date
+      ? (enlistments = await getEnlistmentsByDateRange(start_date, end_date))
+      : querys
       ? (enlistments = await getEnlistments(querys))
       : (enlistments = await getEnlistments());
 
@@ -138,17 +150,64 @@ export const getEnlistmentByIdHandler = async (req, res) => {
 };
 export const updateEnlistmentHandler = async (req, res) => {
   const { id } = req.params;
-  const {
-    //
-  } = req.body;
+  const { shipping_date, sender, origin, destiny, status, service_type } =
+    req.body;
   try {
-    await updateEnlistment();
+    const validateShipping_date = /^\d{4}-\d{2}-\d{2}$/.test(shipping_date);
 
-    //
+    let senderFixed;
+    let senderSplit = sender.split(" ");
+
+    for (let i = 0; i < senderSplit.length; i++) {
+      senderSplit[i] =
+        senderSplit[i].charAt(0).toUpperCase() +
+        senderSplit[i].slice(1).toLowerCase();
+
+      senderFixed = senderSplit.join(" ");
+    }
+
+    const originLowerCase = origin.toLowerCase();
+    const destinyLowerCase = destiny.toLowerCase();
+    const statusLowerCase = status.toLowerCase();
+    const service_typeLowerCase = service_type.toLowerCase();
+
+    if (!validateShipping_date)
+      throw Error("Shipping date must be in this format: YYYY-MM-DD");
+
+    if (senderFixed.length < 3 || senderFixed.length > 30)
+      throw Error("Characters of sender must be between 3 and 30");
+
+    if (originLowerCase.length < 3 || originLowerCase.length > 30)
+      throw Error("Characters of origin must be between 3 and 30");
+
+    if (destinyLowerCase.length < 3 || destinyLowerCase.length > 30)
+      throw Error("Characters of destiny must be between 3 and 30");
+
+    if (statusLowerCase.length < 3 || statusLowerCase.length > 30)
+      throw Error("Characters of status must be between 3 and 30");
+
+    if (service_typeLowerCase.length < 3 || service_typeLowerCase.length > 30)
+      throw Error("Characters of service type must be between 3 and 30");
+
+    await updateEnlistment(
+      id,
+      shipping_date,
+      senderFixed.trim(),
+      originLowerCase.trim(),
+      destinyLowerCase.trim(),
+      statusLowerCase.trim(),
+      service_typeLowerCase.trim()
+    );
 
     res.status(200).json({
       "Enlistment updated": {
-        //
+        id,
+        shipping_date: shipping_date,
+        sender: senderFixed.trim(),
+        origin: originLowerCase.trim(),
+        destiny: destinyLowerCase.trim(),
+        status: statusLowerCase.trim(),
+        service_type: service_typeLowerCase.trim(),
       },
     });
   } catch (error) {

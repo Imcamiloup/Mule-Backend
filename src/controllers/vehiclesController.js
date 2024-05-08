@@ -16,8 +16,9 @@ export const createVehicle = async (
   });
 };
 
-export const getVehicles = async () => {
+export const getVehicles = async (query) => {
   const vehicles = await Vehicle.findAll({
+    where: query,
     include: {
       model: Enlistment,
       attributes: ["id"],
@@ -28,21 +29,6 @@ export const getVehicles = async () => {
   if (vehicles.length === 0) throw Error("Vehicles not found");
 
   return vehicles;
-};
-
-export const getVehiclesByQuery = async (query) => {
-  const vehiclesByQuery = await Vehicle.findAll({
-    where: query,
-    include: {
-      model: Enlistment,
-      attributes: ["id"],
-      through: { attributes: [] },
-    },
-  });
-
-  if (vehiclesByQuery.length === 0) throw Error("Vehicles not found");
-
-  return vehiclesByQuery;
 };
 
 export const getVehicleById = async (id) => {
