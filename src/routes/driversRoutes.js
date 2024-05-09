@@ -14,7 +14,7 @@ const driverRouter = Router();
 driverRouter.get("/", getAllDriversHandler);
 driverRouter.get("/:id", getDriverByIdHandler);
 driverRouter.get("/:id/order", getOrderByDriversHandler )
-driverRouter.get("/:id/order", getFilteredByDriversHandler )
+driverRouter.get("/:id/filter", getFilteredByDriversHandler )
 
 driverRouter.post("/", postDriverHandler);
 
