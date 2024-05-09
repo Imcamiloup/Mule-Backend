@@ -3,7 +3,7 @@ import sequelize from "./src/database/db.js";
 const { PORT } = process.env;
 
 sequelize
-  .sync({ alter: true })
+  .sync({ force: true })
   .then(() => {
     server.listen(PORT, () => {
       console.log("Database connection succesful!");
@@ -11,7 +11,7 @@ sequelize
     });
   })
   .catch((error) => {
-    console.log("There was a mistake", error.message);
+    console.error("There was an error:", error);
   });
 
 export default sequelize;

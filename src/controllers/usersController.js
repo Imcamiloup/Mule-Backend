@@ -11,6 +11,7 @@ const getAllUsersController = async () => {
 }
 
 const getUserByIdController = async (id) => {
+
   try {
     const user = await User.findByPk(id);
     return user;
@@ -19,15 +20,16 @@ const getUserByIdController = async (id) => {
   }
 }
 
-const createUserController = async (name, email, password) => {
+const createUserController = async (name, email, password, cedula, cel_phone_number, fee_category_percentage, category, age, role, isActive) => {
+
   try {
-    console.log(name);
-    const newUser = await User.create({ name, email, password });
+    const newUser = await User.create({ name, email, password, cedula, cel_phone_number, fee_category_percentage, category, age, role, isActive });
     return newUser;
   } catch (error) {
-    throw new Error("Error create user: " + error.message);
+    throw new Error("Error creating user: " + error.message);
   }
 }
+
 
 const updateUserController = async (id, name, email, password) => {
   try {
