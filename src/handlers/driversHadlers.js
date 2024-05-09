@@ -2,6 +2,8 @@ import {
   getAllDriversController,
   getDriverByIdController,
   getDriverbyNameController,
+  getOrderByDriversController,
+  getFilteredByDriversController,
   createDriverController,
   updateDriverController,
   deleteDriverController,
@@ -58,6 +60,27 @@ const postDriverHandler = async (req, res) => {
   }
 };
 
+const getOrderByDriversHandler = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const order = await getOrderByDriversController(id);
+    res.status(200).send(order);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
+
+const getFilteredByDriversHandler = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const filters = req.query;
+    const order = await getFilteredByDriversController(id, filters);
+    res.status(200).send(order);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
+
 //Funciona
 const updateDriverHandler = async (req, res) => {
   try {
@@ -93,6 +116,8 @@ const deleteDriverHandler = async (req, res) => {
 export {
   getAllDriversHandler,
   getDriverByIdHandler,
+  getOrderByDriversHandler,
+  getFilteredByDriversHandler,
   postDriverHandler,
   updateDriverHandler,
   deleteDriverHandler,
