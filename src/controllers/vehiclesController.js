@@ -5,23 +5,20 @@ export const createVehicle = async (
   state,
   car_insurance,
   plate,
-  fee,
-  antiquity
+  brand
 ) => {
-  const newVehicle = await Vehicle.create({
+  await Vehicle.create({
     model,
     state,
     car_insurance,
     plate,
-    fee,
-    antiquity,
+    brand,
   });
-
-  return newVehicle;
 };
 
-export const getVehicles = async () => {
+export const getVehicles = async (query) => {
   const vehicles = await Vehicle.findAll({
+    where: query,
     include: {
       model: Enlistment,
       attributes: ["id"],
@@ -46,8 +43,7 @@ export const updateVehicle = async (
   state,
   car_insurance,
   plate,
-  fee,
-  antiquity
+  brand
 ) => {
   const vehicleById = await Vehicle.findByPk(id);
 
@@ -58,8 +54,7 @@ export const updateVehicle = async (
     state,
     car_insurance,
     plate,
-    fee,
-    antiquity,
+    brand,
   });
 };
 

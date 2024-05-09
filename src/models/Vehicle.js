@@ -20,7 +20,7 @@ export default (sequelize) => {
       },
 
       state: {
-        type: DataTypes.ENUM("active", "inactive", "maintenance", "discharged"),
+        type: DataTypes.ENUM("active", "inactive", "maintenance"),
         allowNull: false,
       },
 
@@ -39,19 +39,9 @@ export default (sequelize) => {
           len: [5, 8],
         },
       },
-
-      fee: {
-        type: DataTypes.FLOAT,
+      brand: {
+        type: DataTypes.STRING(20),
         allowNull: false,
-        validate: {
-          min: 1,
-          max: 10,
-        },
-      },
-
-      antiquity: {
-        type: DataTypes.STRING,
-        allowNull: true,
       },
     },
     { timestamps: false }

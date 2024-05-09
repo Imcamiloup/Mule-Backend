@@ -5,7 +5,7 @@ export default (sequelize) => {
   sequelize.define(
     "User",
     {
-      PK: {
+      id: {
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: () => uuidv4(),

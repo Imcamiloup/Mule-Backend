@@ -11,44 +11,53 @@ export default (sequelize) => {
         unique: true,
       },
 
+      shipping_date: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        validate: {
+          is: /^\d{4}-\d{2}-\d{2}$/,
+        },
+      },
+
+      sender: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [3, 30],
+        },
+      },
+
+      origin: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [3, 30],
+        },
+      },
+
       destiny: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          len: [3, 30],
+        },
       },
 
-      state: {
+      status: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          len: [3, 30],
+        },
       },
-      distance: {
+
+      service_type: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          len: [3, 30],
+        },
       },
-
-      delivery_time: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-
-      // order_time: {
-      //   type: DataTypes.STRING,
-      //   allowNull: false,
-      // },
-
-      // price_order: {
-      //   type: DataTypes.INTEGER,
-      //   allowNull: false,
-      // },
-
-      // qualify_user: {
-      //   type: DataTypes.STRING,
-      //   allowNull: false,
-      // },
-
-      // qualify_order: {
-      //   type: DataTypes.STRING,
-      //   allowNull: false,
-      // },
     },
     { timestamps: false }
   );
