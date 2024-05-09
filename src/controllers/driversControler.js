@@ -34,6 +34,29 @@ const getDriverbyNameController = async (name) => {
   }
 };
 
+const getOrderByDriversController = async () => {
+    const drivers = await Driver.findAll({
+        include: {
+            model: Enlistment,
+            attributes: ["id"],
+            through: { attributes: [] },
+        },
+    });
+    return drivers;
+}
+
+const getFilteredByDriversController = async (filter) => {
+    const drivers = await Driver.findAll({
+        include: {
+            model: Enlistment,
+            attributes: ["id"],
+            through: { attributes: [] },
+        },
+        where: filter
+    });
+    return drivers;
+}
+
 const createDriverController = async ({
   name,
   email,
@@ -76,6 +99,8 @@ export {
   getAllDriversController,
   getDriverByIdController,
   getDriverbyNameController,
+  getOrderByDriversController,
+  getFilteredByDriversController,
   createDriverController,
   updateDriverController,
   deleteDriverController,
