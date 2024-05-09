@@ -4,11 +4,10 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DATABASE_NAME } = process.env;
 
 import UserModel from "../models/User.js";
 import AdminModel from "../models/Admin.js";
-import ClientModel from "../models/Client.js";
 import DriverModel from "../models/Driver.js";
-import FreigthModel from "../models/Freigth.js";
 import VehicleModel from "../models/Vehicle.js";
 import EnlistmentModel from "../models/Enlistment.js";
+import OdershipmentModel from "../models/OrderShipment.js";
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DATABASE_NAME}`,
@@ -17,36 +16,20 @@ const sequelize = new Sequelize(
 
 UserModel(sequelize);
 AdminModel(sequelize);
-ClientModel(sequelize);
 DriverModel(sequelize);
-FreigthModel(sequelize);
 VehicleModel(sequelize);
+OdershipmentModel(sequelize);
 EnlistmentModel(sequelize);
 
-const { User, Admin, Client, Driver, Freigth, Vehicle, Enlistment } =
+const { User, Admin, Driver, OrderShipment, Vehicle, Enlistment } =
   sequelize.models;
 
-  
-Client.belongsToMany(Enlistment, { through: "enlistment_client" });
-Enlistment.belongsToMany(Client, { through: "enlistment_client" });
+Vehicle.hasOne(Driver, { foreignKey: "vehicle_id" });
+Driver.belongsTo(Vehicle, { foreignKey: "vehicle_id" });
 
 Driver.belongsToMany(Enlistment, { through: "enlistment_driver" });
 Enlistment.belongsToMany(Driver, { through: "enlistment_driver" });
 
-Vehicle.belongsToMany(Enlistment, { through: "enlistment_vehicle" });
-Enlistment.belongsToMany(Vehicle, { through: "enlistment_vehicle" });
-
-// Freigth.belongsToMany(Enlistment, { through: "enlistment_freigth" });
-// Enlistment.belongsToMany(Freigth, { through: "enlistment_freigth" });
-
-export {
-  User,
-  Admin,
-  Client,
-  Driver,
-  //  Freigth,
-  Vehicle,
-  Enlistment,
-};
+export { User, Admin, Driver, OrderShipment, Vehicle, Enlistment };
 
 export default sequelize;

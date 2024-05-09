@@ -39,9 +39,25 @@ export default (sequelize) => {
           len: [5, 8],
         },
       },
-      brand: {
-        type: DataTypes.STRING(20),
+
+      tecnical_review: {
+        type: DataTypes.BOOLEAN,
         allowNull: false,
+      },
+
+      driving_licence: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
+
+      cargo_manifest: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
+
+      news: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
     },
     { timestamps: false }

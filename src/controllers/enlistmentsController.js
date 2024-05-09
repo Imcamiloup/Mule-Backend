@@ -20,8 +20,7 @@ export const createEnlistment = async (
     service_type,
   });
 
-  newEnlistment.addVehicles(vehicle_id);
-  newEnlistment.addDrivers(driver_id);
+  return newEnlistment;
 };
 
 export const getEnlistments = async (query) => {
