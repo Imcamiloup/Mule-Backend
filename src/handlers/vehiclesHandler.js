@@ -4,15 +4,24 @@ import {
   getVehicleById,
   updateVehicle,
   deleteVehicle,
+  getVehiclesByQuery,
 } from "../controllers/vehiclesController.js";
 
 export const createVehicleHandler = async (req, res) => {
-  const { model, state, car_insurance, plate, fee, antiquity } = req.body;
-
-  const stateLowerCase = state.toLowerCase();
-  const validateModel = /^[A-HJ-NPR-Z0-9]{17}$/i.test(model);
+  const {
+    model,
+    state,
+    car_insurance,
+    plate,
+    tecnical_review,
+    driving_licence,
+    cargo_manifest,
+    news,
+  } = req.body;
 
   try {
+    const validateModel = /^[A-HJ-NPR-Z0-9]{17}$/i.test(model);
+
     if (!validateModel) throw Error("Vehicle model is incorrect");
 
     if (car_insurance.length < 7 || car_insurance.length > 10)
@@ -25,39 +34,61 @@ export const createVehicleHandler = async (req, res) => {
         "Number of characters in the car plate must be between 5 and 8"
       );
 
-    if (fee < 1 || fee > 10) throw Error("Fee range is between 1 and 10.");
-
-    await createVehicle(
-      model,
-      stateLowerCase,
-      car_insurance,
-      plate,
-      fee,
-      antiquity
+    const newVehicle = await createVehicle(
+      model.toUpperCase().trim(),
+      state.toLowerCase().trim(),
+      car_insurance.trim(),
+      plate.toUpperCase().trim(),
+      tecnical_review,
+      driving_licence,
+      cargo_manifest,
+      news.trim()
     );
 
-    res.status(201).json({
-      "Vehicle created": {
-        model,
-        stateLowerCase,
-        car_insurance,
-        plate,
-        fee,
-        antiquity,
-      },
-    });
+    res.status(201).json({ "Vehicle created": newVehicle });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
 export const getVehiclesHandler = async (req, res) => {
-  try {
-    const vehicles = await getVehicles();
+  if (req.query) {
+    const {
+      model,
+      state,
+      car_insurance,
+      plate,
+      tecnical_review,
+      driving_licence,
+      cargo_manifest,
+      orderBy,
+      orderDirection,
+    } = req.query;
 
-    res.status(200).json({ vehicles: vehicles });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+    try {
+      const vehicles = await getVehiclesByQuery(
+        model,
+        state,
+        car_insurance,
+        plate,
+        tecnical_review,
+        driving_licence,
+        cargo_manifest,
+        orderBy,
+        orderDirection
+      );
+
+      res.status(200).json(vehicles);
+    } catch (error) {
+      res.status(404).json({ error: error.message });
+    }
+  } else {
+    try {
+      const vehicles = await getVehicles();
+      res.status(200).json(vehicles);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
   }
 };
 
@@ -69,23 +100,29 @@ export const getVehicleByIdHandler = async (req, res) => {
 
     if (!vehicleById) throw Error(`Vehicle with ID: ${id} not found`);
 
-    res.status(200).json({ vehicle: vehicleById });
+    res.status(200).json(vehicleById);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(404).json({ error: error.message });
   }
 };
 
 export const updateVehicleHandler = async (req, res) => {
   const { id } = req.params;
-  const { model, state, car_insurance, plate, fee, antiquity } = req.body;
-
-  const stateLowerCase = state.toLowerCase();
-  const validateModel = /^[A-HJ-NPR-Z0-9]{17}$/i.test(model);
+  const {
+    model,
+    state,
+    car_insurance,
+    plate,
+    tecnical_review,
+    driving_licence,
+    cargo_manifest,
+    news,
+  } = req.body;
 
   try {
-    if (!id) throw Error("ID not found");
+    const validateModel = /^[A-HJ-NPR-Z0-9]{17}$/i.test(model);
 
-    if (!validateModel) throw Error("Car model is incorrect");
+    if (!validateModel) throw Error("Vehicle model is incorrect");
 
     if (car_insurance.length < 7 || car_insurance.length > 10)
       throw Error(
@@ -97,31 +134,33 @@ export const updateVehicleHandler = async (req, res) => {
         "Number of characters in the car plate must be between 5 and 8"
       );
 
-    if (fee < 1 || fee > 10) throw Error("Fee range is between 1 and 10.");
-
     await updateVehicle(
       id,
-      model,
-      stateLowerCase,
-      car_insurance,
-      plate,
-      fee,
-      antiquity
+      model.toUpperCase().trim(),
+      state.toLowerCase().trim(),
+      car_insurance.trim(),
+      plate.toUpperCase().trim(),
+      tecnical_review,
+      driving_licence,
+      cargo_manifest,
+      news.trim()
     );
 
     res.status(200).json({
-      "Vehicle updated": {
+      "Updated vehicle": {
         id,
-        model,
-        stateLowerCase,
-        car_insurance,
-        plate,
-        fee,
-        antiquity,
+        model: model.toUpperCase().trim(),
+        state: state.toLowerCase().trim(),
+        car_insurance: car_insurance.trim(),
+        plate: plate.toUpperCase().trim(),
+        tecnical_review,
+        driving_licence,
+        cargo_manifest,
+        news: news.trim(),
       },
     });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -133,8 +172,8 @@ export const deleteVehicleHandler = async (req, res) => {
 
     res
       .status(200)
-      .json({ "Vehicle deleted": `Vehicle with ID: ${id} was deleted` });
+      .json({ "Vehicle deleted": `Vehicle with ID: ${id} was DELETED` });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(404).json({ error: error.message });
   }
 };

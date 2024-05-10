@@ -30,14 +30,17 @@ const getUserByIdHandler = async (req, res) => {
 
 const createUserHandler = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
-        if (!name || !email || !password) throw new Error('Missing fields');
-        const newUser = await createUserController(name, email, password);
+        const { Name, Email, Password, Cedula, Cel_Phone_Number, Fee_Category_Percentage, Category, Age, Role, IsActive } = req.body;
+        if (!Name || !Email || !Password || !Cedula || !Cel_Phone_Number || !Fee_Category_Percentage || !Age || Role === undefined) {
+            throw new Error('Missing fields');
+        }
+        const newUser = await createUserController(Name, Email, Password, Cedula, Cel_Phone_Number, Fee_Category_Percentage, Category, Age, Role, IsActive);
         res.status(201).json(newUser);
     } catch (error) {
         res.status(500).send({message: error.message});
     }
 }
+
 
 const updateUserHandler = async (req, res) => {
     try {

@@ -11,7 +11,7 @@ sequelize
     });
   })
   .catch((error) => {
-    console.log("There was a mistake", error.message);
+    console.error("There was an error:", error);
   });
 
 export default sequelize;

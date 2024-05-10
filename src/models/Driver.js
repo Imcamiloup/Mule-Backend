@@ -12,11 +12,14 @@ export default (sequelize) => {
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       email: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
+        validate: {
+          isEmail: true,
+        },
       },
       password: {
         type: DataTypes.STRING,
@@ -30,7 +33,7 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      User_Type: {
+      user_type: {
         type: DataTypes.STRING,
         allowNull: true,
       },

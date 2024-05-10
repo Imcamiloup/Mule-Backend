@@ -2,7 +2,7 @@ import { DataTypes, UUIDV4 } from "sequelize";
 
 export default (sequelize) => {
   sequelize.define(
-    "Client",
+    "Enlistment",
     {
       id: {
         type: DataTypes.UUID,
@@ -10,23 +10,48 @@ export default (sequelize) => {
         primaryKey: true,
         unique: true,
       },
-      name: {
+
+      guide_number: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        unique: true,
+      },
+
+      state: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      password: {
+
+      distance: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      debt: {
+
+      delivery_time: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+
+      order_time: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+
+      price_order: {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
-      antiquity: {
+
+      qualify_user: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      User_Type: {
+
+      qualify: {
+        type: DataTypes.ENUM("1", "2", "3", "4", "5"),
+      },
+
+      comment: {
         type: DataTypes.STRING,
         allowNull: true,
       },

@@ -4,10 +4,12 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DATABASE_NAME } = process.env;
 
 import UserModel from "../models/User.js";
 import AdminModel from "../models/Admin.js";
-import ClientModel from "../models/Client.js";
 import DriverModel from "../models/Driver.js";
-import FreigthModel from "../models/Freigth.js";
 import VehicleModel from "../models/Vehicle.js";
+import EnlistmentModel from "../models/Enlistment.js";
+import OrderShipmentModel from "../models/OrderShipment.js";
+import TypeShipmentModel from "../models/TypeShipment.js";
+import MeasureModel from "../models/Measure.js";
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DATABASE_NAME}`,
@@ -16,22 +18,48 @@ const sequelize = new Sequelize(
 
 UserModel(sequelize);
 AdminModel(sequelize);
-ClientModel(sequelize);
 DriverModel(sequelize);
-FreigthModel(sequelize);
 VehicleModel(sequelize);
+EnlistmentModel(sequelize);
+OrderShipmentModel(sequelize);
+TypeShipmentModel(sequelize);
+MeasureModel(sequelize);
 
-// Sincronización de modelos con la base de datos
-(async () => {
-  await sequelize.sync({ alter: true }); // Esto sincronizará los modelos con la base de datos, alterando la estructura si es necesario.
-})();
+const {
+  User,
+  Admin,
+  Driver,
+  Vehicle,
+  Enlistment,
+  OrderShipment,
+  TypeShipment,
+  Measure,
+} = sequelize.models;
 
-const {User, Admin, Client, Driver, Freigth, Vehicle } = sequelize.models;
+Vehicle.hasOne(Driver, { foreignKey: "vehicle_id" });
+Driver.belongsTo(Vehicle, { foreignKey: "vehicle_id" });
 
-//relacion de los modelos: (One-to-One, One-to-Many, Many-to-Many)
+Driver.belongsToMany(Enlistment, { through: "enlistment_driver" });
+Enlistment.belongsToMany(Driver, { through: "enlistment_driver" });
 
-export { User, Admin, Client, Driver, Freigth, Vehicle };
+TypeShipment.hasMany(OrderShipment, {
+  as: "typeShipment",
+  foreignKey: "typeShipmentId",
+});
+OrderShipment.belongsTo(TypeShipment, { foreignKey: "typeShipmentId" });
+
+OrderShipment.hasOne(Enlistment, { foreignKey: "ordershipment_id" });
+Enlistment.belongsTo(OrderShipment, { foreignKey: "ordershipment_id" });
+
+export {
+  User,
+  Admin,
+  Driver,
+  Vehicle,
+  Enlistment,
+  OrderShipment,
+  TypeShipment,
+  Measure,
+};
 
 export default sequelize;
-
-// Path: src/models/Admin.js

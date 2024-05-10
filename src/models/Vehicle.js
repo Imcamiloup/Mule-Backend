@@ -20,7 +20,7 @@ export default (sequelize) => {
       },
 
       state: {
-        type: DataTypes.ENUM("active", "inactive", "maintenance", "discharged"),
+        type: DataTypes.ENUM("active", "inactive", "maintenance"),
         allowNull: false,
       },
 
@@ -40,16 +40,22 @@ export default (sequelize) => {
         },
       },
 
-      fee: {
-        type: DataTypes.FLOAT,
+      tecnical_review: {
+        type: DataTypes.BOOLEAN,
         allowNull: false,
-        validate: {
-          min: 1,
-          max: 10,
-        },
       },
 
-      antiquity: {
+      driving_licence: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
+
+      cargo_manifest: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
+
+      news: {
         type: DataTypes.STRING,
         allowNull: true,
       },
