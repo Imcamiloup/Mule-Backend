@@ -4,6 +4,7 @@ import vehiclesRouter from "./vehiclesRouter.js";
 import driversRouter from "./driversRoutes.js";
 import enlistmentsRouter from "./enlistmentsRouter.js";
 import orderShipmentsRouter from "./orderShipmentsRouter.js";
+import TypeShipmentsRouter from "./typeShipmentsRouter.js";
 
 const router = Router();
 
@@ -19,5 +20,7 @@ router.use("/vehicles", vehiclesRouter);
 router.use("/drivers", driversRouter);
 router.use("/enlistments", enlistmentsRouter);
 router.use("/order_shipments", orderShipmentsRouter)
+router.use("/type_shipments", TypeShipmentsRouter)
+
 
 export default router;

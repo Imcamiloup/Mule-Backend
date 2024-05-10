@@ -10,6 +10,7 @@ import FreigthModel from "../models/Freigth.js";
 import VehicleModel from "../models/Vehicle.js";
 import EnlistmentModel from "../models/Enlistment.js";
 import OrderShipmentModel from "../models/OrderShipment.js";
+import TypeShipmentModel from "../models/TypeShipment.js";
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DATABASE_NAME}`,
@@ -24,8 +25,9 @@ FreigthModel(sequelize);
 VehicleModel(sequelize);
 EnlistmentModel(sequelize);
 OrderShipmentModel(sequelize);
+TypeShipmentModel(sequelize);
 
-const { User, Admin, Client, Driver, Freigth, Vehicle, Enlistment ,OrderShipment } =
+const { User, Admin, Client, Driver, Freigth, Vehicle, Enlistment ,OrderShipment, TypeShipment  } =
   sequelize.models;
 
   
@@ -37,6 +39,10 @@ Enlistment.belongsToMany(Driver, { through: "enlistment_driver" });
 
 Vehicle.belongsToMany(Enlistment, { through: "enlistment_vehicle" });
 Enlistment.belongsToMany(Vehicle, { through: "enlistment_vehicle" });
+
+
+TypeShipment.hasMany(OrderShipment, { as: "typeShipment" , foreignKey: "typeShipmentId" });
+OrderShipment.belongsTo(TypeShipment);
 
 // Freigth.belongsToMany(Enlistment, { through: "enlistment_freigth" });
 // Enlistment.belongsToMany(Freigth, { through: "enlistment_freigth" });
@@ -50,6 +56,7 @@ export {
   Vehicle,
   Enlistment,
   OrderShipment,
+  TypeShipment,
 };
 
 export default sequelize;
