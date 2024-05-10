@@ -36,6 +36,9 @@ const {
   Measure,
 } = sequelize.models;
 
+User.hasMany(OrderShipment,{foreignKey:"user_id"});
+OrderShipment.belongsTo(User,{foreignKey:"user_id"});
+
 Vehicle.hasOne(Driver, { foreignKey: "vehicle_id" });
 Driver.belongsTo(Vehicle, { foreignKey: "vehicle_id" });
 
