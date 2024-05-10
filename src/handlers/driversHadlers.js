@@ -5,9 +5,9 @@ import {
   createDriverController,
   updateDriverController,
   deleteDriverController,
-} from "../controllers/driversControler.js";
+} from "../controllers/driversController.js";
 
-import FilteredAndOrderedData from "../utils/helpers/getFilteredAndOrderedData.js";
+import filteredAndOrderedData from "../utils/helpers/filteredAndOrderedData.js";
 
 //Funciona
 const getAllDriversHandler = async (req, res) => {
@@ -16,7 +16,7 @@ const getAllDriversHandler = async (req, res) => {
   try {
     let drivers;
     if (name || orderBy || orderDirection) { // Si se proporciona alguno de estos parámetros, utilizar el helper FilteredAndOrderedData
-      drivers = await FilteredAndOrderedData(Driver, { name }, orderBy, orderDirection); // Ajusta los parámetros según tus necesidades
+      drivers = await filteredAndOrderedData(Driver, { name }, orderBy, orderDirection); // Ajusta los parámetros según tus necesidades
     } else {
       drivers = await getAllDriversController();
     }

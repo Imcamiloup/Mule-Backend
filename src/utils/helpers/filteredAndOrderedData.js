@@ -1,6 +1,6 @@
 import { Op } from'sequelize';
 
-const FilteredAndOrderedData = async (
+const filteredAndOrderedData = async (
   Model,
   filters,
   orderBy,
@@ -34,4 +34,4 @@ const FilteredAndOrderedData = async (
   }
 };
 
-export default FilteredAndOrderedData;
+export default filteredAndOrderedData;
