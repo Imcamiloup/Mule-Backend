@@ -2,7 +2,7 @@ import { DataTypes, UUIDV4 } from "sequelize";
 
 export default (sequelize) => {
   sequelize.define(
-    "Vehicle",
+    "Enlistment",
     {
       id: {
         type: DataTypes.UUID,
@@ -11,37 +11,52 @@ export default (sequelize) => {
         unique: true,
       },
 
-      model: {
+      shipping_date: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        validate: {
+          is: /^\d{4}-\d{2}-\d{2}$/,
+        },
+      },
+
+      sender: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          is: /^[A-HJ-NPR-Z0-9]{17}$/i,
+          len: [3, 30],
         },
       },
 
-      state: {
-        type: DataTypes.ENUM("active", "inactive", "maintenance"),
-        allowNull: false,
-      },
-
-      car_insurance: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-        validate: {
-          len: [7, 10],
-        },
-      },
-
-      plate: {
+      origin: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          len: [5, 8],
+          len: [3, 30],
         },
       },
-      brand: {
-        type: DataTypes.STRING(20),
+
+      destiny: {
+        type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          len: [3, 30],
+        },
+      },
+
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [3, 30],
+        },
+      },
+
+      service_type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [3, 30],
+        },
       },
     },
     { timestamps: false }
