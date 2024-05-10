@@ -1,6 +1,5 @@
 import { Driver, Enlistment } from "../database/db.js";
 
-
 const getAllDriversController = async () => {
   try {
     const drivers = await Driver.findAll({
@@ -25,37 +24,6 @@ const getDriverByIdController = async (id) => {
   }
 };
 
-const getDriverbyNameController = async (name) => {
-  try {
-    const driver = await Driver.findOne({ where: { name: name } });
-    return driver;
-  } catch (error) {
-    throw new Error("Error get user: " + error.message);
-  }
-};
-
-const getOrderByDriversController = async () => {
-    const drivers = await Driver.findAll({
-        include: {
-            model: Enlistment,
-            attributes: ["id"],
-            through: { attributes: [] },
-        },
-    });
-    return drivers;
-}
-
-const getFilteredByDriversController = async (filter) => {
-    const drivers = await Driver.findAll({
-        include: {
-            model: Enlistment,
-            attributes: ["id"],
-            through: { attributes: [] },
-        },
-        where: filter
-    });
-    return drivers;
-}
 
 const createDriverController = async ({
   name,
@@ -98,9 +66,6 @@ const deleteDriverController = async (id) => {
 export {
   getAllDriversController,
   getDriverByIdController,
-  getDriverbyNameController,
-  getOrderByDriversController,
-  getFilteredByDriversController,
   createDriverController,
   updateDriverController,
   deleteDriverController,
