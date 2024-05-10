@@ -1,29 +1,64 @@
-import { Vehicle, Enlistment } from "../database/db.js";
+import { Vehicle } from "../database/db.js";
 
 export const createVehicle = async (
   model,
   state,
   car_insurance,
   plate,
-  brand
+  tecnical_review,
+  driving_licence,
+  cargo_manifest,
+  news
 ) => {
-  await Vehicle.create({
+  const newVehicle = await Vehicle.create({
     model,
     state,
     car_insurance,
     plate,
-    brand,
+    tecnical_review,
+    driving_licence,
+    cargo_manifest,
+    news,
   });
+
+  return newVehicle;
 };
 
-export const getVehicles = async (query) => {
+export const getVehicles = async () => {
+  const vehicles = await Vehicle.findAll({});
+
+  if (vehicles.length === 0) throw Error("Vehicles not found");
+
+  return vehicles;
+};
+
+export const getVehiclesByQuery = async (
+  model,
+  state,
+  car_insurance,
+  plate,
+  tecnical_review,
+  driving_licence,
+  cargo_manifest,
+  orderBy,
+  orderDirection
+) => {
+  let where = {};
+  if (model) where = { ...where, model };
+  if (state) where = { ...where, state };
+  if (car_insurance) where = { ...where, car_insurance };
+  if (plate) where = { ...where, plate };
+  if (tecnical_review) where = { ...where, tecnical_review };
+  if (driving_licence) where = { ...where, driving_licence };
+  if (cargo_manifest) where = { ...where, cargo_manifest };
+  let order = [];
+  if (orderBy && orderDirection) order = [[orderBy, orderDirection]];
+
+  console.log(where);
+
   const vehicles = await Vehicle.findAll({
-    where: query,
-    include: {
-      model: Enlistment,
-      attributes: ["id"],
-      through: { attributes: [] },
-    },
+    where,
+    order,
   });
 
   if (vehicles.length === 0) throw Error("Vehicles not found");
@@ -43,7 +78,10 @@ export const updateVehicle = async (
   state,
   car_insurance,
   plate,
-  brand
+  tecnical_review,
+  driving_licence,
+  cargo_manifest,
+  news
 ) => {
   const vehicleById = await Vehicle.findByPk(id);
 
@@ -54,7 +92,10 @@ export const updateVehicle = async (
     state,
     car_insurance,
     plate,
-    brand,
+    tecnical_review,
+    driving_licence,
+    cargo_manifest,
+    news,
   });
 };
 

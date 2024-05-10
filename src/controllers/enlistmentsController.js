@@ -1,57 +1,74 @@
-import { Enlistment, Vehicle, Driver } from "../database/db.js";
-import { Op } from "sequelize";
+import { Enlistment, Driver } from "../database/db.js";
 
 export const createEnlistment = async (
-  shipping_date,
-  sender,
-  origin,
-  destiny,
-  status,
-  service_type,
-  vehicle_id,
+  state,
+  distance,
+  delivery_time,
+  order_time,
+  price_order,
+  qualify_user,
+  qualify,
+  comment,
+  ordershipment_id,
   driver_id
 ) => {
+  const numRandom = Math.floor(Math.random() * 10000000000);
+
   const newEnlistment = await Enlistment.create({
-    shipping_date,
-    sender,
-    origin,
-    destiny,
-    status,
-    service_type,
+    guide_number: numRandom,
+    state,
+    distance,
+    delivery_time,
+    order_time,
+    price_order,
+    qualify_user,
+    qualify,
+    comment,
+    ordershipment_id,
   });
 
-  newEnlistment.addVehicles(vehicle_id);
   newEnlistment.addDrivers(driver_id);
+
+  return newEnlistment;
 };
 
-export const getEnlistments = async (query) => {
+export const getEnlistments = async (
+  guide_number,
+  state,
+  distance,
+  delivery_time,
+  order_time,
+  price_order,
+  qualify_user,
+  qualify,
+  comment,
+  ordershipment_id,
+  orderBy,
+  orderDirection
+) => {
+  let where = {};
+  if (guide_number) where = { ...where, guide_number };
+  if (state) where = { ...where, state };
+  if (distance) where = { ...where, distance };
+  if (delivery_time) where = { ...where, delivery_time };
+  if (order_time) where = { ...where, order_time };
+  if (price_order) where = { ...where, price_order };
+  if (qualify_user) where = { ...where, qualify_user };
+  if (qualify) where = { ...where, qualify };
+  if (comment) where = { ...where, comment };
+  if (ordershipment_id) where = { ...where, ordershipment_id };
+  let order = [];
+  if (orderBy && orderDirection) order = [[orderBy, orderDirection]];
+
   const enlistments = await Enlistment.findAll({
-    where: query,
-
-    include: [
-      { model: Vehicle, attributes: ["id"], through: { attributes: [] } },
-      { model: Driver, attributes: ["id"], through: { attributes: [] } },
-    ],
-  });
-
-  if (enlistments.length === 0) throw Error("Enlistments not found");
-
-  return enlistments;
-};
-
-export const getEnlistmentsByDateRange = async (start_date, end_date) => {
-  const enlistments = await Enlistment.findAll({
-    where: {
-      shipping_date: {
-        [Op.between]: [start_date, end_date],
-      },
+    where,
+    order,
+    include: {
+      model: Driver,
+      attributes: ["id"],
+      through: { attributes: [] },
     },
-    include: [
-      { model: Vehicle, attributes: ["id"], through: { attributes: [] } },
-      { model: Driver, attributes: ["id"], through: { attributes: [] } },
-    ],
   });
-
   if (enlistments.length === 0) throw Error("Enlistments not found");
 
   return enlistments;
@@ -65,24 +82,30 @@ export const getEnlistmentById = async (id) => {
 
 export const updateEnlistment = async (
   id,
-  shipping_date,
-  sender,
-  origin,
-  destiny,
-  status,
-  service_type
+  state,
+  distance,
+  delivery_time,
+  order_time,
+  price_order,
+  qualify_user,
+  qualify,
+  comment,
+  ordershipment_id
 ) => {
   const enlistmentById = await Enlistment.findByPk(id);
 
   if (!enlistmentById) throw Error("Enlistment not found");
 
   await enlistmentById.update({
-    shipping_date,
-    sender,
-    origin,
-    destiny,
-    status,
-    service_type,
+    state,
+    distance,
+    delivery_time,
+    order_time,
+    price_order,
+    qualify_user,
+    qualify,
+    comment,
+    ordershipment_id,
   });
 };
 

@@ -11,52 +11,49 @@ export default (sequelize) => {
         unique: true,
       },
 
-      shipping_date: {
-        type: DataTypes.DATEONLY,
+      guide_number: {
+        type: DataTypes.BIGINT,
         allowNull: false,
-        validate: {
-          is: /^\d{4}-\d{2}-\d{2}$/,
-        },
+        unique: true,
       },
 
-      sender: {
+      state: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          len: [3, 30],
-        },
+        allowNull: true,
       },
 
-      origin: {
+      distance: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          len: [3, 30],
-        },
+        allowNull: true,
       },
 
-      destiny: {
+      delivery_time: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          len: [3, 30],
-        },
+        allowNull: true,
       },
 
-      status: {
+      order_time: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          len: [3, 30],
-        },
+        allowNull: true,
       },
 
-      service_type: {
+      price_order: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+
+      qualify_user: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          len: [3, 30],
-        },
+        allowNull: true,
+      },
+
+      qualify: {
+        type: DataTypes.ENUM("1", "2", "3", "4", "5"),
+      },
+
+      comment: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
     },
     { timestamps: false }

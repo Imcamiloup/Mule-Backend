@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import { v4 as uuidv4 } from 'uuid'; // Importar v4 como uuidv4
+import { v4 as uuidv4 } from "uuid"; // Importar v4 como uuidv4
 
 export default (sequelize) => {
   sequelize.define(
@@ -8,52 +8,95 @@ export default (sequelize) => {
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
+        unique: true,
         defaultValue: () => uuidv4(),
       },
-      Name: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      Email: {
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
       },
-      Password: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      Cedula: {
+      email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        validate: {
+          isEmail: true,
+        },
       },
-      Cel_Phone_Number: {
+      emailVerified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      password: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          min: 8,
+          isStrongPassword(value) {
+            if (
+              !/(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/.test(
+                value
+              )
+            ) {
+              throw new Error(
+                "La contraseña debe contener al menos una letra, un número y un carácter especial."
+              );
+            }
+          },
+        },
       },
-      Fee_Category_Percentage: {
+      cedula: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isNumeric: true,
+          len: [10, 11],
+        },
+      },
+      cel_Phone_Number: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isNumeric: true,
+          len: [10, 11],
+        },
+      },
+      fee_Category_Percentage: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        validate: {
+          min: 0,
+          max: 100,
+        },
+        allowNull: false,
       },
-      Category: {
-        type: DataTypes.ENUM('regular', 'pro'),
-        defaultValue: 'regular',
-        allowNull: false
+      category: {
+        type: DataTypes.ENUM("regular", "pro"),
+        defaultValue: "regular",
+        allowNull: false,
+        validate: {
+          isIn: [["regular", "pro"]],
+        },
       },
-      Age: {
+      age: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          min: 18,
+          max: 100,
+        },
       },
-      Role: {
-        type: DataTypes.ENUM('admin', 'user', 'asesor'),
-        allowNull: false
+      role: {
+        type: DataTypes.ENUM("admin", "user", "asesor"),
+        defaultValue: "user",
+        allowNull: false,
       },
-      IsActive: {
+      isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     },
     { timestamps: false }
   );
