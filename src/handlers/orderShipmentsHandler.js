@@ -43,7 +43,8 @@ const createOrderShipmentHandler = async (req, res) => {
             weight,
             declared_value,
             product_image,
-            pay_method
+            pay_method,
+            type_shipment_id,
           } = req.body;
         if (
             !name_claimant ||
@@ -60,7 +61,8 @@ const createOrderShipmentHandler = async (req, res) => {
             !weight ||
             !declared_value ||
             !product_image ||
-            !pay_method
+            !pay_method ||
+            !type_shipment_id
         ) throw new Error('Missing required information')
 
 
@@ -79,7 +81,8 @@ const createOrderShipmentHandler = async (req, res) => {
             weight,
             declared_value,
             product_image,
-            pay_method
+            pay_method,
+            type_shipment_id
         );
         res.status(201).json(newShipment);
     } catch (error) {

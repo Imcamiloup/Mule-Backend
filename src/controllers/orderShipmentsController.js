@@ -1,4 +1,5 @@
-import {OrderShipment} from '../database/db.js';
+import {OrderShipment, TypeShipment} from '../database/db.js';
+
 
 const getAllOrderShipmentsController = async () => {
     try {
@@ -33,10 +34,15 @@ const createOrderShipmentController = async (
             weight,
             declared_value,
             product_image,
-            pay_method
+            pay_method,
+            type_shipment_id
 ) => {
     try {
-        const newShipment = await OrderShipment.create({ 
+
+        const typeShipment = await TypeShipment.findByPk(type_shipment_id);
+        if (!typeShipment) throw new Error('Type shipment not found');
+
+        const newOrderShipment = await OrderShipment.create({ 
             name_claimant,
             cedula_claimant,
             cellphone_claimant,
@@ -51,9 +57,13 @@ const createOrderShipmentController = async (
             weight,
             declared_value,
             product_image,
-            pay_method
-        });
-        return newShipment;
+            pay_method,
+            type_shipment_id,
+        },
+    );
+        
+
+        return newOrderShipment;
     } catch (error) {
         throw new Error('Error create shipment: ' + error.message);
     }
