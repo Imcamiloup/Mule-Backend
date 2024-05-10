@@ -26,6 +26,10 @@ EnlistmentModel(sequelize);
 const { User, Admin, Client, Driver, Freigth, Vehicle, Enlistment } =
   sequelize.models;
 
+  // User.hasMany(Enlistment);
+  // Enlistment.belongsTo(User);
+
+
 Client.belongsToMany(Enlistment, { through: "enlistment_client" });
 Enlistment.belongsToMany(Client, { through: "enlistment_client" });
 
