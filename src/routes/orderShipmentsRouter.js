@@ -1,19 +1,19 @@
 import { Router } from "express";
 
 import {
-  getAllShipmentHandler,
-  createShipmentHandler,
-  getShipmentByIdHandler,
-  updateShipmentHandler,
-  deleteShipmentHandler,
+    getAllOrderShipmentsHandler,
+    createOrderShipmentHandler,
+    getOrderShipmentByIdHandler,
+    updateOrderShipmentHandler,
+    deleteOrderShipmentHandler,
 } from "../handlers/orderShipmentsHandler.js";
 
 const orderShipmentsRouter = Router();
 
-orderShipmentsRouter.get("/", getAllShipmentHandler);
-orderShipmentsRouter.post("/", createShipmentHandler);
-orderShipmentsRouter.get("/:id", getShipmentByIdHandler);
-orderShipmentsRouter.put("/:id", updateShipmentHandler);
-orderShipmentsRouter.delete("/:id", deleteShipmentHandler);
+orderShipmentsRouter.get("/", getAllOrderShipmentsHandler);
+orderShipmentsRouter.post("/", createOrderShipmentHandler);
+orderShipmentsRouter.get("/:id", getOrderShipmentByIdHandler);
+orderShipmentsRouter.put("/:id", updateOrderShipmentHandler);
+orderShipmentsRouter.delete("/:id", deleteOrderShipmentHandler);
 
 export default orderShipmentsRouter;

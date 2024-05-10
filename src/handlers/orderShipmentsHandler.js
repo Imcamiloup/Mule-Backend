@@ -6,7 +6,7 @@ import {
     deleteOrderShipmentController,
 } from '../controllers/orderShipmentsController.js';
 
-const getAllShipmentHandler = async (req, res) => {
+const getAllOrderShipmentsHandler = async (req, res) => {
     try {
         const shipments = await getAllOrderShipmentsController();
         res.status(200).send(shipments);
@@ -15,7 +15,7 @@ const getAllShipmentHandler = async (req, res) => {
     }
 }
 
-const getShipmentByIdHandler = async (req, res) => {
+const getOrderShipmentByIdHandler = async (req, res) => {
     try {
         const { id } = req.params;
         const shipment = await getOrderShipmentByIdController(id);
@@ -26,18 +26,71 @@ const getShipmentByIdHandler = async (req, res) => {
     }
 }
 
-const createShipmentHandler = async (req, res) => {
+const createOrderShipmentHandler = async (req, res) => {
     try {
-        const { name, description, price, status } = req.body;
-        if (!name || !description || !price || !status) throw new Error('Missing fields');
-        const newShipment = await createOrderShipmentController(name, description, price, status);
+        const {
+            name_claimant,
+            cedula_claimant,
+            cellphone_claimant,
+            name_transmiter,
+            celphone_transmiter,
+            city_transmiter,
+            address_transmiter,
+            name_receiver,
+            celphone_receiver,
+            city_receiver,
+            address_receiver,
+            weight,
+            declared_value,
+            product_image,
+            pay_method,
+            type_shipment_id,
+          } = req.body;
+        if (
+            !name_claimant ||
+            !cedula_claimant ||
+            !cellphone_claimant ||
+            !name_transmiter ||
+            !celphone_transmiter ||
+            !city_transmiter ||
+            !address_transmiter ||
+            !name_receiver ||
+            !celphone_receiver ||
+            !city_receiver ||
+            !address_receiver ||
+            !weight ||
+            !declared_value ||
+            !product_image ||
+            !pay_method ||
+            !type_shipment_id
+        ) throw new Error('Missing required information')
+
+
+        const newShipment = await createOrderShipmentController(
+            name_claimant,
+            cedula_claimant,
+            cellphone_claimant,
+            name_transmiter,
+            celphone_transmiter,
+            city_transmiter,
+            address_transmiter,
+            name_receiver,
+            celphone_receiver,
+            city_receiver,
+            address_receiver,
+            weight,
+            declared_value,
+            product_image,
+            pay_method,
+            type_shipment_id
+        );
         res.status(201).json(newShipment);
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
 }
 
-const updateShipmentHandler = async (req, res) => {
+const updateOrderShipmentHandler = async (req, res) => {
     try {
         const { id } = req.params;
         const { name, description, price, status } = req.body;
@@ -48,7 +101,7 @@ const updateShipmentHandler = async (req, res) => {
     }
 }
 
-const deleteShipmentHandler = async (req, res) => {
+const deleteOrderShipmentHandler = async (req, res) => {
     try {
         const { id } = req.params;
         const deletedShipment = await deleteOrderShipmentController(id);
@@ -59,9 +112,9 @@ const deleteShipmentHandler = async (req, res) => {
 }
 
 export {
-    getAllShipmentHandler,
-    getShipmentByIdHandler,
-    createShipmentHandler,
-    updateShipmentHandler,
-    deleteShipmentHandler
+    getAllOrderShipmentsHandler,
+    getOrderShipmentByIdHandler,
+    createOrderShipmentHandler,
+    updateOrderShipmentHandler,
+    deleteOrderShipmentHandler
 }

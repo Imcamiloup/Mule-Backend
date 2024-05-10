@@ -1,4 +1,5 @@
-import {OrderShipment} from '../database/db.js';
+import {OrderShipment, TypeShipment} from '../database/db.js';
+
 
 const getAllOrderShipmentsController = async () => {
     try {
@@ -18,10 +19,51 @@ const getOrderShipmentByIdController = async (id) => {
     }
 }
 
-const createOrderShipmentController = async (name, description, price, status) => {
+const createOrderShipmentController = async (
+            name_claimant,
+            cedula_claimant,
+            cellphone_claimant,
+            name_transmiter,
+            celphone_transmiter,
+            city_transmiter,
+            address_transmiter,
+            name_receiver,
+            celphone_receiver,
+            city_receiver,
+            address_receiver,
+            weight,
+            declared_value,
+            product_image,
+            pay_method,
+            type_shipment_id
+) => {
     try {
-        const newShipment = await OrderShipment.create({ name, description, price, status });
-        return newShipment;
+
+        const typeShipment = await TypeShipment.findByPk(type_shipment_id);
+        if (!typeShipment) throw new Error('Type shipment not found');
+
+        const newOrderShipment = await OrderShipment.create({ 
+            name_claimant,
+            cedula_claimant,
+            cellphone_claimant,
+            name_transmiter,
+            celphone_transmiter,
+            city_transmiter,
+            address_transmiter,
+            name_receiver,
+            celphone_receiver,
+            city_receiver,
+            address_receiver,
+            weight,
+            declared_value,
+            product_image,
+            pay_method,
+            type_shipment_id,
+        },
+    );
+        
+
+        return newOrderShipment;
     } catch (error) {
         throw new Error('Error create shipment: ' + error.message);
     }
