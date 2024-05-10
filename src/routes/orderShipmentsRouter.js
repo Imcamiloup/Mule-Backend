@@ -6,7 +6,7 @@ import {
     getOrderShipmentByIdHandler,
     updateOrderShipmentHandler,
     deleteOrderShipmentHandler,
-} from "../handlers/orderShipmentHandler.js";
+} from "../handlers/orderShipmentsHandler.js";
 
 const orderShipmentsRouter = Router();
 

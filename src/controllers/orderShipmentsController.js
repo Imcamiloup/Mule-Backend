@@ -18,9 +18,41 @@ const getOrderShipmentByIdController = async (id) => {
     }
 }
 
-const createOrderShipmentController = async (name, description, price, status) => {
+const createOrderShipmentController = async (
+            name_claimant,
+            cedula_claimant,
+            cellphone_claimant,
+            name_transmiter,
+            celphone_transmiter,
+            city_transmiter,
+            address_transmiter,
+            name_receiver,
+            celphone_receiver,
+            city_receiver,
+            address_receiver,
+            weight,
+            declared_value,
+            product_image,
+            pay_method
+) => {
     try {
-        const newShipment = await OrderShipment.create({ name, description, price, status });
+        const newShipment = await OrderShipment.create({ 
+            name_claimant,
+            cedula_claimant,
+            cellphone_claimant,
+            name_transmiter,
+            celphone_transmiter,
+            city_transmiter,
+            address_transmiter,
+            name_receiver,
+            celphone_receiver,
+            city_receiver,
+            address_receiver,
+            weight,
+            declared_value,
+            product_image,
+            pay_method
+        });
         return newShipment;
     } catch (error) {
         throw new Error('Error create shipment: ' + error.message);
