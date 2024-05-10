@@ -2,7 +2,7 @@ import { DataTypes, UUIDV4 } from "sequelize";
 
 export default (sequelize) => {
   sequelize.define(
-    "Driver",
+    "Enlistment",
     {
       id: {
         type: DataTypes.UUID,
@@ -10,30 +10,48 @@ export default (sequelize) => {
         primaryKey: true,
         unique: true,
       },
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          isEmail: true,
-        },
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      debit: {
+
+      guide_number: {
         type: DataTypes.BIGINT,
-        allowNull: true,
+        allowNull: false,
+        unique: true,
       },
-      antiquity: {
+
+      state: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      user_type: {
+
+      distance: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+
+      delivery_time: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+
+      order_time: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+
+      price_order: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+
+      qualify_user: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+
+      qualify: {
+        type: DataTypes.ENUM("1", "2", "3", "4", "5"),
+      },
+
+      comment: {
         type: DataTypes.STRING,
         allowNull: true,
       },

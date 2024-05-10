@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 
 export default (sequelize) => {
   sequelize.define(
-    "Admin",
+    "TypeShipment",
     {
       id: {
         // type: DataTypes.UUID,
@@ -12,7 +12,17 @@ export default (sequelize) => {
         primaryKey: true,
         unique: true,
       },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        description: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+
     },
     { timestamps: false }
   );
 };
+
