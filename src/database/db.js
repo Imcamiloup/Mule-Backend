@@ -11,6 +11,7 @@ import VehicleModel from "../models/Vehicle.js";
 import EnlistmentModel from "../models/Enlistment.js";
 import OrderShipmentModel from "../models/OrderShipment.js";
 import TypeShipmentModel from "../models/TypeShipment.js";
+import MeasureModel from "../models/Measure.js";
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DATABASE_NAME}`,
@@ -26,8 +27,9 @@ VehicleModel(sequelize);
 EnlistmentModel(sequelize);
 OrderShipmentModel(sequelize);
 TypeShipmentModel(sequelize);
+MeasureModel(sequelize);
 
-const { User, Admin, Client, Driver, Freigth, Vehicle, Enlistment ,OrderShipment, TypeShipment  } =
+const { User, Admin, Client, Driver, Freigth, Vehicle, Enlistment ,OrderShipment, TypeShipment, Measure } =
   sequelize.models;
 
   
@@ -57,6 +59,7 @@ export {
   Enlistment,
   OrderShipment,
   TypeShipment,
+  Measure
 };
 
 export default sequelize;
