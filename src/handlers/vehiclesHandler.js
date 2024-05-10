@@ -130,7 +130,7 @@ export const updateVehicleHandler = async (req, res) => {
         "Number of characters in the car plate must be between 5 and 8"
       );
 
-    const updatedVehicle = await updateVehicle(
+    await updateVehicle(
       id,
       model.toUpperCase().trim(),
       state.toLowerCase().trim(),

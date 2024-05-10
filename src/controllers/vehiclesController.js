@@ -1,4 +1,3 @@
-import { query } from "express";
 import { Vehicle } from "../database/db.js";
 
 export const createVehicle = async (

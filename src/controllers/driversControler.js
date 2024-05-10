@@ -1,14 +1,20 @@
-import { Driver, Enlistment } from "../database/db.js";
-
+import { Driver, Enlistment, OrderShipment } from "../database/db.js";
 
 const getAllDriversController = async () => {
   try {
     const drivers = await Driver.findAll({
-      include: {
-        model: Enlistment,
-        attributes: ["id"],
-        through: { attributes: [] },
-      },
+      include: [
+        {
+          model: Driver,
+          attributes: ["id"],
+          through: { attributes: [] },
+        },
+        {
+          model: OrderShipment,
+          attributes: ["id"],
+          through: { attributes: [] },
+        },
+      ],
     });
     return drivers;
   } catch (error) {
@@ -35,27 +41,27 @@ const getDriverbyNameController = async (name) => {
 };
 
 const getOrderByDriversController = async () => {
-    const drivers = await Driver.findAll({
-        include: {
-            model: Enlistment,
-            attributes: ["id"],
-            through: { attributes: [] },
-        },
-    });
-    return drivers;
-}
+  const drivers = await Driver.findAll({
+    include: {
+      model: Enlistment,
+      attributes: ["id"],
+      through: { attributes: [] },
+    },
+  });
+  return drivers;
+};
 
 const getFilteredByDriversController = async (filter) => {
-    const drivers = await Driver.findAll({
-        include: {
-            model: Enlistment,
-            attributes: ["id"],
-            through: { attributes: [] },
-        },
-        where: filter
-    });
-    return drivers;
-}
+  const drivers = await Driver.findAll({
+    include: {
+      model: Enlistment,
+      attributes: ["id"],
+      through: { attributes: [] },
+    },
+    where: filter,
+  });
+  return drivers;
+};
 
 const createDriverController = async ({
   name,

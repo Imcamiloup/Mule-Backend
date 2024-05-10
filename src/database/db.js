@@ -19,7 +19,6 @@ UserModel(sequelize);
 AdminModel(sequelize);
 DriverModel(sequelize);
 VehicleModel(sequelize);
-OdershipmentModel(sequelize);
 EnlistmentModel(sequelize);
 OrderShipmentModel(sequelize);
 TypeShipmentModel(sequelize);
@@ -41,17 +40,14 @@ Driver.belongsTo(Vehicle, { foreignKey: "vehicle_id" });
 Driver.belongsToMany(Enlistment, { through: "enlistment_driver" });
 Enlistment.belongsToMany(Driver, { through: "enlistment_driver" });
 
-export { User, Admin, Driver, OrderShipment, Vehicle, Enlistment };
-Vehicle.belongsToMany(Enlistment, { through: "enlistment_vehicle" });
-Enlistment.belongsToMany(Vehicle, { through: "enlistment_vehicle" });
-
 TypeShipment.hasMany(OrderShipment, {
   as: "typeShipment",
   foreignKey: "typeShipmentId",
 });
-OrderShipment.belongsTo(TypeShipment);
+OrderShipment.belongsTo(TypeShipment, { foreignKey: "typeShipmentId" });
 
-
+OrderShipment.hasOne(Enlistment, { foreignKey: "ordershipment_id" });
+Enlistment.belongsTo(OrderShipment, { foreignKey: "ordershipment_id" });
 
 export {
   User,
