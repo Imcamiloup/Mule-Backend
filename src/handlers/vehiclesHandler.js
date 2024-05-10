@@ -61,6 +61,8 @@ export const getVehiclesHandler = async (req, res) => {
       tecnical_review,
       driving_licence,
       cargo_manifest,
+      orderBy,
+      orderDirection,
     } = req.query;
 
     try {
@@ -71,7 +73,9 @@ export const getVehiclesHandler = async (req, res) => {
         plate,
         tecnical_review,
         driving_licence,
-        cargo_manifest
+        cargo_manifest,
+        orderBy,
+        orderDirection
       );
 
       res.status(200).json(vehicles);

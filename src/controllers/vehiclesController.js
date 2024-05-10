@@ -39,7 +39,9 @@ export const getVehiclesByQuery = async (
   plate,
   tecnical_review,
   driving_licence,
-  cargo_manifest
+  cargo_manifest,
+  orderBy,
+  orderDirection
 ) => {
   let where = {};
   if (model) where = { ...where, model };
@@ -49,11 +51,14 @@ export const getVehiclesByQuery = async (
   if (tecnical_review) where = { ...where, tecnical_review };
   if (driving_licence) where = { ...where, driving_licence };
   if (cargo_manifest) where = { ...where, cargo_manifest };
+  let order = [];
+  if (orderBy && orderDirection) order = [[orderBy, orderDirection]];
 
   console.log(where);
 
   const vehicles = await Vehicle.findAll({
     where,
+    order,
   });
 
   if (vehicles.length === 0) throw Error("Vehicles not found");

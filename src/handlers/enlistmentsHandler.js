@@ -1,7 +1,6 @@
 import {
   createEnlistment,
   getEnlistments,
-  getEnlistmentsByQuery,
   getEnlistmentById,
   updateEnlistment,
   deleteEnlistment,
@@ -23,16 +22,16 @@ export const createEnlistmentHandler = async (req, res) => {
 
   try {
     const newEnlistment = await createEnlistment(
-      state,
-      distance,
-      delivery_time,
-      order_time,
+      state.toLowerCase().trim(),
+      distance.toLowerCase().trim(),
+      delivery_time.toLowerCase().trim(),
+      order_time.toLowerCase().trim(),
       price_order,
-      qualify_user,
-      qualify,
-      comment,
-      ordershipment_id,
-      driver_id
+      qualify_user.toLowerCase().trim(),
+      qualify.toLowerCase().trim(),
+      comment.toLowerCase(),
+      ordershipment_id === null ? null : ordershipment_id.trim(),
+      driver_id.trim()
     );
 
     res.status(200).json({ newEnlistment });
@@ -42,10 +41,55 @@ export const createEnlistmentHandler = async (req, res) => {
 };
 
 export const getEnlistmentsHandler = async (req, res) => {
-  try {
-    const enlistments = getEnlistments();
+  const {
+    guide_number,
+    state,
+    distance,
+    delivery_time,
+    order_time,
+    price_order,
+    qualify_user,
+    qualify,
+    comment,
+    ordershipment_id,
+    orderBy,
+    orderDirection,
+  } = req.query;
 
-    res.status(200).json(enlistments);
+  try {
+    const enlistments = await getEnlistments(
+      guide_number,
+      state,
+      distance,
+      delivery_time,
+      order_time,
+      price_order,
+      qualify_user,
+      qualify,
+      comment,
+      ordershipment_id,
+      orderBy,
+      orderDirection
+    );
+
+    const enlistmentMaped = enlistments.map((elem) => {
+      return {
+        id: elem.id,
+        guide_number: elem.guide_number,
+        state: elem.state,
+        distance: elem.distance,
+        delivery_time: elem.delivery_time,
+        order_time: elem.order_time,
+        price_order: elem.price_order,
+        qualify_user: elem.qualify_user,
+        qualify: elem.qualify,
+        comment: elem.comment,
+        ordershipment_id: elem.ordershipment_id,
+        drivers: elem.Drivers.map((elem) => elem.id),
+      };
+    });
+
+    res.status(200).json(enlistmentMaped);
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
@@ -65,64 +109,43 @@ export const getEnlistmentByIdHandler = async (req, res) => {
 };
 export const updateEnlistmentHandler = async (req, res) => {
   const { id } = req.params;
-  const { shipping_date, sender, origin, destiny, status, service_type } =
-    req.body;
+  const {
+    state,
+    distance,
+    delivery_time,
+    order_time,
+    price_order,
+    qualify_user,
+    qualify,
+    comment,
+    ordershipment_id,
+  } = req.body;
+
   try {
-    const validateShipping_date = /^\d{4}-\d{2}-\d{2}$/.test(shipping_date);
-
-    let senderFixed;
-    let senderSplit = sender.split(" ");
-
-    for (let i = 0; i < senderSplit.length; i++) {
-      senderSplit[i] =
-        senderSplit[i].charAt(0).toUpperCase() +
-        senderSplit[i].slice(1).toLowerCase();
-
-      senderFixed = senderSplit.join(" ");
-    }
-
-    const originLowerCase = origin.toLowerCase();
-    const destinyLowerCase = destiny.toLowerCase();
-    const statusLowerCase = status.toLowerCase();
-    const service_typeLowerCase = service_type.toLowerCase();
-
-    if (!validateShipping_date)
-      throw Error("Shipping date must be in this format: YYYY-MM-DD");
-
-    if (senderFixed.length < 3 || senderFixed.length > 30)
-      throw Error("Characters of sender must be between 3 and 30");
-
-    if (originLowerCase.length < 3 || originLowerCase.length > 30)
-      throw Error("Characters of origin must be between 3 and 30");
-
-    if (destinyLowerCase.length < 3 || destinyLowerCase.length > 30)
-      throw Error("Characters of destiny must be between 3 and 30");
-
-    if (statusLowerCase.length < 3 || statusLowerCase.length > 30)
-      throw Error("Characters of status must be between 3 and 30");
-
-    if (service_typeLowerCase.length < 3 || service_typeLowerCase.length > 30)
-      throw Error("Characters of service type must be between 3 and 30");
-
     await updateEnlistment(
       id,
-      shipping_date,
-      senderFixed.trim(),
-      originLowerCase.trim(),
-      destinyLowerCase.trim(),
-      statusLowerCase.trim(),
-      service_typeLowerCase.trim()
+      state.toLowerCase().trim(),
+      distance.toLowerCase().trim(),
+      delivery_time.toLowerCase().trim(),
+      order_time.toLowerCase().trim(),
+      price_order.trim(),
+      qualify_user.toLowerCase().trim(),
+      qualify.toLowerCase().trim(),
+      comment.toLowerCase().trim(),
+      ordershipment_id === null ? null : ordershipment_id.trim()
     );
-
     res.status(200).json({
-      "Enlistment updated": {
+      "Updated Enlistment": {
         id,
-        shipping_date: shipping_date,
-        sender: senderFixed.trim(),
-        origin: originLowerCase.trim(),
-        destiny: destinyLowerCase.trim(),
-        status: statusLowerCase.trim(),
-        service_type: service_typeLowerCase.trim(),
+        state: state.toLowerCase(),
+        distance: distance.toLowerCase(),
+        delivery_time: delivery_time.toLowerCase(),
+        order_time: order_time.toLowerCase(),
+        price_order,
+        qualify_user: qualify_user.toLowerCase(),
+        qualify: qualify.toLowerCase(),
+        comment: comment.toLowerCase(),
+        ordershipment_id: ordershipment_id,
       },
     });
   } catch (error) {
