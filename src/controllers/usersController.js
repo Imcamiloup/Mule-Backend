@@ -1,14 +1,14 @@
-import { User } from "../database/db.js"; 
+import { User } from "../database/db.js";
 
 const getAllUsersController = async () => {
-    // Logic to get all users
+  // Logic to get all users
   try {
     const users = await User.findAll({where: { isActive: true }});
     return users;
- }catch (error) {
-  throw new Error("Error get users: " + error.message);
+  } catch (error) {
+    throw new Error("Error get users: " + error.message);
   }
-}
+};
 
 const getUserByIdController = async (id, userRole) => {
   try {
@@ -28,7 +28,7 @@ const getUserByIdController = async (id, userRole) => {
   } catch (error) {
     throw new Error("Error al obtener el usuario por ID: " + error.message);
   }
-}
+};
 
 
 const createUserController = async (name, email, password, cedula, cel_Phone_Number, fee_Category_Percentage, category, age, role, isActive) => {
@@ -67,7 +67,7 @@ const updateUserController = async (id, updatedFields) => {
       // Manejar errores
       throw new Error("Error updating user: " + error.message);
   }
-}
+};
 
 const deleteUserController = async (id) => {
   try {
@@ -80,14 +80,12 @@ const deleteUserController = async (id) => {
   } catch (error) {
     throw new Error("Error delete user: " + error.message);
   }
-}
-
-export { 
-  getAllUsersController, 
-  getUserByIdController, 
-  createUserController, 
-  updateUserController,
-  deleteUserController
 };
 
-
+export {
+  getAllUsersController,
+  getUserByIdController,
+  createUserController,
+  updateUserController,
+  deleteUserController,
+};

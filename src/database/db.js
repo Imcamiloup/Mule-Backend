@@ -4,11 +4,12 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DATABASE_NAME } = process.env;
 
 import UserModel from "../models/User.js";
 import AdminModel from "../models/Admin.js";
-import ClientModel from "../models/Client.js";
 import DriverModel from "../models/Driver.js";
-import FreigthModel from "../models/Freigth.js";
 import VehicleModel from "../models/Vehicle.js";
 import EnlistmentModel from "../models/Enlistment.js";
+import OrderShipmentModel from "../models/OrderShipment.js";
+import TypeShipmentModel from "../models/TypeShipment.js";
+import MeasureModel from "../models/Measure.js";
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DATABASE_NAME}`,
@@ -17,39 +18,48 @@ const sequelize = new Sequelize(
 
 UserModel(sequelize);
 AdminModel(sequelize);
-ClientModel(sequelize);
 DriverModel(sequelize);
-FreigthModel(sequelize);
 VehicleModel(sequelize);
 EnlistmentModel(sequelize);
+OrderShipmentModel(sequelize);
+TypeShipmentModel(sequelize);
+MeasureModel(sequelize);
 
-const { User, Admin, Client, Driver, Freigth, Vehicle, Enlistment } =
-  sequelize.models;
+const {
+  User,
+  Admin,
+  Driver,
+  Vehicle,
+  Enlistment,
+  OrderShipment,
+  TypeShipment,
+  Measure,
+} = sequelize.models;
 
-  // User.hasMany(Enlistment);
-  // Enlistment.belongsTo(User);
-
-
-Client.belongsToMany(Enlistment, { through: "enlistment_client" });
-Enlistment.belongsToMany(Client, { through: "enlistment_client" });
+Vehicle.hasOne(Driver, { foreignKey: "vehicle_id" });
+Driver.belongsTo(Vehicle, { foreignKey: "vehicle_id" });
 
 Driver.belongsToMany(Enlistment, { through: "enlistment_driver" });
 Enlistment.belongsToMany(Driver, { through: "enlistment_driver" });
 
-Vehicle.belongsToMany(Enlistment, { through: "enlistment_vehicle" });
-Enlistment.belongsToMany(Vehicle, { through: "enlistment_vehicle" });
+TypeShipment.hasMany(OrderShipment, {
+  as: "typeShipment",
+  foreignKey: "typeShipmentId",
+});
+OrderShipment.belongsTo(TypeShipment, { foreignKey: "typeShipmentId" });
 
-// Freigth.belongsToMany(Enlistment, { through: "enlistment_freigth" });
-// Enlistment.belongsToMany(Freigth, { through: "enlistment_freigth" });
+OrderShipment.hasOne(Enlistment, { foreignKey: "ordershipment_id" });
+Enlistment.belongsTo(OrderShipment, { foreignKey: "ordershipment_id" });
 
 export {
   User,
   Admin,
-  Client,
   Driver,
-  //  Freigth,
   Vehicle,
   Enlistment,
+  OrderShipment,
+  TypeShipment,
+  Measure,
 };
 
 export default sequelize;
