@@ -36,8 +36,8 @@ const {
   Measure,
 } = sequelize.models;
 
-User.hasMany(OrderShipment,{foreignKey:"user_id"});
-OrderShipment.belongsTo(User,{foreignKey:"user_id"});
+User.hasMany(OrderShipment, { foreignKey: "user_id" });
+OrderShipment.belongsTo(User, { foreignKey: "user_id" });
 
 Vehicle.hasOne(Driver, { foreignKey: "vehicle_id" });
 Driver.belongsTo(Vehicle, { foreignKey: "vehicle_id" });
@@ -50,6 +50,9 @@ TypeShipment.hasMany(OrderShipment, {
   foreignKey: "typeShipmentId",
 });
 OrderShipment.belongsTo(TypeShipment, { foreignKey: "typeShipmentId" });
+
+Measure.hasMany(OrderShipment, { foreignKey: "measureId" });
+OrderShipment.belongsTo(Measure, { foreignKey: "measureId" });
 
 OrderShipment.hasOne(Enlistment, { foreignKey: "ordershipment_id" });
 Enlistment.belongsTo(OrderShipment, { foreignKey: "ordershipment_id" });

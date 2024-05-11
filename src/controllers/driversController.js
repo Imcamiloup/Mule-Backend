@@ -1,5 +1,5 @@
 // Importa los modelos y las funciones de validación necesarias
-import { Driver } from "../database/db.js";
+import { Driver, Enlistment } from "../database/db.js";
 
 // Función para validar un UUID
 const isValidUUID = (id) => {
@@ -59,8 +59,17 @@ const createDriverController = async ({
   debit,
   antiquity,
   user_type,
+  vehicle_id,
 }) => {
-  if (!name || !email || !password || !debit || !antiquity || !user_type) {
+  if (
+    !name ||
+    !email ||
+    !password ||
+    !debit ||
+    !antiquity ||
+    !user_type ||
+    !vehicle_id
+  ) {
     throw new Error("Missing required fields");
   }
 
@@ -82,6 +91,7 @@ const createDriverController = async ({
     debit: debit,
     antiquity: antiquity,
     user_type: user_type,
+    vehicle_id: vehicle_id,
   });
 };
 

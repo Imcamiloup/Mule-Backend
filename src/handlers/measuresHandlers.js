@@ -6,7 +6,7 @@ import {
   updateMeasureController,
   deleteMeasureController,
 } from "../controllers/measuresController.js";
-import FilteredAndOrderedData from "../utils/helpers/filteredAndOrderedData.js";
+import FilteredAndOrderedData from "../utils/helperFilteredAndSorted/filteredAndOrderedData.js";
 
 const getAllMeasuresHandler = async (req, res) => {
   const { name, orderBy, orderDirection } = req.query;
@@ -14,7 +14,12 @@ const getAllMeasuresHandler = async (req, res) => {
   try {
     let measures;
     if (name || orderBy || orderDirection) {
-      measures = await FilteredAndOrderedData(Measure, { name }, orderBy, orderDirection);
+      measures = await FilteredAndOrderedData(
+        Measure,
+        { name },
+        orderBy,
+        orderDirection
+      );
     } else {
       measures = await getAllMeasuresController();
     }
@@ -36,16 +41,16 @@ const getMeasureByIdHandler = async (req, res) => {
 
 const postMeasureHandler = async (req, res) => {
   try {
-    const { name, value, unit } = req.body;
+    const { name, value, picture } = req.body;
 
-    if (!name || !value || !unit) {
+    if (!name || !value || !picture) {
       throw new Error("Missing data");
     }
 
     const newMeasure = await createMeasureController({
       name,
       value,
-      unit,
+      picture,
     });
 
     res.status(200).send(newMeasure);
@@ -57,11 +62,11 @@ const postMeasureHandler = async (req, res) => {
 const updateMeasureHandler = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, value, unit } = req.body;
+    const { name, value, picture } = req.body;
     const measureModified = await updateMeasureController(id, {
       name,
       value,
-      unit,
+      picture,
     });
     res.status(200).send(measureModified);
   } catch (error) {
