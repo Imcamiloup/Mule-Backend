@@ -1,46 +1,62 @@
-import { DataTypes, UUIDV4 } from "sequelize";
+import { DataTypes } from "sequelize";
 
 export default (sequelize) => {
   sequelize.define(
     "Measure",
     {
       id: {
-        type: DataTypes.UUID,
-        defaultValue: UUIDV4,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
         unique: true,
       },
-      length: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-      },
-      width: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-      },
-      height: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-      },
-      weight: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-      },
-      unit: {
+
+      name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
-      createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: ()=> new Date()
+
+      value: {
+        type: DataTypes.FLOAT,
+        allowNull: true,
       },
-      updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: ()=> new Date()
+
+      picture: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
+
+      // length: {
+      //   type: DataTypes.FLOAT,
+      //   allowNull: false,
+      // },
+      // width: {
+      //   type: DataTypes.FLOAT,
+      //   allowNull: false,
+      // },
+      // height: {
+      //   type: DataTypes.FLOAT,
+      //   allowNull: false,
+      // },
+      // weight: {
+      //   type: DataTypes.FLOAT,
+      //   allowNull: false,
+      // },
+      // unit: {
+      //   type: DataTypes.STRING,
+      //   allowNull: false,
+      // },
+      // createdAt: {
+      //   type: DataTypes.DATE,
+      //   allowNull: false,
+      //   defaultValue: () => new Date(),
+      // },
+      // updatedAt: {
+      //   type: DataTypes.DATE,
+      //   allowNull: false,
+      //   defaultValue: () => new Date(),
+      // },
     },
-    { timestamps: true }
+    { timestamps: false }
   );
 };

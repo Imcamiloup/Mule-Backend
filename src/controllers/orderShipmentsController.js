@@ -1,4 +1,4 @@
-import { OrderShipment, TypeShipment } from "../database/db.js";
+import { OrderShipment, TypeShipment, Measure, User } from "../database/db.js";
 
 const getAllOrderShipmentsController = async () => {
   try {
@@ -34,11 +34,19 @@ const createOrderShipmentController = async (
   declared_value,
   product_image,
   pay_method,
-  type_shipment_id
+  typeShipmentId,
+  measureId,
+  user_id
 ) => {
   try {
-    const typeShipment = await TypeShipment.findByPk(type_shipment_id);
+    const typeShipment = await TypeShipment.findByPk(typeShipmentId);
     if (!typeShipment) throw new Error("Type shipment not found");
+
+    const measureType = await Measure.findByPk(measureId);
+    if (!measureType) throw new Error("Measure type not found");
+
+    const userId = await User.findByPk(user_id);
+    if (!userId) throw new Error("User not Found");
 
     const newOrderShipment = await OrderShipment.create({
       name_claimant,
@@ -56,7 +64,9 @@ const createOrderShipmentController = async (
       declared_value,
       product_image,
       pay_method,
-      type_shipment_id,
+      typeShipmentId,
+      measureId,
+      user_id,
     });
 
     return newOrderShipment;
