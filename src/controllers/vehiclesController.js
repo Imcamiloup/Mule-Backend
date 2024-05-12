@@ -54,8 +54,6 @@ export const getVehiclesByQuery = async (
   let order = [];
   if (orderBy && orderDirection) order = [[orderBy, orderDirection]];
 
-  console.log(where);
-
   const vehicles = await Vehicle.findAll({
     where,
     order,
