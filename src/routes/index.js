@@ -20,10 +20,8 @@ router.use("/users", usersRouter);
 router.use("/vehicles", vehiclesRouter);
 router.use("/drivers", driversRouter);
 router.use("/enlistments", enlistmentsRouter);
-router.use("/order_shipments", orderShipmentsRouter)
-router.use("/type_shipments", TypeShipmentsRouter)
-router.use("/measures", measureRouter)
-
-
+router.use("/order_shipments", orderShipmentsRouter);
+router.use("/type_shipments", TypeShipmentsRouter);
+router.use("/measures", measureRouter);
 
 export default router;

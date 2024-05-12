@@ -18,26 +18,19 @@ const getMeasureByIdController = async (id) => {
   }
 };
 
-const createMeasureController = async ({
-  name,
-  value,
-  unit,
-}) => {
+const createMeasureController = async ({ name, value, picture }) => {
   return await Measure.create({
     name: name,
     value: value,
-    unit: unit,
+    picture: picture,
   });
 };
 
-const updateMeasureController = async (
-  id,
-  { name, value, unit }
-) => {
+const updateMeasureController = async (id, { name, value, picture }) => {
   const measure = await getMeasureByIdController(id);
   measure.name = name;
   measure.value = value;
-  measure.unit = unit;
+  measure.picture = picture;
   await measure.save();
   return measure;
 };

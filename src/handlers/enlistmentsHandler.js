@@ -30,7 +30,7 @@ export const createEnlistmentHandler = async (req, res) => {
       qualify_user.toLowerCase().trim(),
       qualify.toLowerCase().trim(),
       comment.toLowerCase(),
-      ordershipment_id === null ? null : ordershipment_id.trim(),
+      ordershipment_id,
       driver_id.trim()
     );
 
@@ -132,7 +132,7 @@ export const updateEnlistmentHandler = async (req, res) => {
       qualify_user.toLowerCase().trim(),
       qualify.toLowerCase().trim(),
       comment.toLowerCase().trim(),
-      ordershipment_id === null ? null : ordershipment_id.trim()
+      ordershipment_id
     );
     res.status(200).json({
       "Updated Enlistment": {
