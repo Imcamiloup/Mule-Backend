@@ -1,5 +1,5 @@
-import { DataTypes } from "sequelize";
-import { v4 as uuidv4 } from "uuid"; // Importar v4 como uuidv4
+import { DataTypes, UUIDV4 } from "sequelize";
+
 
 export default (sequelize) => {
   sequelize.define(
@@ -7,9 +7,9 @@ export default (sequelize) => {
     {
       id: {
         type: DataTypes.UUID,
+        defaultValue: UUIDV4,
         primaryKey: true,
         unique: true,
-        defaultValue: () => uuidv4(),
       },
       name: {
         type: DataTypes.STRING,
