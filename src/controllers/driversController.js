@@ -58,7 +58,7 @@ const createDriverController = async ({
   password,
   debit,
   antiquity,
-  user_type,
+  status,
   vehicle_id,
 }) => {
   if (
@@ -67,7 +67,7 @@ const createDriverController = async ({
     !password ||
     !debit ||
     !antiquity ||
-    !user_type ||
+    !status ||
     !vehicle_id
   ) {
     throw new Error("Missing required fields");
@@ -90,7 +90,7 @@ const createDriverController = async ({
     password: password,
     debit: debit,
     antiquity: antiquity,
-    user_type: user_type,
+    status: status,
     vehicle_id: vehicle_id,
   });
 };
@@ -98,7 +98,7 @@ const createDriverController = async ({
 // Controlador para actualizar un conductor
 const updateDriverController = async (
   id,
-  { name, email, password, debit, antiquity, User_Type }
+  { name, email, password, debit, antiquity, status }
 ) => {
   if (!id) {
     throw new Error("Missing driver ID");
@@ -115,7 +115,7 @@ const updateDriverController = async (
   }
 
   // Validar que al menos uno de los campos a actualizar sea proporcionado
-  if (!name && !email && !password && !debit && !antiquity && !User_Type) {
+  if (!name && !email && !password && !debit && !antiquity && !status) {
     throw new Error("At least one field must be provided for update");
   }
 
@@ -129,7 +129,7 @@ const updateDriverController = async (
   if (password) driver.password = password;
   if (debit) driver.debit = debit;
   if (antiquity) driver.antiquity = antiquity;
-  if (User_Type) driver.User_Type = User_Type;
+  if (status) driver.status = status;
 
   // Guardar los cambios
   await driver.save();

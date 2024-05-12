@@ -13,10 +13,15 @@ export default (sequelize) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          is: /^(?!\s)(?!.*\s$)[A-Za-z\s]{8,35}$/i
+
+        }
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
           isEmail: true,
         },
@@ -28,13 +33,17 @@ export default (sequelize) => {
       debit: {
         type: DataTypes.BIGINT,
         allowNull: true,
+        validate: {
+          isNumeric: true,
+          len:[16, 24]
+        },
       },
       antiquity: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      user_type: {
-        type: DataTypes.STRING,
+      status: {
+        type: DataTypes.ENUM("available", "on assignment","on Route" ),
         allowNull: true,
       },
     },
