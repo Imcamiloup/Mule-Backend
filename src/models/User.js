@@ -94,7 +94,7 @@ export default (sequelize) => {
       },
       isActive: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: "true",
         allowNull: false,
       },
     },
