@@ -1,18 +1,20 @@
 // Importa los modelos y las funciones de validación necesarias
 import { Driver, Enlistment } from "../database/db.js";
 
-// Función para validar un UUID
-const isValidUUID = (id) => {
-  const uuidRegex =
-    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-  return uuidRegex.test(id);
-};
+import { isValidEmail, isValidPassword, isValidDebit, isValidAntiquity, isValidStatus, isValidVehicleId } from '../utils/Validate/ValidateDriver/ValidateDriver.js';
 
-// Función para validar un correo electrónico
-const isValidEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
+// // Función para validar un UUID
+// const isValidUUID = (id) => {
+//   const uuidRegex =
+//     /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+//   return uuidRegex.test(id);
+// };
+
+// // Función para validar un correo electrónico
+// const isValidEmail = (email) => {
+//   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//   return emailRegex.test(email);
+// };
 
 // Controlador para obtener todos los conductores
 const getAllDriversController = async () => {
@@ -51,6 +53,7 @@ const getDriverByIdController = async (id) => {
   }
 };
 
+
 // Controlador para crear un nuevo conductor
 const createDriverController = async ({
   name,
@@ -81,6 +84,26 @@ const createDriverController = async ({
   const existingDriver = await Driver.findOne({ where: { email } });
   if (existingDriver) {
     throw new Error("Email is already in use");
+  }
+
+  if (!isValidPassword(password)) {
+    throw new Error("Invalid password format");
+  }
+
+  if (!isValidDebit(debit)) {
+    throw new Error("Invalid debit format");
+  }
+
+  if (!isValidAntiquity(antiquity)) {
+    throw new Error("Invalid antiquity format");
+  }
+
+  if (!isValidStatus(status)) {
+    throw new Error("Invalid status format");
+  }
+
+  if (!isValidVehicleId(vehicle_id)) {
+    throw new Error("Invalid vehicle ID format");
   }
 
   // Crear el conductor
@@ -123,6 +146,23 @@ const updateDriverController = async (
     throw new Error("Invalid email format");
   }
 
+  // Si el password está siendo actualizado, validar su formato
+  if (password && !isValidPassword(password)) {
+    throw new Error("Invalid password format");
+  }
+
+  if (debit && !isValidDebit(debit)) {
+    throw new Error("Invalid debit format");
+  }
+
+  if (antiquity && !isValidAntiquity(antiquity)) {
+    throw new Error("Invalid antiquity format");
+  }
+
+  if (status && !isValidStatus(status)) {
+    throw new Error("Invalid status format");
+  }
+
   // Actualizar los campos proporcionados
   if (name) driver.name = name;
   if (email) driver.email = email;
@@ -135,6 +175,7 @@ const updateDriverController = async (
   await driver.save();
   return driver;
 };
+
 
 // Controlador para eliminar un conductor
 const deleteDriverController = async (id) => {

@@ -31,10 +31,9 @@ export default (sequelize) => {
         allowNull: true,
       },
       debit: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.STRING,
         allowNull: true,
         validate: {
-          isNumeric: true,
           len:[16, 24]
         },
       },
