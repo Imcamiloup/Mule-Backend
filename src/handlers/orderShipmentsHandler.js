@@ -7,11 +7,29 @@ import {
 } from "../controllers/orderShipmentsController.js";
 
 const getAllOrderShipmentsHandler = async (req, res) => {
+  const {
+    city_transmiter,
+    pay_method,
+    typeShipmentId,
+    city_receiver,
+    declared_value,
+    orderBy,
+    orderDirection,
+  } = req.query;
+
   try {
-    const shipments = await getAllOrderShipmentsController();
-    res.status(200).send(shipments);
+    const shipments = await getAllOrderShipmentsController(
+      city_transmiter,
+      pay_method,
+      typeShipmentId,
+      city_receiver,
+      declared_value,
+      orderBy,
+      orderDirection
+    );
+    res.status(200).json(shipments);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
