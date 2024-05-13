@@ -34,6 +34,7 @@ const createUserHandler = async (req, res) => {
     const {
       name,
       email,
+      emailVerified,
       password,
       cedula,
       cel_Phone_Number,
@@ -46,18 +47,22 @@ const createUserHandler = async (req, res) => {
     if (
       !name ||
       !email ||
+      !emailVerified ||
       !password ||
       !cedula ||
       !cel_Phone_Number ||
       !fee_Category_Percentage ||
+      !category ||
       !age ||
-      role === undefined
+      !role ||
+      !isActive
     ) {
       throw new Error("Missing fields");
     }
     const newUser = await createUserController(
       name,
       email,
+      emailVerified,
       password,
       cedula,
       cel_Phone_Number,
