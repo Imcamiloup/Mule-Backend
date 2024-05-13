@@ -1,8 +1,34 @@
 import { OrderShipment, TypeShipment, Measure, User } from "../database/db.js";
 
-const getAllOrderShipmentsController = async () => {
+const getAllOrderShipmentsController = async (
+  city_transmiter,
+  pay_method,
+  typeShipmentId,
+  city_receiver,
+  declared_value,
+  orderBy,
+  orderDirection
+) => {
+  let where = {};
+
+  if (city_transmiter) where = { ...where, city_transmiter };
+  if (pay_method) where = { ...where, pay_method };
+  if (typeShipmentId) where = { ...where, typeShipmentId };
+  if (city_receiver) where = { ...where, city_receiver };
+  if (declared_value) where = { ...where, declared_value };
+  let order = [];
+  if (orderBy && orderDirection) order = [[orderBy, orderDirection]];
+
+  console.log(where);
+
   try {
-    const shipments = await OrderShipment.findAll();
+    const shipments = await OrderShipment.findAll({
+      where,
+      order,
+    });
+
+    if (shipments.length === 0) throw Error("Shipments not found");
+
     return shipments;
   } catch (error) {
     throw new Error("Error get shipments: " + error.message);
