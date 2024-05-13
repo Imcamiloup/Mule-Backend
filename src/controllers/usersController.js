@@ -31,10 +31,10 @@ const getUserByIdController = async (id, userRole) => {
 };
 
 
-const createUserController = async (name, email, password, cedula, cel_Phone_Number, fee_Category_Percentage, category, age, role, isActive) => {
+const createUserController = async (name, email, emailVerified, password, cedula, cel_Phone_Number, fee_Category_Percentage, category, age, role, isActive) => {
 
   try {
-    const newUser = await User.create({ name, email, password, cedula, cel_Phone_Number, fee_Category_Percentage, category, age, role, isActive });
+    const newUser = await User.create({ name, email, emailVerified, password, cedula, cel_Phone_Number, fee_Category_Percentage, category, age, role, isActive });
     return newUser;
   } catch (error) {
     throw new Error("Error creating user: " + error.message);
