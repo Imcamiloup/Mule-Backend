@@ -3,7 +3,7 @@ import { User } from "../database/db.js";
 const getAllUsersController = async () => {
   // Logic to get all users
   try {
-    const users = await User.findAll({where: { isActive: true }});
+    const users = await User.findAll({ where: { isActive: true } });
     return users;
   } catch (error) {
     throw new Error("Error get users: " + error.message);
@@ -21,7 +21,7 @@ const getUserByIdController = async (id, userRole) => {
     //   return user;
     // } else {
     //   // Si el rol del usuario no es admin, devolver solo ciertos campos
-    //   const { id, name, email } = user; 
+    //   const { id, name, email } = user;
     //   return { id, name, email };
     // }
     return user;
@@ -29,6 +29,7 @@ const getUserByIdController = async (id, userRole) => {
     throw new Error("Error al obtener el usuario por ID: " + error.message);
   }
 };
+
 
 
 const createUserController = async (name, email, emailVerified, password, cedula, cel_Phone_Number, fee_Category_Percentage, category, age, role, isActive,photo) => {
@@ -39,33 +40,33 @@ const createUserController = async (name, email, emailVerified, password, cedula
   } catch (error) {
     throw new Error("Error creating user: " + error.message);
   }
-}
+};
 
 const updateUserController = async (id, updatedFields) => {
   try {
-      // Buscar el usuario por su ID
-      const user = await User.findByPk(id);
+    // Buscar el usuario por su ID
+    const user = await User.findByPk(id);
 
-      // Verificar si el usuario existe
-      if (!user) {
-          throw new Error("User not found");
+    // Verificar si el usuario existe
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Actualizar los datos del usuario
+    for (const key in updatedFields) {
+      if (updatedFields.hasOwnProperty(key)) {
+        user[key] = updatedFields[key];
       }
+    }
 
-      // Actualizar los datos del usuario
-      for (const key in updatedFields) {
-          if (updatedFields.hasOwnProperty(key)) {
-              user[key] = updatedFields[key];
-          }
-      }
+    // Guardar los cambios en la base de datos
+    await user.save();
 
-      // Guardar los cambios en la base de datos
-      await user.save();
-
-      // Devolver el usuario actualizado
-      return user;
+    // Devolver el usuario actualizado
+    return user;
   } catch (error) {
-      // Manejar errores
-      throw new Error("Error updating user: " + error.message);
+    // Manejar errores
+    throw new Error("Error updating user: " + error.message);
   }
 };
 
@@ -76,7 +77,7 @@ const deleteUserController = async (id) => {
     if (!user) throw new Error("User not found");
     user.isActive = false;
     await user.save();
-    return "User deleted successfully"
+    return "User deleted successfully";
   } catch (error) {
     throw new Error("Error delete user: " + error.message);
   }

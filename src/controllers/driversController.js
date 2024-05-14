@@ -1,7 +1,14 @@
 // Importa los modelos y las funciones de validación necesarias
 import { Driver, Enlistment } from "../database/db.js";
 
-import { isValidEmail, isValidPassword, isValidDebit, isValidAntiquity, isValidStatus, isValidVehicleId } from '../utils/Validate/ValidateDriver/ValidateDriver.js';
+import {
+  isValidEmail,
+  isValidPassword,
+  isValidDebit,
+  isValidAntiquity,
+  isValidStatus,
+  isValidVehicleId,
+} from "../utils/Validate/ValidateDriver/ValidateDriver.js";
 
 // // Función para validar un UUID
 const isValidUUID = (id) => {
@@ -52,7 +59,6 @@ const getDriverByIdController = async (id) => {
     throw new Error("Error getting driver: " + error.message);
   }
 };
-
 
 // Controlador para crear un nuevo conductor
 const createDriverController = async ({
@@ -175,7 +181,6 @@ const updateDriverController = async (
   await driver.save();
   return driver;
 };
-
 
 // Controlador para eliminar un conductor
 const deleteDriverController = async (id) => {
