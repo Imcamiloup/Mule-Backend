@@ -13,6 +13,8 @@ const getAllOrderShipmentsHandler = async (req, res) => {
     typeShipmentId,
     city_receiver,
     declared_value,
+    name_receiver,
+    weight,
     orderBy,
     orderDirection,
   } = req.query;
@@ -24,12 +26,14 @@ const getAllOrderShipmentsHandler = async (req, res) => {
       typeShipmentId,
       city_receiver,
       declared_value,
+      name_receiver,
+      weight,
       orderBy,
       orderDirection
     );
     res.status(200).json(shipments);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -40,7 +44,7 @@ const getOrderShipmentByIdHandler = async (req, res) => {
     if (!shipment) throw new Error("Shipment not found");
     res.status(200).send(shipment);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(400).send({ message: error.message });
   }
 };
 
@@ -133,7 +137,7 @@ const createOrderShipmentHandler = async (req, res) => {
     );
     res.status(201).json(newShipment);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(400).send({ message: error.message });
   }
 };
 
@@ -150,7 +154,7 @@ const updateOrderShipmentHandler = async (req, res) => {
     );
     res.status(200).send(shipment);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(400).send({ message: error.message });
   }
 };
 
@@ -160,7 +164,7 @@ const deleteOrderShipmentHandler = async (req, res) => {
     const deletedShipment = await deleteOrderShipmentController(id);
     res.status(200).send(deletedShipment);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(400).send({ message: error.message });
   }
 };
 

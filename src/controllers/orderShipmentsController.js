@@ -1,4 +1,4 @@
-import { OrderShipment, TypeShipment, Measure, User } from "../database/db.js";
+import { OrderShipment } from "../database/db.js";
 
 const getAllOrderShipmentsController = async (
   city_transmiter,
@@ -6,6 +6,8 @@ const getAllOrderShipmentsController = async (
   typeShipmentId,
   city_receiver,
   declared_value,
+  name_receiver,
+  weight,
   orderBy,
   orderDirection
 ) => {
@@ -16,8 +18,13 @@ const getAllOrderShipmentsController = async (
   if (typeShipmentId) where = { ...where, typeShipmentId };
   if (city_receiver) where = { ...where, city_receiver };
   if (declared_value) where = { ...where, declared_value };
+  if (name_receiver) where = { ...where, name_receiver };
+  if (weight) where = { ...where, weight };
+
   let order = [];
   if (orderBy && orderDirection) order = [[orderBy, orderDirection]];
+
+  console.log(where);
 
   try {
     const shipments = await OrderShipment.findAll({
