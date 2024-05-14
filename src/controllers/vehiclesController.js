@@ -98,6 +98,8 @@ export const updateVehicle = async (
 };
 
 export const deleteVehicle = async (id) => {
+  if (!id) throw Error("Missing id field");
+
   const vehicleById = await Vehicle.findByPk(id);
 
   if (!vehicleById) throw Error("Vehicle not found");

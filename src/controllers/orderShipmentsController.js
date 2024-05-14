@@ -1,21 +1,36 @@
-import { OrderShipment, TypeShipment, Measure, User } from "../database/db.js";
+import { OrderShipment } from "../database/db.js";
 
 const getAllOrderShipmentsController = async (
+  name_claimant,
+  cedula_claimant,
+  cellphone_claimant,
+  name_transmiter,
+  celphone_transmiter,
   city_transmiter,
   pay_method,
   typeShipmentId,
   city_receiver,
   declared_value,
+  name_receiver,
+  weight,
   orderBy,
   orderDirection
 ) => {
   let where = {};
 
+  if (name_claimant) where = { ...where, name_claimant };
+  if (cedula_claimant) where = { ...where, cedula_claimant };
+  if (cellphone_claimant) where = { ...where, cellphone_claimant };
+  if (name_transmiter) where = { ...where, name_transmiter };
   if (city_transmiter) where = { ...where, city_transmiter };
+  if (celphone_transmiter) where = { ...where, celphone_transmiter };
   if (pay_method) where = { ...where, pay_method };
   if (typeShipmentId) where = { ...where, typeShipmentId };
   if (city_receiver) where = { ...where, city_receiver };
   if (declared_value) where = { ...where, declared_value };
+  if (name_receiver) where = { ...where, name_receiver };
+  if (weight) where = { ...where, weight };
+
   let order = [];
   if (orderBy && orderDirection) order = [[orderBy, orderDirection]];
 
@@ -103,22 +118,43 @@ const createOrderShipmentController = async (
 
 const updateOrderShipmentController = async (
   id,
-  name,
-  description,
-  price,
-  status
+  name_claimant,
+  cedula_claimant,
+  cellphone_claimant,
+  name_transmiter,
+  celphone_transmiter,
+  city_transmiter,
+  address_transmiter,
+  name_receiver,
+  celphone_receiver,
+  city_receiver,
+  address_receiver,
+  weight,
+  declared_value,
+  product_image,
+  pay_method
 ) => {
-  try {
-    const shipment = await OrderShipment.findByPk(id);
-    shipment.name = name;
-    shipment.description = description;
-    shipment.price = price;
-    shipment.status = status;
-    await shipment.save();
-    return shipment;
-  } catch (error) {
-    throw new Error("Error update shipment: " + error.message);
-  }
+  const orderShipment = await OrderShipment.findByPk(id);
+
+  if (!orderShipment) throw Error("Ordershipment not found");
+
+  await orderShipment.update({
+    name_claimant,
+    cedula_claimant,
+    cellphone_claimant,
+    name_transmiter,
+    celphone_transmiter,
+    city_transmiter,
+    address_transmiter,
+    name_receiver,
+    celphone_receiver,
+    city_receiver,
+    address_receiver,
+    weight,
+    declared_value,
+    product_image,
+    pay_method,
+  });
 };
 
 const deleteOrderShipmentController = async (id) => {
@@ -127,7 +163,6 @@ const deleteOrderShipmentController = async (id) => {
     const shipment = await OrderShipment.findByPk(id);
     if (!shipment) throw new Error("Shipment not found");
     await shipment.destroy();
-    return "Shipment deleted successfully";
   } catch (error) {
     throw new Error("Error delete shipment: " + error.message);
   }
