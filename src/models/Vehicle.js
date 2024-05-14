@@ -54,7 +54,7 @@ export default (sequelize) => {
         allowNull: false,
         validate: {
           is: /^\d+$/,
-          len: [8],
+          len: [8, 8],
         },
       },
 
