@@ -7,7 +7,7 @@ import {
   deleteDriverController,
 } from "../controllers/driversController.js";
 
-import filteredAndOrderedData from "../utils/helpers/filteredAndOrderedData.js";
+import filteredAndOrderedData from "../utils/helperFilteredAndSorted/filteredAndOrderedData.js";
 
 //Funciona
 const getAllDriversHandler = async (req, res) => {
@@ -15,8 +15,14 @@ const getAllDriversHandler = async (req, res) => {
 
   try {
     let drivers;
-    if (name || orderBy || orderDirection) { // Si se proporciona alguno de estos parámetros, utilizar el helper FilteredAndOrderedData
-      drivers = await filteredAndOrderedData(Driver, { name }, orderBy, orderDirection); // Ajusta los parámetros según tus necesidades
+    if (name || orderBy || orderDirection) {
+      // Si se proporciona alguno de estos parámetros, utilizar el helper FilteredAndOrderedData
+      drivers = await filteredAndOrderedData(
+        Driver,
+        { name },
+        orderBy,
+        orderDirection
+      ); // Ajusta los parámetros según tus necesidades
     } else {
       drivers = await getAllDriversController();
     }
@@ -42,7 +48,8 @@ const getDriverByIdHandler = async (req, res) => {
 //Funciona
 const postDriverHandler = async (req, res) => {
   try {
-    const { name, email, password, debit, antiquity, user_type } = req.body;
+    const { name, email, password, debit, antiquity, user_type, vehicle_id } =
+      req.body;
 
     if (!name || !email || !password || !debit || !antiquity || !user_type) {
       throw new Error("Faltan datos");
@@ -55,6 +62,7 @@ const postDriverHandler = async (req, res) => {
       debit,
       antiquity,
       user_type,
+      vehicle_id,
     }); // Pasar un objeto con todas las propiedades
 
     res.status(200).send(newDriver);

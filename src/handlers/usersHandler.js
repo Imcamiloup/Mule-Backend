@@ -34,6 +34,7 @@ const createUserHandler = async (req, res) => {
     const {
       name,
       email,
+      emailVerified,
       password,
       cedula,
       cel_Phone_Number,
@@ -42,22 +43,14 @@ const createUserHandler = async (req, res) => {
       age,
       role,
       isActive,
+      photo
     } = req.body;
-    if (
-      !name ||
-      !email ||
-      !password ||
-      !cedula ||
-      !cel_Phone_Number ||
-      !fee_Category_Percentage ||
-      !age ||
-      role === undefined
-    ) {
-      throw new Error("Missing fields");
-    }
-    const newUser = await createUserController(
+
+    // Verificar si todos los campos requeridos están presentes
+    const requiredFields = [
       name,
       email,
+      emailVerified,
       password,
       cedula,
       cel_Phone_Number,
@@ -65,11 +58,40 @@ const createUserHandler = async (req, res) => {
       category,
       age,
       role,
-      isActive
+      isActive,
+      photo
+    ];
+    if (requiredFields.some(field => !field)) {
+      throw new Error("Missing fields");
+    }
+
+    // Validar cada campo individualmente según las reglas definidas en el modelo
+    // Estas validaciones se realizan automáticamente gracias a las restricciones del modelo en Sequelize
+    
+    // Crear el nuevo usuario
+    const newUser = await createUserController(
+      name,
+      email,
+      emailVerified,
+      password,
+      cedula,
+      cel_Phone_Number,
+      fee_Category_Percentage,
+      category,
+      age,
+      role,
+      isActive,
+      photo
     );
+
     res.status(201).json(newUser);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    // Manejar errores de validación
+    if (error.name === "SequelizeValidationError") {
+      res.status(400).send({ message: error.errors.map(err => err.message).join(", ") });
+    } else {
+      res.status(500).send({ message: error.message });
+    }
   }
 };
 

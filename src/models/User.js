@@ -1,5 +1,5 @@
-import { DataTypes } from "sequelize";
-import { v4 as uuidv4 } from "uuid"; // Importar v4 como uuidv4
+import { DataTypes, UUIDV4 } from "sequelize";
+
 
 export default (sequelize) => {
   sequelize.define(
@@ -7,14 +7,25 @@ export default (sequelize) => {
     {
       id: {
         type: DataTypes.UUID,
+        defaultValue: UUIDV4,
         primaryKey: true,
         unique: true,
-        defaultValue: () => uuidv4(),
       },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          isAlpha: {
+            msg: "El nombre solo puede contener letras"
+          },
+          notContainsNumber(value) {
+            if (/\d/.test(value)) {
+              throw new Error("El nombre no puede contener números");
+            }
+          },
+        }
       },
+      
       email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -94,8 +105,17 @@ export default (sequelize) => {
       },
       isActive: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: "true",
         allowNull: false,
+      },
+      photo: {
+        type: DataTypes.STRING, // Puedes usar DataTypes.BLOB si deseas almacenar la foto como datos binarios
+        allowNull: true, // Opcional: si quieres que la foto sea opcional
+        validate: {
+          isUrl: {
+            msg: "La foto debe ser una URL válida"
+          },
+        },
       },
     },
     { timestamps: false }
