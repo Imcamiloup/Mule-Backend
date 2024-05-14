@@ -34,8 +34,6 @@ const getAllOrderShipmentsController = async (
   let order = [];
   if (orderBy && orderDirection) order = [[orderBy, orderDirection]];
 
-  console.log(where);
-
   try {
     const shipments = await OrderShipment.findAll({
       where,
