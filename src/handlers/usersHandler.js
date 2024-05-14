@@ -8,7 +8,6 @@ import {
 
 const getAllUsersHandler = async (req, res) => {
   try {
-    console.log("users");
     const users = await getAllUsersController();
     res.status(200).send(users);
   } catch (error) {
@@ -79,27 +78,26 @@ const createUserHandler = async (req, res) => {
 };
 
 const updateUserHandler = async (req, res) => {
-    try {
-        const { id } = req.params;
-        // const { user } = req; // Obtener el usuario autenticado desde la solicitud
+  try {
+    const { id } = req.params;
+    // const { user } = req; // Obtener el usuario autenticado desde la solicitud
 
-        // // Verificar si el usuario autenticado tiene permiso para actualizar
-        // if (user.role !== "admin") {
-        //     return res.status(403).send({ message: "Unauthorized operation: User is not an admin" });
-        // }
+    // // Verificar si el usuario autenticado tiene permiso para actualizar
+    // if (user.role !== "admin") {
+    //     return res.status(403).send({ message: "Unauthorized operation: User is not an admin" });
+    // }
 
-        // Obtener los campos actualizados del cuerpo de la solicitud
-        const updatedFields = req.body;
+    // Obtener los campos actualizados del cuerpo de la solicitud
+    const updatedFields = req.body;
 
-        // Actualizar el usuario con los campos proporcionados
-        const updatedUser = await updateUserController(id, updatedFields);
+    // Actualizar el usuario con los campos proporcionados
+    const updatedUser = await updateUserController(id, updatedFields);
 
-        res.status(200).send(updatedUser);
-    } catch (error) {
-        res.status(500).send({ message: error.message });
-    }
-}
-
+    res.status(200).send(updatedUser);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
 
 const deleteUserHandler = async (req, res) => {
   try {

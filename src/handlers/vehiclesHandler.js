@@ -23,8 +23,7 @@ export const createVehicleHandler = async (req, res) => {
   const onlyNumbersRgex = /^\d+$/;
   const carPlates = /^[A-Za-z]{2}-\d{3}-[A-Za-z]{2}$/;
   const tecnicalReviewRgex = /^[A-Z0-9]{2,4}-[A-Z]{2}-\d{4}-\d+$/i;
-  const noSpecialCharactersRgex = /^[a-zA-Z0-9\s]+$/;
-
+  const noSpecialCharactersRgex = /^[a-zA-Z0-9\s,.]+$/;
   try {
     if (!VINCarRgex.test(model))
       throw Error(
