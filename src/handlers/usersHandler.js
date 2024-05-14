@@ -43,6 +43,7 @@ const createUserHandler = async (req, res) => {
       role,
       isActive,
       photo,
+ 
     } = req.body;
 
     // Verificar si todos los campos requeridos están presentes
@@ -56,7 +57,8 @@ const createUserHandler = async (req, res) => {
       fee_Category_Percentage,
       age,
     ];
-    if (requiredFields.some((field) => !field)) {
+
+    if (requiredFields.some(field => !field)) {
       throw new Error("Missing fields");
     }
 
@@ -83,11 +85,10 @@ const createUserHandler = async (req, res) => {
   } catch (error) {
     // Manejar errores de validación
     if (error.name === "SequelizeValidationError") {
-      res
-        .status(400)
-        .send({ message: error.errors.map((err) => err.message).join(", ") });
+
+      res.status(400).send({ message: error.errors.map(err => err.message).join(", ") });
     } else {
-      res.status(500).send({ message: error.message })
+      res.status(500).send({ message: error.message });
     }
   }
 };
