@@ -15,14 +15,7 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          isAlpha: {
-            msg: "El nombre solo puede contener letras"
-          },
-          notContainsNumber(value) {
-            if (/\d/.test(value)) {
-              throw new Error("El nombre no puede contener números");
-            }
-          },
+          is: /^[a-zA-Z\s]+$/, // Permite solo letras y espacios
         }
       },
       
@@ -109,8 +102,8 @@ export default (sequelize) => {
         allowNull: false,
       },
       photo: {
-        type: DataTypes.STRING, // Puedes usar DataTypes.BLOB si deseas almacenar la foto como datos binarios
-        allowNull: true, // Opcional: si quieres que la foto sea opcional
+        type: DataTypes.STRING, 
+        allowNull: true,
         validate: {
           isUrl: {
             msg: "La foto debe ser una URL válida"
