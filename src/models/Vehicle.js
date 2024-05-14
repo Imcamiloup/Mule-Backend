@@ -28,7 +28,8 @@ export default (sequelize) => {
         type: DataTypes.BIGINT,
         allowNull: false,
         validate: {
-          len: [7, 10],
+          len: [8, 12],
+          is: /^\d+$/,
         },
       },
 
@@ -36,18 +37,25 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          len: [5, 8],
+          is: /^[A-Za-z]{2}-\d{3}-[A-Za-z]{2}$/,
         },
       },
 
       tecnical_review: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          is: /^[A-Z0-9]{2,4}-[A-Z]{2}-\d{4}-\d+$/i,
+        },
       },
 
       driving_licence: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.INTEGER,
         allowNull: false,
+        validate: {
+          is: /^\d+$/,
+          len: [8],
+        },
       },
 
       cargo_manifest: {
@@ -58,6 +66,9 @@ export default (sequelize) => {
       news: {
         type: DataTypes.STRING,
         allowNull: true,
+        validate: {
+          is: /^[a-zA-Z0-9\s]+$/,
+        },
       },
     },
     { timestamps: false }

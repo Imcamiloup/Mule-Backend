@@ -7,11 +7,29 @@ import {
 } from "../controllers/orderShipmentsController.js";
 
 const getAllOrderShipmentsHandler = async (req, res) => {
+  const {
+    city_transmiter,
+    pay_method,
+    typeShipmentId,
+    city_receiver,
+    declared_value,
+    orderBy,
+    orderDirection,
+  } = req.query;
+
   try {
-    const shipments = await getAllOrderShipmentsController();
-    res.status(200).send(shipments);
+    const shipments = await getAllOrderShipmentsController(
+      city_transmiter,
+      pay_method,
+      typeShipmentId,
+      city_receiver,
+      declared_value,
+      orderBy,
+      orderDirection
+    );
+    res.status(200).json(shipments);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -44,10 +62,11 @@ const createOrderShipmentHandler = async (req, res) => {
       declared_value,
       product_image,
       pay_method,
-      typeShipmentId,
-      measureId,
-      user_id,
+      // typeShipmentId,
+      // measureId,
+      // user_id,
     } = req.body;
+
     if (
       !name_claimant ||
       !cedula_claimant ||
@@ -63,10 +82,10 @@ const createOrderShipmentHandler = async (req, res) => {
       !weight ||
       !declared_value ||
       !product_image ||
-      !pay_method ||
-      !typeShipmentId ||
-      !measureId ||
-      !user_id
+      !pay_method 
+      // !typeShipmentId ||
+      // !measureId ||
+      // !user_id
     )
       throw new Error("Missing required information");
 
@@ -85,10 +104,10 @@ const createOrderShipmentHandler = async (req, res) => {
       weight,
       declared_value,
       product_image,
-      pay_method,
-      typeShipmentId,
-      measureId,
-      user_id
+      pay_method
+      // typeShipmentId,
+      // measureId,
+      // user_id
     );
     res.status(201).json(newShipment);
   } catch (error) {

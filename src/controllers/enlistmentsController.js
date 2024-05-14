@@ -89,8 +89,7 @@ export const updateEnlistment = async (
   price_order,
   qualify_user,
   qualify,
-  comment,
-  ordershipment_id
+  comment
 ) => {
   const enlistmentById = await Enlistment.findByPk(id);
 
@@ -105,7 +104,6 @@ export const updateEnlistment = async (
     qualify_user,
     qualify,
     comment,
-    ordershipment_id,
   });
 };
 

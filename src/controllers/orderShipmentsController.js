@@ -1,8 +1,34 @@
 import { OrderShipment, TypeShipment, Measure, User } from "../database/db.js";
 
-const getAllOrderShipmentsController = async () => {
+const getAllOrderShipmentsController = async (
+  city_transmiter,
+  pay_method,
+  typeShipmentId,
+  city_receiver,
+  declared_value,
+  orderBy,
+  orderDirection
+) => {
+  let where = {};
+
+  if (city_transmiter) where = { ...where, city_transmiter };
+  if (pay_method) where = { ...where, pay_method };
+  if (typeShipmentId) where = { ...where, typeShipmentId };
+  if (city_receiver) where = { ...where, city_receiver };
+  if (declared_value) where = { ...where, declared_value };
+  let order = [];
+  if (orderBy && orderDirection) order = [[orderBy, orderDirection]];
+
+  console.log(where);
+
   try {
-    const shipments = await OrderShipment.findAll();
+    const shipments = await OrderShipment.findAll({
+      where,
+      order,
+    });
+
+    if (shipments.length === 0) throw Error("Shipments not found");
+
     return shipments;
   } catch (error) {
     throw new Error("Error get shipments: " + error.message);
@@ -33,20 +59,20 @@ const createOrderShipmentController = async (
   weight,
   declared_value,
   product_image,
-  pay_method,
-  typeShipmentId,
-  measureId,
-  user_id
+  pay_method
+  // typeShipmentId,
+  // measureId,
+  // user_id
 ) => {
   try {
-    const typeShipment = await TypeShipment.findByPk(typeShipmentId);
-    if (!typeShipment) throw new Error("Type shipment not found");
+    // const typeShipment = await TypeShipment.findByPk(typeShipmentId);
+    // if (!typeShipment) throw new Error("Type shipment not found");
 
-    const measureType = await Measure.findByPk(measureId);
-    if (!measureType) throw new Error("Measure type not found");
+    // const measureType = await Measure.findByPk(measureId);
+    // if (!measureType) throw new Error("Measure type not found");
 
-    const userId = await User.findByPk(user_id);
-    if (!userId) throw new Error("User not Found");
+    // const userId = await User.findByPk(user_id);
+    // if (!userId) throw new Error("User not Found");
 
     const newOrderShipment = await OrderShipment.create({
       name_claimant,
@@ -64,9 +90,9 @@ const createOrderShipmentController = async (
       declared_value,
       product_image,
       pay_method,
-      typeShipmentId,
-      measureId,
-      user_id,
+      // typeShipmentId,
+      // measureId,
+      // user_id,
     });
 
     return newOrderShipment;
