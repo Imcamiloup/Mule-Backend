@@ -1,15 +1,14 @@
-import { DataTypes } from "sequelize";
+import { DataTypes , UUIDV4} from "sequelize";
 
 export default (sequelize) => {
     sequelize.define(
         "OrderShipment",
         {
             id: {
-                type: DataTypes.INTEGER,
-                autoIncrement: true,
+                type: DataTypes.UUID,
+                defaultValue: UUIDV4,
                 primaryKey: true,
-                unique: true,
-            },
+              },
             name_claimant: {
                 type: DataTypes.STRING,
                 allowNull: true,
