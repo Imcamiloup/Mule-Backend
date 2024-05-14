@@ -15,7 +15,7 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          is: /^[a-zA-Z0-9\s,.]+$/,
+          is: /^[a-zA-Z\s]+$/,
           len: [3, 30],
 
         },
@@ -40,7 +40,7 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          is: /^[a-zA-Z0-9\s,.]+$/,
+          is: /^[a-zA-Z\s]+$/,
           len: [3, 30],
         },
       },
@@ -57,7 +57,7 @@ export default (sequelize) => {
         allowNull: false,
         validate: {
           len: [4, 20],
-          is: /^[a-zA-Z0-9\s,.]+$/,
+          is: /^[a-zA-Z\s]+$/,
         },
       },
       address_transmiter: {
@@ -72,7 +72,7 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          is: /^[a-zA-Z0-9\s,.]+$/,
+          is: /^[a-zA-Z\s]+$/,
           len: [3, 30],
         },
       },
@@ -89,7 +89,7 @@ export default (sequelize) => {
         allowNull: false,
         validate: {
           len: [4, 20],
-          is: /^[a-zA-Z0-9\s,.]+$/,
+          is: /^[a-zA-Z\s]+$/,
         },
       },
       address_receiver: {
