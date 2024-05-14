@@ -20,7 +20,7 @@ export const createEnlistmentHandler = async (req, res) => {
     driver_id,
   } = req.body;
 
-  const noSpecialCharactersRgex = /^[a-zA-Z0-9\s]+$/;
+  const noSpecialCharactersRgex = /^[a-zA-Z0-9\s,.]+$/;
   const onlyNumbersRgex = /^\d+$/;
 
   try {

@@ -45,6 +45,8 @@ const getOrderShipmentByIdHandler = async (req, res) => {
 };
 
 const createOrderShipmentHandler = async (req, res) => {
+  const noSpecialCharactersRgex = /^[a-zA-Z0-9\s,.]+$/;
+
   try {
     const {
       name_claimant,
@@ -82,12 +84,32 @@ const createOrderShipmentHandler = async (req, res) => {
       !weight ||
       !declared_value ||
       !product_image ||
-      !pay_method 
+      !pay_method
       // !typeShipmentId ||
       // !measureId ||
       // !user_id
     )
       throw new Error("Missing required information");
+
+    const paramsNoSpecialCharacters = {
+      name_claimant,
+      cedula_claimant,
+      cellphone_claimant,
+      name_transmiter,
+      celphone_transmiter,
+      city_transmiter,
+      name_receiver,
+      celphone_receiver,
+      city_receiver,
+      weight,
+      declared_value,
+      pay_method,
+    };
+
+    for (const key in paramsNoSpecialCharacters) {
+      if (!noSpecialCharactersRgex.test(paramsNoSpecialCharacters[key]))
+        throw Error("No special characters allowed");
+    }
 
     const newShipment = await createOrderShipmentController(
       name_claimant,
