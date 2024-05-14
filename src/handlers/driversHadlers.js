@@ -104,8 +104,6 @@ const postDriverHandler = async (req, res) => {
   }
 };
 
-
-
 //Funciona
 const updateDriverHandler = async (req, res) => {
   try {
