@@ -4,11 +4,11 @@ import { Driver, Enlistment } from "../database/db.js";
 import { isValidEmail, isValidPassword, isValidDebit, isValidAntiquity, isValidStatus, isValidVehicleId } from '../utils/Validate/ValidateDriver/ValidateDriver.js';
 
 // // Función para validar un UUID
-// const isValidUUID = (id) => {
-//   const uuidRegex =
-//     /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-//   return uuidRegex.test(id);
-// };
+const isValidUUID = (id) => {
+  const uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  return uuidRegex.test(id);
+};
 
 // // Función para validar un correo electrónico
 // const isValidEmail = (email) => {
