@@ -14,7 +14,11 @@ export default (sequelize) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          is: /^[a-zA-Z\s]+$/, // Permite solo letras y espacios
+        }
       },
+      
       email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -96,6 +100,15 @@ export default (sequelize) => {
         type: DataTypes.BOOLEAN,
         defaultValue: "true",
         allowNull: false,
+      },
+      photo: {
+        type: DataTypes.STRING, 
+        allowNull: true,
+        validate: {
+          isUrl: {
+            msg: "La foto debe ser una URL válida"
+          },
+        },
       },
     },
     { timestamps: false }
