@@ -14,7 +14,7 @@ import {
   validateLengthFromTo,
   splitAndFixNames,
   validateExactLength,
-} from "../utils/helperValidations/validateOrderShipments.js";
+} from "../utils/Validate/validateOrderShipment/validateOrderShipments.js";
 
 const getAllOrderShipmentsHandler = async (req, res) => {
   const {
