@@ -55,11 +55,7 @@ const createUserHandler = async (req, res) => {
       cedula,
       cel_Phone_Number,
       fee_Category_Percentage,
-      category,
       age,
-      role,
-      isActive,
-      photo
     ];
     if (requiredFields.some(field => !field)) {
       throw new Error("Missing fields");
