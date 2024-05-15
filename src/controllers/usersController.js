@@ -31,14 +31,17 @@ const getUserByIdController = async (id, userRole) => {
 };
 
 
-const createUserController = async (name, email, emailVerified, password, cedula, cel_Phone_Number, fee_Category_Percentage, category, age, role, isActive,photo) => {
+// const createUserController = async (name, email, emailVerified, password, cedula, cel_Phone_Number, fee_Category_Percentage, category, age, role, isActive,photo) => {
 
-  try {
-    const newUser = await User.create({ name, email, emailVerified, password, cedula, cel_Phone_Number, fee_Category_Percentage, category, age, role, isActive,photo });
-    return newUser;
-  } catch (error) {
-    throw new Error("Error creating user: " + error.message);
-  }
+//   try {
+//     const newUser = await User.create({ name, email, emailVerified, password, cedula, cel_Phone_Number, fee_Category_Percentage, category, age, role, isActive,photo });
+//     return newUser;
+//   } catch (error) {
+//     throw new Error("Error creating user: " + error.message);
+//   }
+// }
+const createUserController = async (name, email, emailVerified, password, cedula, cel_Phone_Number, fee_Category_Percentage, category, age, role, isActive, photo) => {
+  return User.create({ name, email, emailVerified, password, cedula, cel_Phone_Number, fee_Category_Percentage, category, age, role, isActive, photo });
 }
 
 const updateUserController = async (id, updatedFields) => {
