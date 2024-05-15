@@ -46,13 +46,46 @@ const getDriverByIdHandler = async (req, res) => {
 };
 
 //Funciona
+// const postDriverHandler = async (req, res) => {
+//   try {
+//     const { name, email, password, debit, antiquity, status, vehicle_id } =
+//       req.body;
+
+//     if (!name || !email || !password || !debit || !antiquity || !status) {
+//       throw new Error("Faltan datos");
+//     }
+
+//     const newDriver = await createDriverController({
+//       name,
+//       email,
+//       password,
+//       debit,
+//       antiquity,
+//       status,
+//       vehicle_id,
+//     }); // Pasar un objeto con todas las propiedades
+
+//     res.status(200).send(newDriver);
+//   } catch (error) {
+//     res.status(500).send({ error: error.message });
+//   }
+// };
+
 const postDriverHandler = async (req, res) => {
   try {
-    const { name, email, password, debit, antiquity, user_type, vehicle_id } =
+    const { name, email, password, debit, antiquity, status, vehicle_id } =
       req.body;
 
-    if (!name || !email || !password || !debit || !antiquity || !user_type) {
-      throw new Error("Faltan datos");
+    if (!name || !email || !password || !debit || !antiquity || !status) {
+      let missingField = "";
+      if (!name) missingField = "name";
+      else if (!email) missingField = "email";
+      else if (!password) missingField = "password";
+      else if (!debit) missingField = "debit";
+      else if (!antiquity) missingField = "antiquity";
+      else if (!status) missingField = "status";
+
+      throw new Error(`El campo ${missingField} es obligatorio.`);
     }
 
     const newDriver = await createDriverController({
@@ -61,13 +94,13 @@ const postDriverHandler = async (req, res) => {
       password,
       debit,
       antiquity,
-      user_type,
+      status,
       vehicle_id,
-    }); // Pasar un objeto con todas las propiedades
+    });
 
     res.status(200).send(newDriver);
   } catch (error) {
-    res.status(500).send({ error: error.message });
+    res.status(400).send({ error: error.message });
   }
 };
 
@@ -75,14 +108,14 @@ const postDriverHandler = async (req, res) => {
 const updateDriverHandler = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email, password, debit, antiquity, user_type } = req.body;
+    const { name, email, password, debit, antiquity, status } = req.body;
     const driverModif = await updateDriverController(id, {
       name,
       email,
       password,
       debit,
       antiquity,
-      user_type,
+      status,
     }); // Pasar un objeto con todas las propiedades
     res.status(200).send(driverModif);
   } catch (error) {

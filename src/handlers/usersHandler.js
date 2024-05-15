@@ -9,7 +9,6 @@ import { User } from "../database/db.js";
 
 const getAllUsersHandler = async (req, res) => {
   try {
-    console.log("users");
     const users = await getAllUsersController();
     res.status(200).send(users);
   } catch (error) {
@@ -113,18 +112,21 @@ const updateUserHandler = async (req, res) => {
     // if (user.role !== "admin") {
     //     return res.status(403).send({ message: "Unauthorized operation: User is not an admin" });
     // }
+    // // Verificar si el usuario autenticado tiene permiso para actualizar
+    // if (user.role !== "admin") {
+    //     return res.status(403).send({ message: "Unauthorized operation: User is not an admin" });
+    // }
 
     // Obtener los campos actualizados del cuerpo de la solicitud
     const updatedFields = req.body;
-
     // Actualizar el usuario con los campos proporcionados
     const updatedUser = await updateUserController(id, updatedFields);
-
     res.status(200).send(updatedUser);
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
 };
+
 
 const deleteUserHandler = async (req, res) => {
   try {

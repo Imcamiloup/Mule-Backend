@@ -1,18 +1,27 @@
 // Importa los modelos y las funciones de validación necesarias
 import { Driver, Enlistment } from "../database/db.js";
 
-// Función para validar un UUID
+import {
+  isValidEmail,
+  isValidPassword,
+  isValidDebit,
+  isValidAntiquity,
+  isValidStatus,
+  isValidVehicleId,
+} from "../utils/Validate/ValidateDriver/ValidateDriver.js";
+
+// // Función para validar un UUID
 const isValidUUID = (id) => {
   const uuidRegex =
     /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
   return uuidRegex.test(id);
 };
 
-// Función para validar un correo electrónico
-const isValidEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
+// // Función para validar un correo electrónico
+// const isValidEmail = (email) => {
+//   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//   return emailRegex.test(email);
+// };
 
 // Controlador para obtener todos los conductores
 const getAllDriversController = async () => {
@@ -58,7 +67,7 @@ const createDriverController = async ({
   password,
   debit,
   antiquity,
-  user_type,
+  status,
   vehicle_id,
 }) => {
   if (
@@ -67,7 +76,7 @@ const createDriverController = async ({
     !password ||
     !debit ||
     !antiquity ||
-    !user_type ||
+    !status ||
     !vehicle_id
   ) {
     throw new Error("Missing required fields");
@@ -83,6 +92,26 @@ const createDriverController = async ({
     throw new Error("Email is already in use");
   }
 
+  if (!isValidPassword(password)) {
+    throw new Error("Invalid password format");
+  }
+
+  if (!isValidDebit(debit)) {
+    throw new Error("Invalid debit format");
+  }
+
+  if (!isValidAntiquity(antiquity)) {
+    throw new Error("Invalid antiquity format");
+  }
+
+  if (!isValidStatus(status)) {
+    throw new Error("Invalid status format");
+  }
+
+  if (!isValidVehicleId(vehicle_id)) {
+    throw new Error("Invalid vehicle ID format");
+  }
+
   // Crear el conductor
   return await Driver.create({
     name: name,
@@ -90,7 +119,7 @@ const createDriverController = async ({
     password: password,
     debit: debit,
     antiquity: antiquity,
-    user_type: user_type,
+    status: status,
     vehicle_id: vehicle_id,
   });
 };
@@ -98,7 +127,7 @@ const createDriverController = async ({
 // Controlador para actualizar un conductor
 const updateDriverController = async (
   id,
-  { name, email, password, debit, antiquity, User_Type }
+  { name, email, password, debit, antiquity, status }
 ) => {
   if (!id) {
     throw new Error("Missing driver ID");
@@ -115,12 +144,29 @@ const updateDriverController = async (
   }
 
   // Validar que al menos uno de los campos a actualizar sea proporcionado
-  if (!name && !email && !password && !debit && !antiquity && !User_Type) {
+  if (!name && !email && !password && !debit && !antiquity && !status) {
     throw new Error("At least one field must be provided for update");
   }
 
   if (email && !isValidEmail(email)) {
     throw new Error("Invalid email format");
+  }
+
+  // Si el password está siendo actualizado, validar su formato
+  if (password && !isValidPassword(password)) {
+    throw new Error("Invalid password format");
+  }
+
+  if (debit && !isValidDebit(debit)) {
+    throw new Error("Invalid debit format");
+  }
+
+  if (antiquity && !isValidAntiquity(antiquity)) {
+    throw new Error("Invalid antiquity format");
+  }
+
+  if (status && !isValidStatus(status)) {
+    throw new Error("Invalid status format");
   }
 
   // Actualizar los campos proporcionados
@@ -129,7 +175,7 @@ const updateDriverController = async (
   if (password) driver.password = password;
   if (debit) driver.debit = debit;
   if (antiquity) driver.antiquity = antiquity;
-  if (User_Type) driver.User_Type = User_Type;
+  if (status) driver.status = status;
 
   // Guardar los cambios
   await driver.save();

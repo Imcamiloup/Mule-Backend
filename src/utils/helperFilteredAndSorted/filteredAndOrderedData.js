@@ -4,7 +4,7 @@ const filteredAndOrderedData = async (
   Model,
   filters,
   orderBy,
-  orderDirection
+  orderDirection 
 ) => {
   let where = {};
   if (filters) {
@@ -18,8 +18,8 @@ const filteredAndOrderedData = async (
   }
 
   let order = [];
-  if (orderBy && orderDirection) {
-    order = [[orderBy, orderDirection]];
+  if (orderBy && orderDirection || orderDefault) {
+    order = [[orderBy,orderDefault || orderDirection]];
   }
 
   try {
