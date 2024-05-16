@@ -1,9 +1,10 @@
 import {
   getAllUsersController,
   getUserByIdController,
-  createUserController,
   updateUserController,
   deleteUserController,
+  registercontroller,
+  loginController,
 } from "../controllers/usersController.js";
 import { User } from "../database/db.js";
 
@@ -29,79 +30,109 @@ const getUserByIdHandler = async (req, res) => {
   }
 };
 
-const createUserHandler = async (req, res) => {
-  const {
-    name,
-    email,
-    emailVerified,
-    password,
-    cedula,
-    cel_Phone_Number,
-    fee_Category_Percentage,
-    category,
-    age,
-    role,
-    isActive,
-    photo,
-  } = req.body;
-
-  // Validar si el usuario ya existe
-  const existingUser = await User.findOne({ where: { email } });
-  if (existingUser) {
-    return res.status(400).send({ message: "El usuario ya existe" });
-  }
-  // Verificar si todos los campos requeridos están presentes
-  const requiredFields = [
-    name,
-    email,
-    emailVerified,
-    password,
-    cedula,
-    cel_Phone_Number,
-    fee_Category_Percentage,
-    category,
-    age,
-    role,
-    isActive,
-    photo,
-  ];
-  if (
-    requiredFields.some(
-      (field) => field === undefined || field === null || field === ""
-    )
-  ) {
-    return res.status(400).send({ message: "Missing fields" });
-  }
-
+const registerHandler = async (req,res) =>{
+  const {email,password} =req.body;
   try {
-    // Crear el nuevo usuario
-    const newUser = await createUserController(
-      name,
-      email,
-      emailVerified,
-      password,
-      cedula,
-      cel_Phone_Number,
-      fee_Category_Percentage,
-      category,
-      age,
-      role,
-      isActive,
-      photo
-    );
-
-    res.status(201).json(newUser);
-  } catch (error) {
-    // Manejar errores de validación
-    if (error.name === "SequelizeValidationError") {
-      res
-        .status(400)
-        .send({ message: error.errors.map((err) => err.message).join(", ") });
-    } else {
-      res.status(500).send({ message: error.message });
-    }
+    const user = await registercontroller(email,password);
+    res.status(200).json(user);
+  }catch(error){
+    res.status(400).json({message:error.message})
   }
-};
+}
+
+const loginHandler = async (req,res) =>{
+  const {email,password} = req.body;
+  try {
+    const userExisting = await User.findOne({where: {email}});
+    if(!userExisting){ 
+      return res.status(400).json({error:"Email not found"});
+    }
+    if(!userExisting.isActive){ 
+      return res.status(400).json({error:"User not Active"});
+    }
+    const token = await loginController(userExisting,password);
+    res.cookie("token",token,{httpOnly:true});
+    res.json({ message: "Inicio de sesión exitoso", token });
+    // res.json(authenticatedUser);
+    // console.log("Ingreso exitoso");
+    
+  } catch (error) {
+    res.status(400).json({message:error.message});    
+  }
+}
+// const createUserHandler = async (req, res) => {
+//   const {
+//     name,
+//     email,
+//     emailVerified,
+//     password,
+//     cedula,
+//     cel_Phone_Number,
+//     fee_Category_Percentage,
+//     category,
+//     age,
+//     role,
+//     isActive,
+//     photo,
+//   } = req.body;
+
+//   // Validar si el usuario ya existe
+//   const existingUser = await User.findOne({ where: { email } });
+//   if (existingUser) {
+//     return res.status(400).send({ message: "El usuario ya existe" });
+//   }
+//   // Verificar si todos los campos requeridos están presentes
+//   const requiredFields = [
+//     name,
+//     email,
+//     emailVerified,
+//     password,
+//     cedula,
+//     cel_Phone_Number,
+//     fee_Category_Percentage,
+//     category,
+//     age,
+//     role,
+//     isActive,
+//     photo,
+//   ];
+//   if (
+//     requiredFields.some(
+//       (field) => field === undefined || field === null || field === ""
+//     )
+//   ) {
+//     return res.status(400).send({ message: "Missing fields" });
+//   }
+
+//   try {
+//     // Crear el nuevo usuario
+//     const newUser = await createUserController(
+//       name,
+//       email,
+//       emailVerified,
+//       password,
+//       cedula,
+//       cel_Phone_Number,
+//       fee_Category_Percentage,
+//       category,
+//       age,
+//       role,
+//       isActive,
+//       photo
+//     );
+
+//     res.status(201).json(newUser);
+//   } catch (error) {
+//     // Manejar errores de validación
+//     if (error.name === "SequelizeValidationError") {
+//       res
+//         .status(400)
+//         .send({ message: error.errors.map((err) => err.message).join(", ") });
+//     } else {
+//       res.status(500).send({ message: error.message });
+//     }
+//   }
+// };
 
 const updateUserHandler = async (req, res) => {
   try {
@@ -148,7 +179,8 @@ const deleteUserHandler = async (req, res) => {
 export {
   getAllUsersHandler,
   getUserByIdHandler,
-  createUserHandler,
   updateUserHandler,
   deleteUserHandler,
+  registerHandler,
+  loginHandler,
 };
