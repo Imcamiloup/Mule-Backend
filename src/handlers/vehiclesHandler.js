@@ -23,15 +23,18 @@ export const createVehicleHandler = async (req, res) => {
   const onlyNumbersRgex = /^\d+$/;
   const carPlates = /^[A-Za-z]{2}-\d{3}-[A-Za-z]{2}$/;
   const tecnicalReviewRgex = /^[A-Z0-9]{2,4}-[A-Z]{2}-\d{4}-\d+$/i;
-  const noSpecialCharactersRgex = /^[a-zA-Z0-9\s]+$/;
-
+  const noSpecialCharactersRgex = /^[a-zA-Z0-9\s,.]+$/;
   try {
     if (!VINCarRgex.test(model))
       throw Error(
-        "Vehicle model is incorrect, it must be a VIN format, cannot have special characters or whitespace, must be 17 characters long"
+        "Vehicle model is incorrect, it must be a VIN format, cannot have special characters or whitespace, must be 17 characters long, illegal characters: I, O and Q"
       );
 
-    if (state !== "active" && state !== "inactive" && state !== "maintenance")
+    if (
+      state.toLowerCase() !== "active" &&
+      state.toLowerCase() !== "inactive" &&
+      state.toLowerCase() !== "maintenance"
+    )
       throw Error("State must be 'active', 'inactive' or in 'maintenance'");
 
     if (!onlyNumbersRgex.test(car_insurance))
@@ -65,7 +68,7 @@ export const createVehicleHandler = async (req, res) => {
 
     const newVehicle = await createVehicle(
       model.toUpperCase(),
-      state,
+      state.toLowerCase(),
       car_insurance,
       plate.toUpperCase(),
       tecnical_review.toUpperCase(),
@@ -195,7 +198,7 @@ export const updateVehicleHandler = async (req, res) => {
     await updateVehicle(
       id,
       model.toUpperCase(),
-      state,
+      state.toLowerCase(),
       car_insurance,
       plate.toUpperCase(),
       tecnical_review.toUpperCase(),
@@ -208,7 +211,7 @@ export const updateVehicleHandler = async (req, res) => {
       "Updated vehicle": {
         id,
         model: model.toUpperCase(),
-        state,
+        state: state.toLowerCase(),
         car_insurance,
         plate: plate.toUpperCase(),
         tecnical_review: tecnical_review.toUpperCase(),
