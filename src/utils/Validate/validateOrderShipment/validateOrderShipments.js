@@ -18,7 +18,7 @@ export const validateOnlyNumersRgex = (paramsOnlyNumbers) => {
   }
 };
 
-export const validateDirectons = (paramsDirections) => {
+export const validateDirections = (paramsDirections) => {
   const directionRegex = /^[a-zA-Z0-9,.\-#\s]+$/;
 
   for (const key in paramsDirections) {
@@ -63,6 +63,5 @@ export const splitAndFixNames = (name) => {
 
     name = nameSplit.join(" ");
   }
-
   return name;
 };
