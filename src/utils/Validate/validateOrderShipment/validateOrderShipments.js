@@ -26,14 +26,14 @@ export const validateDirectons = (paramsDirections) => {
   }
 };
 
-export const validateURLs = (paramsURLs) => {
+/*export const validateURLs = (paramsURLs) => {
   const emailRgex =
     /^(?:(?:https?|ftp):\/\/)?(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/[\w-]+)*(?:\?[a-zA-Z0-9-]+=[a-zA-Z0-9-%]+(?:&[a-zA-Z0-9-]+=[a-zA-Z0-9-%]+)*)?(?:#[a-zA-Z0-9-]+)?\.(?:jpg|jpeg|png|gif|bmp)$/i;
 
   for (const key in paramsURLs) {
     if (!emailRgex.test(paramsURLs[key])) throw Error(`${key} must be an URL`);
   }
-};
+};*/
 
 export const validateLengthFromTo = (paramsLengthFromTo, num1, num2) => {
   for (const key in paramsLengthFromTo) {

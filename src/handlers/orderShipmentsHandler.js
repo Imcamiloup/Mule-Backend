@@ -9,7 +9,7 @@ import {
 import {
   validateDirectons,
   validateOnlyLettersRgex,
-  validateURLs,
+  //validateURLs,
   validateOnlyNumersRgex,
   validateLengthFromTo,
   splitAndFixNames,
@@ -158,12 +158,12 @@ const createOrderShipmentHandler = async (req, res) => {
 
     validateOnlyLettersRgex(paramsOnlyLetters);
 
-    validateURLs(paramsURLs);
+    //validateURLs(paramsURLs);
 
     if (
-      pay_method.toLowerCase() !== "cash" &&
-      pay_method.toLowerCase() !== "credit-card" &&
-      pay_method.toLowerCase() !== "debit"
+      pay_method !== "cash" &&
+      pay_method!== "credit-card" &&
+      pay_method !== "debit"
     )
       throw Error("Pay method must be 'cash', 'credit-card' or 'debit'");
 
@@ -176,12 +176,12 @@ const createOrderShipmentHandler = async (req, res) => {
       cellphone_claimant,
       splitAndFixNames(name_transmiter),
       celphone_transmiter,
-      city_transmiter.toLowerCase(),
-      address_transmiter.toLowerCase(),
+      city_transmiter,
+      address_transmiter,
       splitAndFixNames(name_receiver),
       celphone_receiver,
-      city_receiver.toLowerCase(),
-      address_receiver.toLowerCase(),
+      city_receiver,
+      address_receiver,
       weight,
       declared_value,
       product_image,
