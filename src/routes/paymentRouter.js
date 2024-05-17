@@ -20,15 +20,15 @@ paymentRouter.post("/", async (req, res) => {
       body: {
         payment_methods: {
           excluded_payment_types: [
-            // {
-            //   id: "atm",
-            // },
-            // {
-            //   id: "ticket",
-            // },
-            // {
-            //   id: "bank_transfer",
-            // },
+            {
+              id: "atm",
+            },
+            {
+              id: "ticket",
+            },
+            {
+              id: "bank_transfer",
+            },
           ],
           installments: 12,
           default_installments: 1,
