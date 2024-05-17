@@ -9,7 +9,7 @@ import {
 import {
   validateDirectons,
   validateOnlyLettersRgex,
-  validateURLs,
+  // validateURLs,
   validateOnlyNumersRgex,
   validateLengthFromTo,
   splitAndFixNames,
@@ -90,38 +90,6 @@ const createOrderShipmentHandler = async (req, res) => {
 
     let { name_claimant, name_transmiter, name_receiver } = req.body;
 
-    const paramsOnlyLetters = {
-      name_claimant,
-      name_transmiter,
-      name_receiver,
-      city_transmiter,
-      city_receiver,
-    };
-
-    const paramsOnlyNumbers = {
-      cedula_claimant,
-      cellphone_claimant,
-      celphone_transmiter,
-      celphone_receiver,
-      weight,
-      declared_value,
-    };
-
-    const paramsDirections = { address_transmiter, address_receiver };
-
-    const paramsURLs = { product_image };
-
-    const paramsLengthNames = {
-      name_claimant,
-      name_receiver,
-      name_transmiter,
-    };
-
-    const paramsLengthCitys = {
-      city_transmiter,
-      city_receiver,
-    };
-
     if (
       !name_claimant ||
       !cedula_claimant ||
@@ -144,21 +112,39 @@ const createOrderShipmentHandler = async (req, res) => {
     )
       throw new Error("Missing required information");
 
-    validateLengthFromTo(paramsLengthNames, 3, 30);
-    validateLengthFromTo(paramsLengthCitys, 4, 20);
+    validateLengthFromTo(
+      { name_claimant, name_receiver, name_transmiter },
+      3,
+      30
+    );
 
-    validateOnlyNumersRgex(paramsOnlyNumbers);
+    validateLengthFromTo({ city_transmiter, city_receiver }, 4, 20);
+
+    validateOnlyNumersRgex({
+      cedula_claimant,
+      cellphone_claimant,
+      celphone_transmiter,
+      celphone_receiver,
+      weight,
+      declared_value,
+    });
 
     validateExactLength(cedula_claimant, 8, "cedula_claimant");
     validateExactLength(cellphone_claimant, 10, "cellphone_claimant");
     validateExactLength(celphone_receiver, 10, "celphone_receiver");
     validateExactLength(celphone_transmiter, 10, "celphone_transmiter");
 
-    validateDirectons(paramsDirections);
+    validateDirectons({ address_transmiter, address_receiver });
 
-    validateOnlyLettersRgex(paramsOnlyLetters);
+    validateOnlyLettersRgex({
+      name_claimant,
+      name_transmiter,
+      name_receiver,
+      city_transmiter,
+      city_receiver,
+    });
 
-    validateURLs(paramsURLs);
+    // validateURLs({ product_image });
 
     if (
       pay_method !== "Efectivo" &&
@@ -251,7 +237,7 @@ const updateOrderShipmentHandler = async (req, res) => {
       city_receiver,
     });
 
-    validateURLs({ product_image });
+    // validateURLs({ product_image });
 
     if (
       pay_method !== "Efectivo" &&
