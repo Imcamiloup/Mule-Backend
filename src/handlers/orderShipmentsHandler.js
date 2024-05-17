@@ -1,15 +1,9 @@
-import {
-  getAllOrderShipmentsController,
-  getOrderShipmentByIdController,
-  createOrderShipmentController,
-  updateOrderShipmentController,
-  deleteOrderShipmentController,
-} from "../controllers/orderShipmentsController.js";
+
 
 import {
-  validateDirectons,
+  validateDirections,
   validateOnlyLettersRgex,
-  //validateURLs,
+  validateURLs,
   validateOnlyNumersRgex,
   validateLengthFromTo,
   splitAndFixNames,
@@ -90,38 +84,6 @@ const createOrderShipmentHandler = async (req, res) => {
 
     let { name_claimant, name_transmiter, name_receiver } = req.body;
 
-    const paramsOnlyLetters = {
-      name_claimant,
-      name_transmiter,
-      name_receiver,
-      city_transmiter,
-      city_receiver,
-    };
-
-    const paramsOnlyNumbers = {
-      cedula_claimant,
-      cellphone_claimant,
-      celphone_transmiter,
-      celphone_receiver,
-      weight,
-      declared_value,
-    };
-
-    const paramsDirections = { address_transmiter, address_receiver };
-
-    const paramsURLs = { product_image };
-
-    const paramsLengthNames = {
-      name_claimant,
-      name_receiver,
-      name_transmiter,
-    };
-
-    const paramsLengthCitys = {
-      city_transmiter,
-      city_receiver,
-    };
-
     if (
       !name_claimant ||
       !cedula_claimant ||
@@ -144,28 +106,47 @@ const createOrderShipmentHandler = async (req, res) => {
     )
       throw new Error("Missing required information");
 
-    validateLengthFromTo(paramsLengthNames, 3, 30);
-    validateLengthFromTo(paramsLengthCitys, 4, 20);
+    validateLengthFromTo(
+      { name_claimant, name_receiver, name_transmiter },
+      3,
+      30
+    );
 
-    validateOnlyNumersRgex(paramsOnlyNumbers);
+    validateLengthFromTo({ city_transmiter, city_receiver }, 4, 20);
+
+    validateOnlyNumersRgex({
+      cedula_claimant,
+      cellphone_claimant,
+      celphone_transmiter,
+      celphone_receiver,
+      weight,
+      declared_value,
+    });
 
     validateExactLength(cedula_claimant, 8, "cedula_claimant");
     validateExactLength(cellphone_claimant, 10, "cellphone_claimant");
     validateExactLength(celphone_receiver, 10, "celphone_receiver");
     validateExactLength(celphone_transmiter, 10, "celphone_transmiter");
 
-    validateDirectons(paramsDirections);
+    validateDirections({ address_transmiter, address_receiver });
 
-    validateOnlyLettersRgex(paramsOnlyLetters);
+    validateOnlyLettersRgex({
+      name_claimant,
+      name_transmiter,
+      name_receiver,
+      city_transmiter,
+      city_receiver,
+    });
 
     //validateURLs(paramsURLs);
 
+
     if (
-      pay_method !== "cash" &&
-      pay_method!== "credit-card" &&
-      pay_method !== "debit"
+      pay_method.toLowerCase() !== "cash" &&
+      pay_method.toLowerCase() !== "credit-card" &&
+      pay_method.toLowerCase() !== "debit"
     )
-      throw Error("Pay method must be 'cash', 'credit-card' or 'debit'");
+      throw Error("Pay method must be 'Efectivo', 'Credito' or 'Debito'");
 
     if (String(weight).length < 1 || String(weight).length > 3)
       throw Error("Digits of weigth must be between 1 and 3");
@@ -182,10 +163,11 @@ const createOrderShipmentHandler = async (req, res) => {
       celphone_receiver,
       city_receiver,
       address_receiver,
+
       weight,
       declared_value,
       product_image,
-      pay_method.toLowerCase()
+      pay_method
       // typeShipmentId,
       // measureId,
       // user_id
@@ -219,82 +201,41 @@ const updateOrderShipmentHandler = async (req, res) => {
 
     let { name_claimant, name_transmiter, name_receiver } = req.body;
 
-    const paramsOnlyLetters = {
-      name_claimant,
-      name_transmiter,
-      name_receiver,
-      city_transmiter,
-      city_receiver,
-    };
 
-    const paramsOnlyNumbers = {
+    validateLengthFromTo({ city_transmiter, city_receiver }, 4, 20);
+
+    validateOnlyNumersRgex({
       cedula_claimant,
       cellphone_claimant,
       celphone_transmiter,
       celphone_receiver,
       weight,
       declared_value,
-    };
-
-    const paramsDirections = { address_transmiter, address_receiver };
-
-    const paramsURLs = { product_image };
-
-    const paramsLengthNames = {
-      name_claimant,
-      name_receiver,
-      name_transmiter,
-    };
-
-    const paramsLengthCitys = {
-      city_transmiter,
-      city_receiver,
-    };
-
-    if (
-      !name_claimant ||
-      !cedula_claimant ||
-      !cellphone_claimant ||
-      !name_transmiter ||
-      !celphone_transmiter ||
-      !city_transmiter ||
-      !address_transmiter ||
-      !name_receiver ||
-      !celphone_receiver ||
-      !city_receiver ||
-      !address_receiver ||
-      !weight ||
-      !declared_value ||
-      !product_image ||
-      !pay_method
-      // !typeShipmentId ||
-      // !measureId ||
-      // !user_id
-    )
-      throw new Error("Missing required information");
-
-    validateLengthFromTo(paramsLengthNames, 3, 30);
-    validateLengthFromTo(paramsLengthCitys, 4, 20);
-
-    validateOnlyNumersRgex(paramsOnlyNumbers);
+    });
 
     validateExactLength(cedula_claimant, 8, "cedula_claimant");
     validateExactLength(cellphone_claimant, 10, "cellphone_claimant");
     validateExactLength(celphone_receiver, 10, "celphone_receiver");
     validateExactLength(celphone_transmiter, 10, "celphone_transmiter");
 
-    validateDirectons(paramsDirections);
+    validateDirections({ address_transmiter, address_receiver });
 
-    validateOnlyLettersRgex(paramsOnlyLetters);
+    validateOnlyLettersRgex({
+      name_claimant,
+      name_transmiter,
+      name_receiver,
+      city_transmiter,
+      city_receiver,
+    });
 
-    validateURLs(paramsURLs);
+    // validateURLs({ product_image });
 
     if (
-      pay_method.toLowerCase() !== "cash" &&
-      pay_method.toLowerCase() !== "credit-card" &&
-      pay_method.toLowerCase() !== "debit"
+      pay_method !== "Efectivo" &&
+      pay_method !== "Credito" &&
+      pay_method !== "Debito"
     )
-      throw Error("Pay method must be 'cash', 'credit-card' or 'debit'");
+      throw Error("Pay method must be 'Efectivo', 'Credito' or 'Debito'");
 
     if (String(weight).length < 1 || String(weight).length > 3)
       throw Error("Digits of weigth must be between 1 and 3");
@@ -306,16 +247,16 @@ const updateOrderShipmentHandler = async (req, res) => {
       cellphone_claimant,
       splitAndFixNames(name_transmiter),
       celphone_transmiter,
-      city_transmiter.toLowerCase(),
-      address_transmiter.toLowerCase(),
+      city_transmiter,
+      address_transmiter,
       splitAndFixNames(name_receiver),
       celphone_receiver,
-      city_receiver.toLowerCase(),
-      address_receiver.toLowerCase(),
+      city_receiver,
+      address_receiver,
       weight,
       declared_value,
       product_image,
-      pay_method.toLowerCase()
+      pay_method
     );
 
     res.status(200).json({
@@ -325,12 +266,12 @@ const updateOrderShipmentHandler = async (req, res) => {
         cellphone_claimant,
         name_transmiter: splitAndFixNames(name_transmiter),
         celphone_transmiter,
-        city_transmiter: city_transmiter.toLowerCase(),
-        address_transmiter: address_transmiter.toLowerCase(),
+        city_transmiter: city_transmiter,
+        address_transmiter: address_transmiter,
         name_receiver: splitAndFixNames(name_receiver),
         celphone_receiver,
-        city_receiver: city_receiver.toLowerCase(),
-        address_receiver: address_receiver.toLowerCase(),
+        city_receiver: city_receiver,
+        address_receiver: address_receiver,
         weight,
         declared_value,
         product_image,

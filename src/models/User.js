@@ -13,12 +13,16 @@ export default (sequelize) => {
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         validate: {
           is: /^[a-zA-Z\s]+$/, // Permite solo letras y espacios
         }
       },
       
+      nickname: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -52,7 +56,7 @@ export default (sequelize) => {
       },
       cedula: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: true,
         validate: {
           isNumeric: true,
@@ -61,7 +65,7 @@ export default (sequelize) => {
       },
       cel_Phone_Number: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         validate: {
           isNumeric: true,
           len: [10, 11],
@@ -69,11 +73,12 @@ export default (sequelize) => {
       },
       fee_Category_Percentage: {
         type: DataTypes.INTEGER,
+        defaultValue: 0,
         validate: {
           min: 0,
           max: 100,
         },
-        allowNull: false,
+        allowNull: true,
       },
       category: {
         type: DataTypes.ENUM("regular", "pro"),
@@ -85,7 +90,7 @@ export default (sequelize) => {
       },
       age: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         validate: {
           min: 18,
           max: 100,

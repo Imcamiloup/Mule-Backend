@@ -11,6 +11,7 @@ export default (sequelize) => {
         primaryKey: true,
         unique: true,
       },
+
       name_claimant: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -20,6 +21,7 @@ export default (sequelize) => {
 
         },
       },
+
       cedula_claimant: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -28,6 +30,7 @@ export default (sequelize) => {
           len: [8, 8],
         },
       },
+
       cellphone_claimant: {
         type: DataTypes.BIGINT,
         allowNull: false,
@@ -36,6 +39,7 @@ export default (sequelize) => {
           len: [10, 10],
         },
       },
+
       name_transmiter: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -44,6 +48,7 @@ export default (sequelize) => {
           len: [3, 30],
         },
       },
+
       celphone_transmiter: {
         type: DataTypes.BIGINT,
         allowNull: false,
@@ -52,6 +57,7 @@ export default (sequelize) => {
           len: [10, 10],
         },
       },
+
       city_transmiter: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -60,6 +66,7 @@ export default (sequelize) => {
           is: /^[a-zA-Z\s]+$/,
         },
       },
+
       address_transmiter: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -68,6 +75,7 @@ export default (sequelize) => {
           is: /^[a-zA-Z0-9,.\-#\s]+$/,
         },
       },
+
       name_receiver: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -76,6 +84,7 @@ export default (sequelize) => {
           len: [3, 30],
         },
       },
+
       celphone_receiver: {
         type: DataTypes.BIGINT,
         allowNull: false,
@@ -84,6 +93,7 @@ export default (sequelize) => {
           len: [10, 10],
         },
       },
+
       city_receiver: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -92,6 +102,7 @@ export default (sequelize) => {
           is: /^[a-zA-Z\s]+$/,
         },
       },
+
       address_receiver: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -100,6 +111,7 @@ export default (sequelize) => {
           is: /^[a-zA-Z0-9,.\-#\s]+$/,
         },
       },
+
       weight: {
         type: DataTypes.SMALLINT,
         allowNull: false,
@@ -108,6 +120,7 @@ export default (sequelize) => {
           len: [1, 3],
         },
       },
+
       declared_value: {
         type: DataTypes.BIGINT,
         allowNull: false,
@@ -115,13 +128,25 @@ export default (sequelize) => {
           is: /^\d+$/,
         },
       },
+
       product_image: {
         type: DataTypes.STRING,
         allowNull: false,
       },
+
       pay_method: {
-        type: DataTypes.ENUM("cash", "credit-card", "debit"),
+        type: DataTypes.ENUM("Efectivo", "Credito", "Debito"),
         allowNull: false,
+      },
+
+      status: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+      },
+
+      paymentId: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
 
       created_at: {

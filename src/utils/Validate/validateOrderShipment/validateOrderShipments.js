@@ -11,13 +11,14 @@ export const validateOnlyLettersRgex = (paramsNames) => {
 
 export const validateOnlyNumersRgex = (paramsOnlyNumbers) => {
   const onlyNumbersRgex = /^\d+$/;
+
   for (const key in paramsOnlyNumbers) {
     if (!onlyNumbersRgex.test(paramsOnlyNumbers[key]))
       throw Error(`Only numbers allowed, no other characters in ${key}`);
   }
 };
 
-export const validateDirectons = (paramsDirections) => {
+export const validateDirections = (paramsDirections) => {
   const directionRegex = /^[a-zA-Z0-9,.\-#\s]+$/;
 
   for (const key in paramsDirections) {
@@ -62,6 +63,5 @@ export const splitAndFixNames = (name) => {
 
     name = nameSplit.join(" ");
   }
-
   return name;
 };
