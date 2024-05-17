@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 // Función para generar un token JWT de un solo uso
 const generateEmailVerificationToken = (email, username) => {
@@ -31,10 +31,10 @@ const generatePasswordReset = (email) => {
   }
 };
 
-const generateAuthToken = (userId, username, email, role) => {
+const generateAuthToken = (userId, email, role) => {
   try {
     return jwt.sign(
-      { id: userId, username, email, role },
+      { id: userId, email, role },
       process.env.JWT_SECRET,
       {
         expiresIn: "24h",
@@ -46,7 +46,7 @@ const generateAuthToken = (userId, username, email, role) => {
   }
 };
 
-module.exports = {
+export {
   generateEmailVerificationToken,
   generateAuthToken,
   generatePasswordReset,

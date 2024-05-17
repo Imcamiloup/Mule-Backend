@@ -6,6 +6,7 @@ import enlistmentsRouter from "./enlistmentsRouter.js";
 import orderShipmentsRouter from "./orderShipmentsRouter.js";
 import TypeShipmentsRouter from "./typeShipmentsRouter.js";
 import measureRouter from "./measuresRoutes.js";
+import paymentRouter from "./paymentRouter.js";
 
 const router = Router();
 
@@ -23,5 +24,6 @@ router.use("/enlistments", enlistmentsRouter);
 router.use("/order_shipments", orderShipmentsRouter);
 router.use("/type_shipments", TypeShipmentsRouter);
 router.use("/measures", measureRouter);
+router.use("/create_preference", paymentRouter);
 
 export default router;
