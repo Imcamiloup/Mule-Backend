@@ -1,4 +1,25 @@
 import { User } from "../database/db.js";
+import bcrypt from "bcrypt";
+import { generateAuthToken, generateEmailVerificationToken } from "../utils/helperToken/jwt.js";
+import { sendConfirmationEmail } from "../email/emailService.js";
+
+
+
+
+const registercontroller = async(email,password) =>{
+  try {
+    const user = await User.findOne({where: {email}});
+    if(user) throw new Error('User already exists');
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+    const newUser = await User.create({email, password: hash});
+    const verificationToken = generateEmailVerificationToken(email);
+    await sendConfirmationEmail({verificationCode: verificationToken,email});
+    return newUser;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
 
 const getAllUsersController = async () => {
   // Logic to get all users
@@ -32,15 +53,19 @@ const getUserByIdController = async (id, userRole) => {
 
 
 
-const createUserController = async (name, email, emailVerified, password, cedula, cel_Phone_Number, fee_Category_Percentage, category, age, role, isActive,photo) => {
-
-  try {
-    const newUser = await User.create({ name, email, emailVerified, password, cedula, cel_Phone_Number, fee_Category_Percentage, category, age, role, isActive,photo });
-    return newUser;
-  } catch (error) {
-    throw new Error("Error creating user: " + error.message);
+const loginController = async (userExisting,password) => {
+  
+  try {    
+    const userPassValide = await bcrypt.compare(password,userExisting.password);
+    if(!userPassValide){
+      throw new Error('Password incorrecto');
+    }
+    const token = generateAuthToken(userExisting.id, userExisting.email, userExisting.role);
+    return token;
+  }catch(error){
+    throw new Error('Error al iniciar sesión: '+error.message);
   }
-};
+}
 
 const updateUserController = async (id, updatedFields) => {
   try {
@@ -86,7 +111,8 @@ const deleteUserController = async (id) => {
 export {
   getAllUsersController,
   getUserByIdController,
-  createUserController,
   updateUserController,
   deleteUserController,
+  registercontroller,
+  loginController
 };

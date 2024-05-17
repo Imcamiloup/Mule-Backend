@@ -118,7 +118,7 @@ export default (sequelize) => {
         allowNull: false,
       },
       pay_method: {
-        type: DataTypes.ENUM("cash", "credit-card", "debit"),
+        type: DataTypes.ENUM("Efectivo", "Credito", "Debito"),
         allowNull: false,
       },
 
