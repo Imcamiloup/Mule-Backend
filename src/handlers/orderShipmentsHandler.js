@@ -7,7 +7,7 @@ import {
 } from "../controllers/orderShipmentsController.js";
 
 import {
-  validateDirectons,
+  validateDirections,
   validateOnlyLettersRgex,
   // validateURLs,
   validateOnlyNumersRgex,
@@ -90,7 +90,6 @@ const createOrderShipmentHandler = async (req, res) => {
 
     let { name_claimant, name_transmiter, name_receiver } = req.body;
 
-
     if (
       !name_claimant ||
       !cedula_claimant ||
@@ -135,7 +134,7 @@ const createOrderShipmentHandler = async (req, res) => {
     validateExactLength(celphone_receiver, 10, "celphone_receiver");
     validateExactLength(celphone_transmiter, 10, "celphone_transmiter");
 
-    validateDirectons({ address_transmiter, address_receiver });
+    validateDirections({ address_transmiter, address_receiver });
 
     validateOnlyLettersRgex({
       name_claimant,
@@ -213,9 +212,9 @@ const updateOrderShipmentHandler = async (req, res) => {
       30
     );
 
-  validateLengthFromTo({ city_transmiter, city_receiver }, 4, 20);
+    validateLengthFromTo({ city_transmiter, city_receiver }, 4, 20);
 
-  validateOnlyNumersRgex({
+    validateOnlyNumersRgex({
       cedula_claimant,
       cellphone_claimant,
       celphone_transmiter,
@@ -224,13 +223,12 @@ const updateOrderShipmentHandler = async (req, res) => {
       declared_value,
     });
 
-
     validateExactLength(cedula_claimant, 8, "cedula_claimant");
     validateExactLength(cellphone_claimant, 10, "cellphone_claimant");
     validateExactLength(celphone_receiver, 10, "celphone_receiver");
     validateExactLength(celphone_transmiter, 10, "celphone_transmiter");
 
-    validateDirectons({ address_transmiter, address_receiver });
+    validateDirections({ address_transmiter, address_receiver });
 
     validateOnlyLettersRgex({
       name_claimant,
@@ -241,7 +239,6 @@ const updateOrderShipmentHandler = async (req, res) => {
     });
 
     // validateURLs({ product_image });
-
 
     if (
       pay_method !== "Efectivo" &&

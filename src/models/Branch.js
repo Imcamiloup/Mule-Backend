@@ -13,31 +13,54 @@ export default (sequelize) => {
       province: {
         type: DataTypes.STRING,
         allownull: true,
+        validate: {
+          len: [3, 30],
+          is: /^[a-zA-Z\s]+$/,
+        },
       },
 
       city: {
         type: DataTypes.STRING,
         allownull: true,
+        validate: {
+          len: [3, 20],
+          is: /^[a-zA-Z\s]+$/,
+        },
       },
 
       zip_code: {
         type: DataTypes.STRING,
         allownull: true,
+        validate: {
+          is: /^[A-Z]?\d{4}[A-Z]{0,3}$/i,
+        },
       },
 
       direction: {
         type: DataTypes.STRING,
         allownull: true,
+        validate: {
+          is: /^[a-zA-Z0-9,.\-#\s]+$/,
+          len: [3, 25],
+        },
       },
 
       phone: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allownull: true,
+        validate: {
+          is: /^\d+$/,
+          len: [10, 10],
+        },
       },
 
       type: {
         type: DataTypes.STRING,
         allownull: true,
+        validate: {
+          len: [2, 15],
+          is: /^[a-zA-Z\s]+$/,
+        },
       },
     },
     { timestamps: false }
