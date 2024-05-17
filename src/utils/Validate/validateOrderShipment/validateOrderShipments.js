@@ -11,7 +11,7 @@ export const validateOnlyLettersRgex = (paramsNames) => {
 
 export const validateOnlyNumersRgex = (paramsOnlyNumbers) => {
   const onlyNumbersRgex = /^\d+$/;
-  
+
   for (const key in paramsOnlyNumbers) {
     if (!onlyNumbersRgex.test(paramsOnlyNumbers[key]))
       throw Error(`Only numbers allowed, no other characters in ${key}`);

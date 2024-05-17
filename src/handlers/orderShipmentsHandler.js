@@ -90,6 +90,7 @@ const createOrderShipmentHandler = async (req, res) => {
 
     let { name_claimant, name_transmiter, name_receiver } = req.body;
 
+
     if (
       !name_claimant ||
       !cedula_claimant ||
@@ -168,6 +169,7 @@ const createOrderShipmentHandler = async (req, res) => {
       celphone_receiver,
       city_receiver,
       address_receiver,
+
       weight,
       declared_value,
       product_image,
@@ -211,9 +213,9 @@ const updateOrderShipmentHandler = async (req, res) => {
       30
     );
 
-    validateLengthFromTo({ city_transmiter, city_receiver }, 4, 20);
+  validateLengthFromTo({ city_transmiter, city_receiver }, 4, 20);
 
-    validateOnlyNumersRgex({
+  validateOnlyNumersRgex({
       cedula_claimant,
       cellphone_claimant,
       celphone_transmiter,
@@ -221,6 +223,7 @@ const updateOrderShipmentHandler = async (req, res) => {
       weight,
       declared_value,
     });
+
 
     validateExactLength(cedula_claimant, 8, "cedula_claimant");
     validateExactLength(cellphone_claimant, 10, "cellphone_claimant");
@@ -238,6 +241,7 @@ const updateOrderShipmentHandler = async (req, res) => {
     });
 
     // validateURLs({ product_image });
+
 
     if (
       pay_method !== "Efectivo" &&
