@@ -3,7 +3,6 @@
 import {
   validateDirections,
   validateOnlyLettersRgex,
-  validateURLs,
   validateOnlyNumersRgex,
   validateLengthFromTo,
   splitAndFixNames,
