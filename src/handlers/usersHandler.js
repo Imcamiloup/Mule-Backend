@@ -31,9 +31,9 @@ const getUserByIdHandler = async (req, res) => {
 };
 
 const registerHandler = async (req,res) =>{
-  const {email,password} =req.body;
+  const {email,password,name} =req.body;
   try {
-    const user = await registercontroller(email,password);
+    const user = await registercontroller(email,password,name);
     res.status(200).json(user);
   }catch(error){
     res.status(400).json({message:error.message})
