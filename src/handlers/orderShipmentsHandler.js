@@ -9,7 +9,6 @@ import {
 import {
   validateDirections,
   validateOnlyLettersRgex,
-  // validateURLs,
   validateOnlyNumersRgex,
   validateLengthFromTo,
   splitAndFixNames,
@@ -144,7 +143,7 @@ const createOrderShipmentHandler = async (req, res) => {
       city_receiver,
     });
 
-    // validateURLs({ product_image });
+    //validateURLs(paramsURLs);
 
     if (
       pay_method !== "Efectivo" &&
@@ -205,12 +204,6 @@ const updateOrderShipmentHandler = async (req, res) => {
     } = req.body;
 
     let { name_claimant, name_transmiter, name_receiver } = req.body;
-
-    validateLengthFromTo(
-      { name_claimant, name_receiver, name_transmiter },
-      3,
-      30
-    );
 
     validateLengthFromTo({ city_transmiter, city_receiver }, 4, 20);
 

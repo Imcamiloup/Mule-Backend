@@ -1,3 +1,4 @@
+
 import { DataTypes, UUIDV4, fn } from "sequelize";
 
 export default (sequelize) => {
@@ -17,6 +18,7 @@ export default (sequelize) => {
         validate: {
           is: /^[a-zA-Z\s]+$/,
           len: [3, 30],
+
         },
       },
 

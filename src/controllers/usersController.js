@@ -6,13 +6,13 @@ import { sendConfirmationEmail } from "../email/emailService.js";
 
 
 
-const registercontroller = async(email,password) =>{
+const registercontroller = async(email,password,name) =>{
   try {
     const user = await User.findOne({where: {email}});
     if(user) throw new Error('User already exists');
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
-    const newUser = await User.create({email, password: hash});
+    const newUser = await User.create({email, password: hash, name});
     const verificationToken = generateEmailVerificationToken(email);
     await sendConfirmationEmail({verificationCode: verificationToken,email});
     return newUser;
