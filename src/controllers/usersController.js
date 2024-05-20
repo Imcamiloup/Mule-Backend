@@ -13,7 +13,7 @@ const registercontroller = async(email,password,name) =>{
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
     const newUser = await User.create({email, password: hash, name});
-    const verificationToken = generateEmailVerificationToken(email);
+    const verificationToken = generateEmailVerificationToken(email,name);
     await sendConfirmationEmail({verificationCode: verificationToken,email});
     return newUser;
   } catch (error) {
@@ -60,7 +60,7 @@ const loginController = async (userExisting,password) => {
     if(!userPassValide){
       throw new Error('Password incorrecto');
     }
-    const token = generateAuthToken(userExisting.id, userExisting.email, userExisting.role);
+    const token = generateAuthToken(userExisting.id, userExisting.email, userExisting.role,userExisting.name);
     return token;
   }catch(error){
     throw new Error('Error al iniciar sesión: '+error.message);
