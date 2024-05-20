@@ -26,6 +26,6 @@ router.use("/order_shipments", orderShipmentsRouter);
 router.use("/type_shipments", TypeShipmentsRouter);
 router.use("/measures", measureRouter);
 router.use("/branches", branchesRouter);
-router.use("/create_preference", paymentRouter);
+router.use("/payments", paymentRouter);
 
 export default router;
