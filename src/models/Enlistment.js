@@ -2,7 +2,7 @@ import { DataTypes, UUIDV4 } from "sequelize";
 
 export default (sequelize) => {
   sequelize.define(
-    "Vehicle",
+    "Enlistment",
     {
       id: {
         type: DataTypes.UUID,
@@ -11,61 +11,71 @@ export default (sequelize) => {
         unique: true,
       },
 
-      model: {
-        type: DataTypes.STRING,
+      guide_number: {
+        type: DataTypes.BIGINT,
         allowNull: false,
-        validate: {
-          is: /^[A-HJ-NPR-Z0-9]{17}$/i,
-        },
+        unique: true,
       },
 
       state: {
-        type: DataTypes.ENUM("active", "inactive", "maintenance"),
-        allowNull: false,
-      },
-
-      car_insurance: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-        validate: {
-          len: [8, 12],
-          is: /^\d+$/,
-        },
-      },
-
-      plate: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          is: /^[A-Za-z]{2}-\d{3}-[A-Za-z]{2}$/,
+          is: /^[a-zA-Z0-9\s]+$/,
         },
       },
 
-      tecnical_review: {
+      distance: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          is: /^[A-Z0-9]{2,4}-[A-Z]{2}-\d{4}-\d+$/i,
+          is: /^[a-zA-Z0-9\s]+$/,
         },
       },
 
-      driving_licence: {
+      delivery_time: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          is: /^[a-zA-Z0-9\s]+$/,
+        },
+      },
+
+      order_time: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          is: /^[a-zA-Z0-9\s]+$/,
+        },
+      },
+
+      price_order: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
           is: /^\d+$/,
-          len: [8, 8],
         },
       },
 
-      cargo_manifest: {
-        type: DataTypes.BOOLEAN,
+      qualify_user: {
+        type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          is: /^[a-zA-Z0-9\s]+$/,
+        },
       },
 
-      news: {
+      qualify: {
+        type: DataTypes.ENUM("1", "2", "3", "4", "5"),
+        allowNullL: false,
+        validate: {
+          is: /^\d+$/,
+        },
+      },
+
+      comment: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
         validate: {
           is: /^[a-zA-Z0-9\s]+$/,
         },
