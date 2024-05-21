@@ -7,7 +7,7 @@ const { FRONT_END_URL } = process.env;
 
 const server = express();
 
-server.use(cors({ origin: FRONT_END_URL }));
+server.use(cors());
 server.use(morgan("dev")); //middleware get
 server.use(cookie());
 server.use(express.json()); //middleware post

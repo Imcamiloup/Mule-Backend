@@ -42,9 +42,9 @@ export const createPreferenceHandler = async (req, res) => {
           },
         ],
         back_urls: {
-          success: "www.google.com",
-          failure: "www.google.com",
-          pending: "www.google.com",
+          success: "https://mule-front.onrender.com/auth",
+          failure: "https://mule-front.onrender.com/auth",
+          pending: "https://mule-front.onrender.com/auth",
         },
       },
       idempotencyKey,
