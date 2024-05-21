@@ -4,7 +4,7 @@ import {
   createTypeShipmentController,
   updateTypeShipmentController,
   deleteTypeShipmentController,
-} from "../controllers/TypeShipmentsController.js";
+} from "../controllers/typeShipmentsController.js";
 
 const getAllTypeShipmentsHandler = async (req, res) => {
   try {
