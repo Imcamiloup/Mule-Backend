@@ -6,7 +6,7 @@ import {
     getTypeShipmentByIdHandler,
     updateTypeShipmentHandler,
     deleteTypeShipmentHandler,
-} from "../handlers/TypeShipmentsHandler.js";
+} from "../handlers/typeShipmentsHandler.js";
 
 const TypeShipmentsRouter = Router();
 
