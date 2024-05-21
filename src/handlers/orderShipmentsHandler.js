@@ -1,4 +1,10 @@
-
+import {
+  getAllOrderShipmentsController,
+  getOrderShipmentByIdController,
+  createOrderShipmentController,
+  updateOrderShipmentController,
+  deleteOrderShipmentController,
+} from "../controllers/orderShipmentsController.js";
 
 import {
   validateDirections,
@@ -139,11 +145,10 @@ const createOrderShipmentHandler = async (req, res) => {
 
     //validateURLs(paramsURLs);
 
-
     if (
-      pay_method.toLowerCase() !== "cash" &&
-      pay_method.toLowerCase() !== "credit-card" &&
-      pay_method.toLowerCase() !== "debit"
+      pay_method !== "Efectivo" &&
+      pay_method !== "Credito" &&
+      pay_method !== "Debito"
     )
       throw Error("Pay method must be 'Efectivo', 'Credito' or 'Debito'");
 
@@ -199,7 +204,6 @@ const updateOrderShipmentHandler = async (req, res) => {
     } = req.body;
 
     let { name_claimant, name_transmiter, name_receiver } = req.body;
-
 
     validateLengthFromTo({ city_transmiter, city_receiver }, 4, 20);
 
