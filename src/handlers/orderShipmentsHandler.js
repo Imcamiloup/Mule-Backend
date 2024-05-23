@@ -25,7 +25,7 @@ const storage = new CloudinaryStorage({
         return "png";
       }
     },
-    public_id: (req, file) => path.parse(file.originalname).name,
+    // public_id: (req, file) => path.parse(file.originalname).name,
   },
 });
 
@@ -47,7 +47,7 @@ import {
   validateLengthFromTo,
   splitAndFixNames,
   validateExactLength,
-} from "../utils/Validate/validateOrderShipment/validateOrderShipments.js";
+} from "../utils/Validate/validateOrderShipments/validateOrderShipments.js";
 
 const getAllOrderShipmentsHandler = async (req, res) => {
   const {
@@ -123,7 +123,7 @@ const createOrderShipmentHandler = async (req, res) => {
 
     let { name_claimant, name_transmiter, name_receiver } = req.body;
 
-    const imageResult = req.file.path;
+    // const imageResult = req.file.path;
 
     if (
       !name_claimant ||
@@ -203,7 +203,8 @@ const createOrderShipmentHandler = async (req, res) => {
       address_receiver,
       weight,
       declared_value,
-      product_image: imageResult,
+      product_image: "imagen.jpg",
+      // product_image: imageResult,
       pay_method,
       // typeShipmentId,
       // measureId,
