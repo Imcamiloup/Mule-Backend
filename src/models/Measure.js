@@ -8,6 +8,7 @@ export default (sequelize) => {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         primaryKey: true,
+        unique: true,
       },
 
       name: {
@@ -20,7 +21,7 @@ export default (sequelize) => {
         allowNull: true,
       },
 
-      picture: {
+      measures: {
         type: DataTypes.STRING,
         allowNull: true,
       },

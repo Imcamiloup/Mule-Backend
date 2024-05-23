@@ -42,9 +42,9 @@ export const createPreferenceHandler = async (req, res) => {
           },
         ],
         back_urls: {
-          success: "www.google.com",
-          failure: "www.google.com",
-          pending: "www.google.com",
+          success: "http://localhost:3000/payments/success",
+          failure: "http://localhost:3000/payments/failure",
+          pending: "http://localhost:3000/payments/pending",
         },
       },
       idempotencyKey,
@@ -116,4 +116,14 @@ export const getPayments = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+};
+
+export const successPayment = (req, res) => {
+  res.json("Payment succes");
+};
+export const FailurePayment = (req, res) => {
+  res.json("Payment failure");
+};
+export const pendingPayment = (req, res) => {
+  res.json("Payment pending");
 };
