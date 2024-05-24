@@ -47,6 +47,29 @@ const getOrCreateShipmentsController = async () => {
   return results;
 };
 
+const bulkCreateTypeShipments = async () => {
+  const typeShipments = [
+    {
+      name: "branch to door",
+      description: "description of branch to door",
+    },
+    {
+      name: "branch to branch",
+      description: "description of branch to branch",
+    },
+    {
+      name: "door to branch",
+      description: "description of door to branch",
+    },
+    {
+      name: "pickup",
+      description: "description of branch to door",
+    },
+  ];
+
+  await TypeShipment.bulkCreate(typeShipments);
+};
+
 const getTypeShipmentByIdController = async (id) => {
   try {
     const shipment = await TypeShipment.findByPk(id);
@@ -57,4 +80,8 @@ const getTypeShipmentByIdController = async (id) => {
   }
 };
 
-export { getOrCreateShipmentsController, getTypeShipmentByIdController };
+export {
+  getOrCreateShipmentsController,
+  getTypeShipmentByIdController,
+  bulkCreateTypeShipments,
+};

@@ -1,5 +1,3 @@
-import { OrderShipment } from "../database/db.js";
-
 import {
   getAllOrderShipmentsController,
   getOrderShipmentByIdController,

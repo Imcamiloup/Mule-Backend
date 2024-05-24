@@ -1,11 +1,18 @@
 import {
-  getOrCreateMeasuresController,
+  // getOrCreateMeasuresController,
+  bulkCreateMeasures,
   getMeasureByIdController,
 } from "../controllers/measuresController.js";
 
+import { Measure } from "../database/db.js";
+
+bulkCreateMeasures();
+
 const getOrCreateMeasuresHandler = async (req, res) => {
   try {
-    const measures = await getOrCreateMeasuresController();
+    // const measures = await getOrCreateMeasuresController();
+
+    const measures = await Measure.findAll();
 
     res.status(200).send(measures);
   } catch (error) {

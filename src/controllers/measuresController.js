@@ -39,6 +39,28 @@ const getOrCreateMeasuresController = async () => {
   return results;
 };
 
+const bulkCreateMeasures = async () => {
+  const measures = [
+    {
+      name: "small",
+      value: 15000,
+      measures: "10 x 10 x 10",
+    },
+    {
+      name: "medium",
+      value: 30000,
+      measures: "20 x 20 x 20",
+    },
+    {
+      name: "big",
+      value: 45000,
+      measures: "30 x 30 x 30",
+    },
+  ];
+
+  await Measure.bulkCreate(measures);
+};
+
 const getMeasureByIdController = async (id) => {
   try {
     const measure = await Measure.findByPk(id);
@@ -48,4 +70,8 @@ const getMeasureByIdController = async (id) => {
   }
 };
 
-export { getOrCreateMeasuresController, getMeasureByIdController };
+export {
+  getOrCreateMeasuresController,
+  getMeasureByIdController,
+  bulkCreateMeasures,
+};
