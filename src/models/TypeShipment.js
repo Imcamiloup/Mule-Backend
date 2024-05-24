@@ -1,4 +1,4 @@
-import { DataTypes, UUIDV4 } from "sequelize";
+import { DataTypes } from "sequelize";
 
 export default (sequelize) => {
   sequelize.define(
@@ -7,7 +7,6 @@ export default (sequelize) => {
       id: {
         type: DataTypes.TINYINT,
         primaryKey: true,
-        unique: true,
         autoIncrement: true,
       },
       name: {

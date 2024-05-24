@@ -7,7 +7,6 @@ export default (sequelize) => {
       id: {
         type: DataTypes.TINYINT,
         primaryKey: true,
-        unique: true,
         autoIncrement: true,
       },
 
