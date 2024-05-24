@@ -10,6 +10,7 @@ const getAllOrderShipmentsController = async (
   city_transmiter,
   pay_method,
   typeShipmentId,
+  measureId,
   city_receiver,
   declared_value,
   name_receiver,
@@ -28,6 +29,7 @@ const getAllOrderShipmentsController = async (
   if (celphone_transmiter) where = { ...where, celphone_transmiter };
   if (pay_method) where = { ...where, pay_method };
   if (typeShipmentId) where = { ...where, typeShipmentId };
+  if (measureId) where = { ...where, measureId };
   if (city_receiver) where = { ...where, city_receiver };
   if (declared_value) where = { ...where, declared_value };
   if (name_receiver) where = { ...where, name_receiver };

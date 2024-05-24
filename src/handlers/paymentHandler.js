@@ -7,25 +7,9 @@ const client = new MercadoPagoConfig({
 });
 
 export const createPreferenceHandler = async (req, res) => {
-  const {
-    id,
-    title,
-    quantity,
-    unit_price,
-    description,
-    name,
-    surname,
-    number,
-    dni,
-    dimensions,
-    street_name_buyer,
-    street_number_buyer,
-    street_name_receiver,
-    city_name_receiver,
-    state_name_receiver,
-    street_number_receiver,
-    shipment_cost,
-  } = req.body;
+  const { id, title, quantity, unit_price, payer, shipments } = req.body;
+
+  console.log(req.body);
 
   const idempotencyKey = req.headers["x-idempotency-key"];
 
@@ -49,40 +33,15 @@ export const createPreferenceHandler = async (req, res) => {
           installments: 12,
           default_installments: 1,
         },
-        payer: {
-          name,
-          surname,
-          phone: {
-            area_code: "54",
-            number,
-          },
-        },
-        cost: shipment_cost,
-        identification: {
-          type: "DNI",
-          number: dni,
-        },
-        dimensions,
-
-        address: {
-          street_name: street_name_buyer,
-          street_number: street_number_buyer,
-        },
-
-        receiver_address: {
-          street_name: street_name_receiver,
-          city_name: city_name_receiver,
-          state_name: state_name_receiver,
-          street_number: street_number_receiver,
-        },
+        payer,
+        shipments,
         items: [
           {
-            id,
-            title,
+            id: id,
+            title: title,
             quantity: Number(quantity),
             unit_price: Number(unit_price),
-            currency_id: "COP",
-            description,
+            currency_id: "ARS",
           },
         ],
         back_urls: {
@@ -94,6 +53,7 @@ export const createPreferenceHandler = async (req, res) => {
       idempotencyKey,
     });
 
+    console.log(createPreference);
     res.status(200).json(createPreference);
   } catch (error) {
     res.status(400).json({ error: error.message });
