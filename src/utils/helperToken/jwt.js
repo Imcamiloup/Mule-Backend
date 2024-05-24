@@ -7,8 +7,6 @@ const generateEmailVerificationToken = (email, username) => {
       expiresIn: "24h",
     });
 
-    console.log("Token generado:", token);
-
     return token;
   } catch (error) {
     console.error("Error al generar el token:", error);
@@ -31,10 +29,10 @@ const generatePasswordReset = (email) => {
   }
 };
 
-const generateAuthToken = (userId, email, role) => {
+const generateAuthToken = (userId, email, role, name, isActive) => {
   try {
     return jwt.sign(
-      { id: userId, email, role },
+      { id: userId, email, role, name, isActive },
       process.env.JWT_SECRET,
       {
         expiresIn: "24h",

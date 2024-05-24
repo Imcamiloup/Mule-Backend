@@ -28,8 +28,13 @@ const authenticateToken = (req, res, next) => {
         }
       }
 
-      if (verify === "HotelR&S**2024") return res.status(201).json({ user });
+      if (verify === "Mule2024") return res.status(201).json({ user });
 
+      // Verificar el rol del usuario
+      if (user.role !== "admin") {
+        console.error("El usuario no tiene permisos suficientes");
+        return res.status(403).json({ msg: "Unauthorized" });
+      }
       req.user = user;
       return next();
     });
@@ -39,6 +44,4 @@ const authenticateToken = (req, res, next) => {
   }
 };
 
-export {
-  authenticateToken,
-};
+export { authenticateToken };
