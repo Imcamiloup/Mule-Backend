@@ -31,10 +31,10 @@ const generatePasswordReset = (email) => {
   }
 };
 
-const generateAuthToken = (userId, email, role) => {
+const generateAuthToken = (userId, email, role, name) => {
   try {
     return jwt.sign(
-      { id: userId, email, role },
+      { id: userId, email, role, name },
       process.env.JWT_SECRET,
       {
         expiresIn: "24h",

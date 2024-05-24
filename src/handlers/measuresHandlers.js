@@ -1,31 +1,15 @@
-import { Measure } from "../database/db.js";
 import {
-  createMeasureController,
-  getAllMeasuresController,
+  getOrCreateMeasuresController,
   getMeasureByIdController,
-  updateMeasureController,
-  deleteMeasureController,
 } from "../controllers/measuresController.js";
-import FilteredAndOrderedData from "../utils/helperFilteredAndSorted/filteredAndOrderedData.js";
 
-const getAllMeasuresHandler = async (req, res) => {
-  const { name, orderBy, orderDirection } = req.query;
-
+const getOrCreateMeasuresHandler = async (req, res) => {
   try {
-    let measures;
-    if (name || orderBy || orderDirection) {
-      measures = await FilteredAndOrderedData(
-        Measure,
-        { name },
-        orderBy,
-        orderDirection
-      );
-    } else {
-      measures = await getAllMeasuresController();
-    }
+    const measures = await getOrCreateMeasuresController();
+
     res.status(200).send(measures);
   } catch (error) {
-    res.status(500).send({ error: error.message });
+    res.status(400).send({ error: error.message });
   }
 };
 
@@ -35,59 +19,8 @@ const getMeasureByIdHandler = async (req, res) => {
     const measureById = await getMeasureByIdController(id);
     res.status(200).send(measureById);
   } catch (error) {
-    res.status(500).send({ error: error.message });
+    res.status(400).send({ error: error.message });
   }
 };
 
-const postMeasureHandler = async (req, res) => {
-  try {
-    const { name, value, picture } = req.body;
-
-    if (!name || !value || !picture) {
-      throw new Error("Missing data");
-    }
-
-    const newMeasure = await createMeasureController({
-      name,
-      value,
-      picture,
-    });
-
-    res.status(200).send(newMeasure);
-  } catch (error) {
-    res.status(500).send({ error: error.message });
-  }
-};
-
-const updateMeasureHandler = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { name, value, picture } = req.body;
-    const measureModified = await updateMeasureController(id, {
-      name,
-      value,
-      picture,
-    });
-    res.status(200).send(measureModified);
-  } catch (error) {
-    res.status(500).send({ error: error.message });
-  }
-};
-
-const deleteMeasureHandler = async (req, res) => {
-  try {
-    const { id } = req.params;
-    await deleteMeasureController(id);
-    res.status(200).send({ message: "Measure deleted successfully" });
-  } catch (error) {
-    res.status(500).send({ error: error.message });
-  }
-};
-
-export {
-  getAllMeasuresHandler,
-  getMeasureByIdHandler,
-  postMeasureHandler,
-  updateMeasureHandler,
-  deleteMeasureHandler,
-};
+export { getOrCreateMeasuresHandler, getMeasureByIdHandler };

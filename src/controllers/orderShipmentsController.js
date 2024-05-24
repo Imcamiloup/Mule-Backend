@@ -34,8 +34,6 @@ const getAllOrderShipmentsController = async (
   let order = [];
   if (orderBy && orderDirection) order = [[orderBy, orderDirection]];
 
-  console.log(where);
-
   try {
     const shipments = await OrderShipment.findAll({
       where,
@@ -56,63 +54,6 @@ const getOrderShipmentByIdController = async (id) => {
     return shipment;
   } catch (error) {
     throw new Error("Error get shipment by id: " + error.message);
-  }
-};
-
-const createOrderShipmentController = async (
-  name_claimant,
-  cedula_claimant,
-  cellphone_claimant,
-  name_transmiter,
-  celphone_transmiter,
-  city_transmiter,
-  address_transmiter,
-  name_receiver,
-  celphone_receiver,
-  city_receiver,
-  address_receiver,
-  weight,
-  declared_value,
-  product_image,
-  pay_method
-  // typeShipmentId,
-  // measureId,
-  // user_id
-) => {
-  try {
-    // const typeShipment = await TypeShipment.findByPk(typeShipmentId);
-    // if (!typeShipment) throw new Error("Type shipment not found");
-
-    // const measureType = await Measure.findByPk(measureId);
-    // if (!measureType) throw new Error("Measure type not found");
-
-    // const userId = await User.findByPk(user_id);
-    // if (!userId) throw new Error("User not Found");
-
-    const newOrderShipment = await OrderShipment.create({
-      name_claimant,
-      cedula_claimant,
-      cellphone_claimant,
-      name_transmiter,
-      celphone_transmiter,
-      city_transmiter,
-      address_transmiter,
-      name_receiver,
-      celphone_receiver,
-      city_receiver,
-      address_receiver,
-      weight,
-      declared_value,
-      product_image,
-      pay_method,
-      // typeShipmentId,
-      // measureId,
-      // user_id,
-    });
-
-    return newOrderShipment;
-  } catch (error) {
-    throw new Error("Error create shipment: " + error.message);
   }
 };
 
@@ -171,7 +112,6 @@ const deleteOrderShipmentController = async (id) => {
 export {
   getAllOrderShipmentsController,
   getOrderShipmentByIdController,
-  createOrderShipmentController,
   updateOrderShipmentController,
   deleteOrderShipmentController,
 };
