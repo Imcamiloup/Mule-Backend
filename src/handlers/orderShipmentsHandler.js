@@ -1,41 +1,9 @@
-import cloudinary from "cloudinary";
-import multer from "multer";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
-import path from "path";
 import { OrderShipment } from "../database/db.js";
-
-const { CLOUD_NAME, API_KEY, API_SECRET } = process.env;
-
-cloudinary.config({
-  cloud_name: CLOUD_NAME,
-  api_key: API_KEY,
-  api_secret: API_SECRET,
-});
-
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "uploads",
-    format: async (req, file) => {
-      if (file.mimetype === "image/jpeg") {
-        return "jpg";
-      } else if (file.mimetype === "image/png") {
-        return "png";
-      } else {
-        return "png";
-      }
-    },
-    // public_id: (req, file) => path.parse(file.originalname).name,
-  },
-});
-
-const upload = multer({ storage: storage });
-
-export default upload;
 
 import {
   getAllOrderShipmentsController,
   getOrderShipmentByIdController,
+  createOrderShipmentController,
   updateOrderShipmentController,
   deleteOrderShipmentController,
 } from "../controllers/orderShipmentsController.js";
@@ -123,8 +91,6 @@ const createOrderShipmentHandler = async (req, res) => {
 
     let { name_claimant, name_transmiter, name_receiver } = req.body;
 
-    // const imageResult = req.file.path;
-
     if (
       !name_claimant ||
       !cedula_claimant ||
@@ -189,27 +155,28 @@ const createOrderShipmentHandler = async (req, res) => {
     if (String(weight).length < 1 || String(weight).length > 3)
       throw Error("Digits of weigth must be between 1 and 3");
 
-    const newShipment = await OrderShipment.create({
-      name_claimant: splitAndFixNames(name_claimant),
+    const newShipment = await createOrderShipmentController(
+      splitAndFixNames(name_claimant),
       cedula_claimant,
       cellphone_claimant,
-      name_transmiter: splitAndFixNames(name_transmiter),
+      splitAndFixNames(name_transmiter),
       celphone_transmiter,
       city_transmiter,
       address_transmiter,
-      name_receiver: splitAndFixNames(name_receiver),
+      splitAndFixNames(name_receiver),
       celphone_receiver,
       city_receiver,
       address_receiver,
       weight,
       declared_value,
-      product_image: "imagen.jpg",
+      product_image,
       // product_image: imageResult,
-      pay_method,
+      pay_method
       // typeShipmentId,
       // measureId,
       // user_id
-    });
+    );
+
     res.status(201).json({ "OrderShipment created": newShipment });
   } catch (error) {
     res.status(400).send({ error: error.message });
@@ -312,7 +279,7 @@ const updateOrderShipmentHandler = async (req, res) => {
         weight,
         declared_value,
         product_image,
-        pay_method: pay_method.toLowerCase(),
+        pay_method: pay_method,
       },
     });
   } catch (error) {

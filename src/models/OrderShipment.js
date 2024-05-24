@@ -139,16 +139,6 @@ export default (sequelize) => {
         allowNull: false,
       },
 
-      status: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
-      },
-
-      paymentId: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-
       created_at: {
         type: DataTypes.DATEONLY,
         allowNull: false,

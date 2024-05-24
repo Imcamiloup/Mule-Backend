@@ -7,7 +7,25 @@ const client = new MercadoPagoConfig({
 });
 
 export const createPreferenceHandler = async (req, res) => {
-  const { id, title, quantity, unit_price } = req.body;
+  const {
+    id,
+    title,
+    quantity,
+    unit_price,
+    description,
+    name,
+    surname,
+    number,
+    dni,
+    dimensions,
+    street_name_buyer,
+    street_number_buyer,
+    street_name_receiver,
+    city_name_receiver,
+    state_name_receiver,
+    street_number_receiver,
+    shipment_cost,
+  } = req.body;
 
   const idempotencyKey = req.headers["x-idempotency-key"];
 
@@ -31,7 +49,32 @@ export const createPreferenceHandler = async (req, res) => {
           installments: 12,
           default_installments: 1,
         },
+        payer: {
+          name,
+          surname,
+          phone: {
+            area_code: "54",
+            number,
+          },
+        },
+        cost: shipment_cost,
+        identification: {
+          type: "DNI",
+          number: dni,
+        },
+        dimensions,
 
+        address: {
+          street_name: street_name_buyer,
+          street_number: street_number_buyer,
+        },
+
+        receiver_address: {
+          street_name: street_name_receiver,
+          city_name: city_name_receiver,
+          state_name: state_name_receiver,
+          street_number: street_number_receiver,
+        },
         items: [
           {
             id,
@@ -39,6 +82,7 @@ export const createPreferenceHandler = async (req, res) => {
             quantity: Number(quantity),
             unit_price: Number(unit_price),
             currency_id: "COP",
+            description,
           },
         ],
         back_urls: {

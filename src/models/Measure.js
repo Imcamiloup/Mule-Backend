@@ -1,14 +1,14 @@
-import { DataTypes, UUIDV4 } from "sequelize";
+import { DataTypes } from "sequelize";
 
 export default (sequelize) => {
   sequelize.define(
     "Measure",
     {
       id: {
-        type: DataTypes.UUID,
-        defaultValue: UUIDV4,
+        type: DataTypes.TINYINT,
         primaryKey: true,
         unique: true,
+        autoIncrement: true,
       },
 
       name: {
