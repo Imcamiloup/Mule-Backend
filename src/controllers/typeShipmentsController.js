@@ -1,63 +1,60 @@
 import { TypeShipment } from "../database/db.js";
 
-const getAllTypeShipmentsController = async () => {
-  try {
-    const shipments = await TypeShipment.findAll();
-    return shipments;
-  } catch (error) {
-    throw new Error("Error get shipments: " + error.message);
+const getOrCreateShipmentsController = async () => {
+  const branchToDoor = await TypeShipment.findOrCreate({
+    where: {
+      name: "branch to door",
+      description: "description of branch to door",
+    },
+  });
+
+  const branchToBranch = await TypeShipment.findOrCreate({
+    where: {
+      name: "branch to branch",
+      description: "description of branch to branch",
+    },
+  });
+
+  const doorToBranch = await TypeShipment.findOrCreate({
+    where: {
+      name: "door to branch",
+      description: "description of door to branch",
+    },
+  });
+
+  const pickUp = await TypeShipment.findOrCreate({
+    where: {
+      name: "pickup",
+      description: "description of branch to door",
+    },
+  });
+
+  function mapResults(result) {
+    return {
+      id: result[0].id,
+      name: result[0].name,
+      description: result[0].description,
+    };
   }
+
+  const results = [
+    mapResults(branchToDoor),
+    mapResults(branchToBranch),
+    mapResults(doorToBranch),
+    mapResults(pickUp),
+  ];
+
+  return results;
 };
 
 const getTypeShipmentByIdController = async (id) => {
   try {
     const shipment = await TypeShipment.findByPk(id);
+
     return shipment;
   } catch (error) {
     throw new Error("Error get shipment by id: " + error.message);
   }
 };
 
-const createTypeShipmentController = async (name, description) => {
-  try {
-    const newShipment = await TypeShipment.create({
-      name,
-      description,
-    });
-    return newShipment;
-  } catch (error) {
-    throw new Error("Error create type shipment: " + error.message);
-  }
-};
-
-const updateTypeShipmentController = async (id, name, description) => {
-  try {
-    const shipment = await TypeShipment.findByPk(id);
-    if (!shipment) throw new Error("Shipment not found");
-    shipment.name = name;
-    shipment.description = description;
-    await shipment.save();
-    return shipment;
-  } catch (error) {
-    throw new Error("Error update shipment: " + error.message);
-  }
-};
-
-const deleteTypeShipmentController = async (id) => {
-  try {
-    const shipment = await TypeShipment.findByPk(id);
-    if (!shipment) throw new Error("Shipment not found");
-    await shipment.destroy();
-    return shipment;
-  } catch (error) {
-    throw new Error("Error delete shipment: " + error.message);
-  }
-};
-
-export {
-  getAllTypeShipmentsController,
-  getTypeShipmentByIdController,
-  createTypeShipmentController,
-  updateTypeShipmentController,
-  deleteTypeShipmentController,
-};
+export { getOrCreateShipmentsController, getTypeShipmentByIdController };

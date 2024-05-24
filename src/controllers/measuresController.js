@@ -1,12 +1,42 @@
 import { Measure } from "../database/db.js";
 
-const getAllMeasuresController = async () => {
-  try {
-    const measures = await Measure.findAll();
-    return measures;
-  } catch (error) {
-    throw new Error("Error getting measures: " + error.message);
+const getOrCreateMeasuresController = async () => {
+  const small = await Measure.findOrCreate({
+    where: {
+      name: "small",
+      value: 15000,
+      measures: "10 x 10 x 10",
+    },
+  });
+
+  const medium = await Measure.findOrCreate({
+    where: {
+      name: "medium",
+      value: 30000,
+      measures: "20 x 20 x 20",
+    },
+  });
+
+  const big = await Measure.findOrCreate({
+    where: {
+      name: "big",
+      value: 45000,
+      measures: "30 x 30 x 30",
+    },
+  });
+
+  function mapResults(result) {
+    return {
+      id: result[0].id,
+      name: result[0].name,
+      value: result[0].value,
+      measures: result[0].measures,
+    };
   }
+
+  const results = [mapResults(small), mapResults(medium), mapResults(big)];
+
+  return results;
 };
 
 const getMeasureByIdController = async (id) => {
@@ -18,32 +48,4 @@ const getMeasureByIdController = async (id) => {
   }
 };
 
-const createMeasureController = async ({ name, value, picture }) => {
-  return await Measure.create({
-    name: name,
-    value: value,
-    picture: picture,
-  });
-};
-
-const updateMeasureController = async (id, { name, value, picture }) => {
-  const measure = await getMeasureByIdController(id);
-  measure.name = name;
-  measure.value = value;
-  measure.picture = picture;
-  await measure.save();
-  return measure;
-};
-
-const deleteMeasureController = async (id) => {
-  const measure = await getMeasureByIdController(id);
-  await measure.destroy();
-};
-
-export {
-  getAllMeasuresController,
-  getMeasureByIdController,
-  createMeasureController,
-  updateMeasureController,
-  deleteMeasureController,
-};
+export { getOrCreateMeasuresController, getMeasureByIdController };

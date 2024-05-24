@@ -1,9 +1,9 @@
 import express from "express";
-import jwt from "jsonwebtoken";
 import router from "./routes/index.js";
 import cookie from "cookie-parser";
 import morgan from "morgan";
 import cors from "cors";
+const { FRONT_END_URL } = process.env;
 
 const server = express();
 
