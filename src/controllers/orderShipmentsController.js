@@ -5,6 +5,7 @@ const getAllOrderShipmentsController = async (
   cedula_claimant,
   cellphone_claimant,
   name_transmiter,
+  surname_transmiter,
   celphone_transmiter,
   city_transmiter,
   pay_method,
@@ -22,6 +23,7 @@ const getAllOrderShipmentsController = async (
   if (cedula_claimant) where = { ...where, cedula_claimant };
   if (cellphone_claimant) where = { ...where, cellphone_claimant };
   if (name_transmiter) where = { ...where, name_transmiter };
+  if (surname_transmiter) where = { ...where, surname_transmiter };
   if (city_transmiter) where = { ...where, city_transmiter };
   if (celphone_transmiter) where = { ...where, celphone_transmiter };
   if (pay_method) where = { ...where, pay_method };
@@ -53,6 +55,7 @@ const createOrderShipmentController = async (
   cedula_claimant,
   cellphone_claimant,
   name_transmiter,
+  surname_transmiter,
   celphone_transmiter,
   city_transmiter,
   address_transmiter,
@@ -83,6 +86,7 @@ const createOrderShipmentController = async (
       cedula_claimant,
       cellphone_claimant,
       name_transmiter,
+      surname_transmiter,
       celphone_transmiter,
       city_transmiter,
       address_transmiter,
@@ -120,6 +124,7 @@ const updateOrderShipmentController = async (
   cedula_claimant,
   cellphone_claimant,
   name_transmiter,
+  surname_transmiter,
   celphone_transmiter,
   city_transmiter,
   address_transmiter,
@@ -141,6 +146,7 @@ const updateOrderShipmentController = async (
     cedula_claimant,
     cellphone_claimant,
     name_transmiter,
+    surname_transmiter,
     celphone_transmiter,
     city_transmiter,
     address_transmiter,

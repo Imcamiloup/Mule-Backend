@@ -23,6 +23,7 @@ const getAllOrderShipmentsHandler = async (req, res) => {
     cedula_claimant,
     cellphone_claimant,
     name_transmiter,
+    surname_transmiter,
     celphone_transmiter,
     city_transmiter,
     pay_method,
@@ -41,6 +42,7 @@ const getAllOrderShipmentsHandler = async (req, res) => {
       cedula_claimant,
       cellphone_claimant,
       name_transmiter,
+      surname_transmiter,
       celphone_transmiter,
       city_transmiter,
       pay_method,
@@ -89,13 +91,15 @@ const createOrderShipmentHandler = async (req, res) => {
       // user_id,
     } = req.body;
 
-    let { name_claimant, name_transmiter, name_receiver } = req.body;
+    let { name_claimant, name_transmiter, name_receiver, surname_transmiter } =
+      req.body;
 
     if (
       !name_claimant ||
       !cedula_claimant ||
       !cellphone_claimant ||
       !name_transmiter ||
+      !surname_transmiter ||
       !celphone_transmiter ||
       !city_transmiter ||
       !address_transmiter ||
@@ -140,6 +144,7 @@ const createOrderShipmentHandler = async (req, res) => {
     validateOnlyLettersRgex({
       name_claimant,
       name_transmiter,
+      surname_transmiter,
       name_receiver,
       city_transmiter,
       city_receiver,
@@ -160,6 +165,7 @@ const createOrderShipmentHandler = async (req, res) => {
       cedula_claimant,
       cellphone_claimant,
       splitAndFixNames(name_transmiter),
+      splitAndFixNames(surname_transmiter),
       celphone_transmiter,
       city_transmiter,
       address_transmiter,
@@ -204,7 +210,8 @@ const updateOrderShipmentHandler = async (req, res) => {
       // user_id,
     } = req.body;
 
-    let { name_claimant, name_transmiter, name_receiver } = req.body;
+    let { name_claimant, name_transmiter, name_receiver, surname_transmiter } =
+      req.body;
 
     validateLengthFromTo({ city_transmiter, city_receiver }, 4, 20);
 
@@ -227,12 +234,11 @@ const updateOrderShipmentHandler = async (req, res) => {
     validateOnlyLettersRgex({
       name_claimant,
       name_transmiter,
+      surname_transmiter,
       name_receiver,
       city_transmiter,
       city_receiver,
     });
-
-    // validateURLs({ product_image });
 
     if (
       pay_method !== "Efectivo" &&
@@ -250,6 +256,7 @@ const updateOrderShipmentHandler = async (req, res) => {
       cedula_claimant,
       cellphone_claimant,
       splitAndFixNames(name_transmiter),
+      splitAndFixNames(surname_transmiter),
       celphone_transmiter,
       city_transmiter,
       address_transmiter,
@@ -269,6 +276,7 @@ const updateOrderShipmentHandler = async (req, res) => {
         cedula_claimant,
         cellphone_claimant,
         name_transmiter: splitAndFixNames(name_transmiter),
+        surname_transmiter: splitAndFixNames(surname_transmiter),
         celphone_transmiter,
         city_transmiter: city_transmiter,
         address_transmiter: address_transmiter,

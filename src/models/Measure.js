@@ -5,7 +5,7 @@ export default (sequelize) => {
     "Measure",
     {
       id: {
-        type: DataTypes.TINYINT,
+        type: DataTypes.SMALLINT,
         primaryKey: true,
         autoIncrement: true,
       },
