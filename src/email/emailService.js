@@ -2,7 +2,7 @@ import sgMail from '@sendgrid/mail';
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendConfirmationEmail = async ({  email, verificationCode }) => {
- const confirmationUrl = `http://localhost:4571/email-confirmation/${verificationCode}`;
+ const confirmationUrl = `http://localhost:3002/users/email-confirmation/${verificationCode}`;
  const message = {
     to: email,
     from: 'ryze1520@gmail.com',

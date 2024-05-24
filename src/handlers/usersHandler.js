@@ -13,7 +13,7 @@ const getAllUsersHandler = async (req, res) => {
     const users = await getAllUsersController();
     res.status(200).send(users);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(400).send({ message: error.message });
   }
 };
 
@@ -21,8 +21,9 @@ const getUserByIdHandler = async (req, res) => {
   try {
     const { id } = req.params;
     // Obtener el rol del usuario autenticado desde la solicitud
-    //const userRole = req.user.role;
-    const user = await getUserByIdController(id /*,userRole*/);
+    const userRole = req.user.role;
+    if(userRole !== 'admin') return res.status(400).json({error:"User Unauthorized"});;
+    const user = await getUserByIdController(id);
     if (!user) throw new Error("User not found");
     res.status(200).send(user);
   } catch (error) {
@@ -66,12 +67,12 @@ const loginHandler = async (req,res) =>{
 const updateUserHandler = async (req, res) => {
   try {
     const { id } = req.params;
-    // const { user } = req; // Obtener el usuario autenticado desde la solicitud
-
+    // Obtener el rol del usuario autenticado desde la solicitud
+    const userRole = req.user.role;
     // // Verificar si el usuario autenticado tiene permiso para actualizar
-    // if (user.role !== "admin") {
-    //     return res.status(403).send({ message: "Unauthorized operation: User is not an admin" });
-    // }
+    if (userRole !== "admin") {
+        return res.status(403).send({ message: "Unauthorized operation: User is not an admin" });
+    }
 
     // Obtener los campos actualizados del cuerpo de la solicitud
     const updatedFields = req.body;
