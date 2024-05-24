@@ -66,21 +66,12 @@ const createOrderShipmentController = async (
   weight,
   declared_value,
   product_image,
-  pay_method
-  // typeShipmentId,
-  // measureId,
+  pay_method,
+  typeShipmentId,
+  measureId
   // user_id,
 ) => {
   try {
-    // const typeShipment = await TypeShipment.findByPk(typeShipmentId);
-    // if (!typeShipment) throw new Error("Type shipment not found");
-
-    // const measureType = await Measure.findByPk(measureId);
-    // if (!measureType) throw new Error("Measure type not found");
-
-    // const userId = await User.findByPk(user_id);
-    // if (!userId) throw new Error("User not Found");
-
     const newOrderShipment = await OrderShipment.create({
       name_claimant,
       cedula_claimant,
@@ -98,8 +89,8 @@ const createOrderShipmentController = async (
       declared_value,
       product_image,
       pay_method,
-      // typeShipmentId,
-      // measureId,
+      typeShipmentId,
+      measureId,
       // user_id,
     });
 

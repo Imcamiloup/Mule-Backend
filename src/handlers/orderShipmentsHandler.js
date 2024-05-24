@@ -84,8 +84,8 @@ const createOrderShipmentHandler = async (req, res) => {
       declared_value,
       product_image,
       pay_method,
-      // typeShipmentId,
-      // measureId,
+      typeShipmentId,
+      measureId,
       // user_id,
     } = req.body;
 
@@ -108,9 +108,9 @@ const createOrderShipmentHandler = async (req, res) => {
       !weight ||
       !declared_value ||
       !product_image ||
-      !pay_method
-      // !typeShipmentId ||
-      // !measureId ||
+      !pay_method ||
+      !typeShipmentId ||
+      !measureId
       // !user_id
     )
       throw new Error("Missing required information");
@@ -174,10 +174,9 @@ const createOrderShipmentHandler = async (req, res) => {
       weight,
       declared_value,
       product_image,
-      // product_image: imageResult,
-      pay_method
-      // typeShipmentId,
-      // measureId,
+      pay_method,
+      typeShipmentId,
+      measureId
       // user_id
     );
 
@@ -203,9 +202,6 @@ const updateOrderShipmentHandler = async (req, res) => {
       declared_value,
       product_image,
       pay_method,
-      // typeShipmentId,
-      // measureId,
-      // user_id,
     } = req.body;
 
     let { name_claimant, name_transmiter, name_receiver, surname_transmiter } =

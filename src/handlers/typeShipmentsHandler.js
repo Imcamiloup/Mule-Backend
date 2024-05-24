@@ -1,18 +1,14 @@
 import {
-  // getOrCreateShipmentsController,
+  getTypeShipmentsController,
   getTypeShipmentByIdController,
   bulkCreateTypeShipments,
 } from "../controllers/typeShipmentsController.js";
-
-import { TypeShipment } from "../database/db.js";
 
 bulkCreateTypeShipments();
 
 const getOrCreateTypeShipmentsHandler = async (req, res) => {
   try {
-    // const shipments = await getOrCreateShipmentsController();
-
-    const shipments = await TypeShipment.findAll();
+    const shipments = await getTypeShipmentsController();
 
     res.status(200).send(shipments);
   } catch (error) {
@@ -32,4 +28,3 @@ const getTypeShipmentByIdHandler = async (req, res) => {
 };
 
 export { getOrCreateTypeShipmentsHandler, getTypeShipmentByIdHandler };
-
