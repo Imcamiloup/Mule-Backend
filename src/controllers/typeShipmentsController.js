@@ -35,6 +35,7 @@ const bulkCreateTypeShipments = async () => {
   }
 };
 
+
 const getTypeShipmentByIdController = async (id) => {
   try {
     const shipment = await TypeShipment.findByPk(id);
