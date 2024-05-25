@@ -48,10 +48,7 @@ Driver.belongsTo(Vehicle, { foreignKey: "vehicle_id" });
 Driver.belongsToMany(Enlistment, { through: "enlistment_driver" });
 Enlistment.belongsToMany(Driver, { through: "enlistment_driver" });
 
-TypeShipment.hasMany(OrderShipment, {
-  as: "typeShipment",
-  foreignKey: "typeShipmentId",
-});
+TypeShipment.hasMany(OrderShipment, { foreignKey: "typeShipmentId" });
 OrderShipment.belongsTo(TypeShipment, { foreignKey: "typeShipmentId" });
 
 Measure.hasMany(OrderShipment, { foreignKey: "measureId" });

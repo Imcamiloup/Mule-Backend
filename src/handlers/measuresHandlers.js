@@ -4,10 +4,9 @@ import {
   getMeasureByIdController,
 } from "../controllers/measuresController.js";
 
-bulkCreateMeasures();
-
 const getOrCreateMeasuresHandler = async (req, res) => {
   try {
+    await bulkCreateMeasures();
     const measures = await getMeasuresController();
 
     res.status(200).send(measures);

@@ -4,10 +4,9 @@ import {
   bulkCreateTypeShipments,
 } from "../controllers/typeShipmentsController.js";
 
-bulkCreateTypeShipments();
-
 const getOrCreateTypeShipmentsHandler = async (req, res) => {
   try {
+    await bulkCreateTypeShipments();
     const shipments = await getTypeShipmentsController();
 
     res.status(200).send(shipments);
