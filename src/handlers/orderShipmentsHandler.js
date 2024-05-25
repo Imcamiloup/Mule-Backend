@@ -13,6 +13,7 @@ import {
   validateLengthFromTo,
   splitAndFixNames,
   validateExactLength,
+  validateMissingInformation,
 } from "../utils/Validate/validateOrderShipments/validateOrderShipments.js";
 
 const getAllOrderShipmentsHandler = async (req, res) => {
@@ -94,28 +95,26 @@ const createOrderShipmentHandler = async (req, res) => {
     let { name_claimant, name_transmiter, name_receiver, surname_transmiter } =
       req.body;
 
-    if (
-      !name_claimant ||
-      !cedula_claimant ||
-      !cellphone_claimant ||
-      !name_transmiter ||
-      !surname_transmiter ||
-      !celphone_transmiter ||
-      !city_transmiter ||
-      !address_transmiter ||
-      !name_receiver ||
-      !celphone_receiver ||
-      !city_receiver ||
-      !address_receiver ||
-      !weight ||
-      !declared_value ||
-      !product_image ||
-      !pay_method ||
-      !typeShipmentId ||
-      !measureId
-      // !user_id
-    )
-      throw new Error("Missing required information");
+    validateMissingInformation({
+      name_claimant,
+      cedula_claimant,
+      cellphone_claimant,
+      name_transmiter,
+      surname_transmiter,
+      celphone_transmiter,
+      city_transmiter,
+      address_transmiter,
+      name_receiver,
+      celphone_receiver,
+      city_receiver,
+      address_receiver,
+      weight,
+      declared_value,
+      product_image,
+      pay_method,
+      typeShipmentId,
+      measureId,
+    });
 
     validateLengthFromTo(
       { name_claimant, name_receiver, name_transmiter },
@@ -208,6 +207,25 @@ const updateOrderShipmentHandler = async (req, res) => {
 
     let { name_claimant, name_transmiter, name_receiver, surname_transmiter } =
       req.body;
+
+    validateMissingInformation({
+      name_claimant,
+      cedula_claimant,
+      cellphone_claimant,
+      name_transmiter,
+      surname_transmiter,
+      celphone_transmiter,
+      city_transmiter,
+      address_transmiter,
+      name_receiver,
+      celphone_receiver,
+      city_receiver,
+      address_receiver,
+      weight,
+      declared_value,
+      product_image,
+      pay_method,
+    });
 
     validateLengthFromTo({ city_transmiter, city_receiver }, 4, 20);
 

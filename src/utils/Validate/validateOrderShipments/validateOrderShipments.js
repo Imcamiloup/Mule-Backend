@@ -57,4 +57,9 @@ export const splitAndFixNames = (name) => {
   return name;
 };
 
-
+export const validateMissingInformation = (params) => {
+  for (const key in params) {
+    if (params[key] === null || params[key].length === 0)
+      throw Error(`Missing field: '${key}'`);
+  }
+};
