@@ -20,7 +20,7 @@ export default (sequelize) => {
         allowNull: true,
       },
 
-      dimenstions: {
+      measures: {
         type: DataTypes.STRING,
         allowNull: true,
       },
