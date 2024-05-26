@@ -89,7 +89,7 @@ const createOrderShipmentHandler = async (req, res) => {
       pay_method,
       typeShipmentId,
       measureId,
-      // user_id,
+      user_id,
     } = req.body;
 
     let { name_claimant, name_transmiter, name_receiver, surname_transmiter } =
@@ -114,6 +114,7 @@ const createOrderShipmentHandler = async (req, res) => {
       pay_method,
       typeShipmentId,
       measureId,
+      user_id,
     });
 
     validateLengthFromTo(
@@ -177,8 +178,8 @@ const createOrderShipmentHandler = async (req, res) => {
       product_image,
       pay_method,
       typeShipmentId,
-      measureId
-      // user_id
+      measureId,
+      user_id
     );
 
     res.status(201).json({ "OrderShipment created": newShipment });

@@ -70,8 +70,8 @@ const createOrderShipmentController = async (
   product_image,
   pay_method,
   typeShipmentId,
-  measureId
-  // user_id,
+  measureId,
+  user_id
 ) => {
   try {
     const newOrderShipment = await OrderShipment.create({
@@ -93,7 +93,7 @@ const createOrderShipmentController = async (
       pay_method,
       typeShipmentId,
       measureId,
-      // user_id,
+      user_id,
     });
 
     return newOrderShipment;
