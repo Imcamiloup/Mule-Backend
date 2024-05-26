@@ -1,4 +1,4 @@
-import { OrderShipment } from "../database/db.js";
+import { OrderShipment, User } from "../database/db.js";
 
 const getAllOrderShipmentsController = async (
   name_claimant,
@@ -74,6 +74,10 @@ const createOrderShipmentController = async (
   user_id
 ) => {
   try {
+    const userId = await User.findByPk(user_id);
+
+    if (!userId) throw Error(`User with ID: ${user_id} was not found`);
+
     const newOrderShipment = await OrderShipment.create({
       name_claimant,
       cedula_claimant,

@@ -1,5 +1,4 @@
-import sequelize from "../db.js";
-import { registercontroller } from "../../controllers/usersController.js";
+import { registercontrollerAdminDefault } from "../../controllers/usersController.js";
 
 // Función para crear el usuario por defecto
 const createDefaultUser = async () => {
@@ -15,14 +14,17 @@ const createDefaultUser = async () => {
     };
 
     // Conecta con la base de datos
-    await sequelize.sync();
 
     // Crea el usuario en la base de datos
-    await registercontroller(defaultUser);
-
-    console.log("Usuario por defecto creado exitosamente.");
+    await registercontrollerAdminDefault(
+      defaultUser.email,
+      defaultUser.password,
+      defaultUser.name,
+      defaultUser.role,
+      defaultUser.isActive
+    );
   } catch (error) {
-    console.error("Error al crear el usuario por defecto:", error);
+    console.error("Error al crear el usuario por defecto:", error.message);
   }
 };
 
