@@ -8,14 +8,21 @@ import { sendConfirmationEmail } from "../email/emailService.js";
 
 const registercontroller = async (email, password, name, role, isActive) => {
   try {
+    if (name === "admin") {
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(password, salt);
+      await User.create({
+        email,
+        password: hash,
+        name,
+        role: "admin",
+        isActive,
+      });
+    }
     const user = await User.findOne({ where: { email } });
     if (user) throw new Error("User already exists");
     //! Validación para crear a el admin por default en construccion pero funcional...
-    if(name === "admin"){
-      const salt = await bcrypt.genSalt(10);
-      const hash = await bcrypt.hash(password, salt);
-      const newUser = await User.create({ email, password: hash, name , role: "admin", isActive});
-    }
+
     //! ------------------------------------------------------------------------------------------------
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
@@ -25,6 +32,21 @@ const registercontroller = async (email, password, name, role, isActive) => {
     return newUser;
   } catch (error) {
     throw new Error(error.message);
+  }
+};
+
+const registercontrollerAdminDefault = async (
+  email,
+  password,
+  name,
+  role,
+  isActive
+) => {
+  const user = await User.findOne({ where: { email } });
+  if (!user) {
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+    await User.create({ email, password: hash, name, role: "admin", isActive });
   }
 };
 
@@ -63,16 +85,15 @@ const getUserByIdController = async (id, userRole) => {
 
 const loginController = async (userExisting, password) => {
   try {
-
-    if(password !== "Admin123$"){
-    const userPassValide = await bcrypt.compare(
-      password,
-      userExisting.password
-    );
-    if (!userPassValide) {
-      throw new Error("Password incorrecto");
+    if (password !== "Admin123$") {
+      const userPassValide = await bcrypt.compare(
+        password,
+        userExisting.password
+      );
+      if (!userPassValide) {
+        throw new Error("Password incorrecto");
+      }
     }
-  }
     const token = generateAuthToken(
       userExisting.id,
       userExisting.email,
@@ -134,4 +155,5 @@ export {
   deleteUserController,
   registercontroller,
   loginController,
+  registercontrollerAdminDefault,
 };
