@@ -5,6 +5,7 @@ import {
   deleteUserController,
   registercontroller,
   loginController,
+  updateProfileController,
 } from "../controllers/usersController.js";
 import { User } from "../database/db.js";
 
@@ -85,6 +86,17 @@ const updateUserHandler = async (req, res) => {
   }
 };
 
+const updateProfileHandler = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedFields = req.body;
+    const updatedUser = await updateProfileController(id, updatedFields);
+    res.status(200).send(updatedUser);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+}
+
 const deleteUserHandler = async (req, res) => {
   try {
     const { id } = req.params;
@@ -109,4 +121,5 @@ export {
   deleteUserHandler,
   registerHandler,
   loginHandler,
+  updateProfileHandler,
 };
