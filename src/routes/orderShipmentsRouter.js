@@ -1,5 +1,4 @@
 import { Router } from "express";
-import upload from "../handlers/orderShipmentsHandler.js";
 
 import {
   getAllOrderShipmentsHandler,
@@ -11,8 +10,8 @@ import {
 
 const orderShipmentsRouter = Router();
 
-orderShipmentsRouter.get("/",  getAllOrderShipmentsHandler);
-orderShipmentsRouter.post("/", upload.single("image"), createOrderShipmentHandler);
+orderShipmentsRouter.get("/", getAllOrderShipmentsHandler);
+orderShipmentsRouter.post("/", createOrderShipmentHandler);
 orderShipmentsRouter.get("/:id", getOrderShipmentByIdHandler);
 orderShipmentsRouter.put("/:id", updateOrderShipmentHandler);
 orderShipmentsRouter.delete("/:id", deleteOrderShipmentHandler);

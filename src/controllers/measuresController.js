@@ -1,42 +1,37 @@
 import { Measure } from "../database/db.js";
 
-const getOrCreateMeasuresController = async () => {
-  const small = await Measure.findOrCreate({
-    where: {
+const getMeasuresController = async () => {
+  const measures = await Measure.findAll();
+
+  if (measures.length === 0) throw Error("No Measures found");
+
+  return measures;
+};
+
+const bulkCreateMeasures = async () => {
+  const measuresData = [
+    {
       name: "small",
       value: 15000,
       measures: "10 x 10 x 10",
     },
-  });
-
-  const medium = await Measure.findOrCreate({
-    where: {
+    {
       name: "medium",
       value: 30000,
       measures: "20 x 20 x 20",
     },
-  });
-
-  const big = await Measure.findOrCreate({
-    where: {
+    {
       name: "big",
       value: 45000,
       measures: "30 x 30 x 30",
     },
-  });
+  ];
 
-  function mapResults(result) {
-    return {
-      id: result[0].id,
-      name: result[0].name,
-      value: result[0].value,
-      measures: result[0].measures,
-    };
+  const measures = await Measure.findAll();
+
+  if (measures.length === 0) {
+    await Measure.bulkCreate(measuresData);
   }
-
-  const results = [mapResults(small), mapResults(medium), mapResults(big)];
-
-  return results;
 };
 
 const getMeasureByIdController = async (id) => {
@@ -48,4 +43,4 @@ const getMeasureByIdController = async (id) => {
   }
 };
 
-export { getOrCreateMeasuresController, getMeasureByIdController };
+export { getMeasuresController, getMeasureByIdController, bulkCreateMeasures };

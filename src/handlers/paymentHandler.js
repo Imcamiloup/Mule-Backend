@@ -7,7 +7,7 @@ const client = new MercadoPagoConfig({
 });
 
 export const createPreferenceHandler = async (req, res) => {
-  const { id, title, quantity, unit_price } = req.body;
+  const { id, title, quantity, unit_price, payer, shipments } = req.body;
 
   const idempotencyKey = req.headers["x-idempotency-key"];
 
@@ -17,28 +17,18 @@ export const createPreferenceHandler = async (req, res) => {
     const createPreference = await preference.create({
       body: {
         payment_methods: {
-          excluded_payment_types: [
-            {
-              id: "atm",
-            },
-            {
-              id: "ticket",
-            },
-            {
-              id: "bank_transfer",
-            },
-          ],
           installments: 12,
           default_installments: 1,
         },
-
+        payer,
+        shipments,
         items: [
           {
             id,
             title,
             quantity: Number(quantity),
             unit_price: Number(unit_price),
-            currency_id: "COP",
+            currency_id: "ARS",
           },
         ],
         back_urls: {

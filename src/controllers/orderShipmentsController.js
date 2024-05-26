@@ -1,14 +1,16 @@
-import { OrderShipment } from "../database/db.js";
+import { OrderShipment, User } from "../database/db.js";
 
 const getAllOrderShipmentsController = async (
   name_claimant,
   cedula_claimant,
   cellphone_claimant,
   name_transmiter,
+  surname_transmiter,
   celphone_transmiter,
   city_transmiter,
   pay_method,
   typeShipmentId,
+  measureId,
   city_receiver,
   declared_value,
   name_receiver,
@@ -22,10 +24,12 @@ const getAllOrderShipmentsController = async (
   if (cedula_claimant) where = { ...where, cedula_claimant };
   if (cellphone_claimant) where = { ...where, cellphone_claimant };
   if (name_transmiter) where = { ...where, name_transmiter };
+  if (surname_transmiter) where = { ...where, surname_transmiter };
   if (city_transmiter) where = { ...where, city_transmiter };
   if (celphone_transmiter) where = { ...where, celphone_transmiter };
   if (pay_method) where = { ...where, pay_method };
   if (typeShipmentId) where = { ...where, typeShipmentId };
+  if (measureId) where = { ...where, measureId };
   if (city_receiver) where = { ...where, city_receiver };
   if (declared_value) where = { ...where, declared_value };
   if (name_receiver) where = { ...where, name_receiver };
@@ -48,6 +52,60 @@ const getAllOrderShipmentsController = async (
   }
 };
 
+const createOrderShipmentController = async (
+  name_claimant,
+  cedula_claimant,
+  cellphone_claimant,
+  name_transmiter,
+  surname_transmiter,
+  celphone_transmiter,
+  city_transmiter,
+  address_transmiter,
+  name_receiver,
+  celphone_receiver,
+  city_receiver,
+  address_receiver,
+  weight,
+  declared_value,
+  product_image,
+  pay_method,
+  typeShipmentId,
+  measureId,
+  user_id
+) => {
+  try {
+    const userId = await User.findByPk(user_id);
+
+    if (!userId) throw Error(`User with ID: ${user_id} was not found`);
+
+    const newOrderShipment = await OrderShipment.create({
+      name_claimant,
+      cedula_claimant,
+      cellphone_claimant,
+      name_transmiter,
+      surname_transmiter,
+      celphone_transmiter,
+      city_transmiter,
+      address_transmiter,
+      name_receiver,
+      celphone_receiver,
+      city_receiver,
+      address_receiver,
+      weight,
+      declared_value,
+      product_image,
+      pay_method,
+      typeShipmentId,
+      measureId,
+      user_id,
+    });
+
+    return newOrderShipment;
+  } catch (error) {
+    throw new Error("Error create shipment: " + error.message);
+  }
+};
+
 const getOrderShipmentByIdController = async (id) => {
   try {
     const shipment = await OrderShipment.findByPk(id);
@@ -63,6 +121,7 @@ const updateOrderShipmentController = async (
   cedula_claimant,
   cellphone_claimant,
   name_transmiter,
+  surname_transmiter,
   celphone_transmiter,
   city_transmiter,
   address_transmiter,
@@ -84,6 +143,7 @@ const updateOrderShipmentController = async (
     cedula_claimant,
     cellphone_claimant,
     name_transmiter,
+    surname_transmiter,
     celphone_transmiter,
     city_transmiter,
     address_transmiter,
@@ -111,6 +171,7 @@ const deleteOrderShipmentController = async (id) => {
 
 export {
   getAllOrderShipmentsController,
+  createOrderShipmentController,
   getOrderShipmentByIdController,
   updateOrderShipmentController,
   deleteOrderShipmentController,

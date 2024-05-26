@@ -1,41 +1,7 @@
-import cloudinary from "cloudinary";
-import multer from "multer";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
-import path from "path";
-import { OrderShipment } from "../database/db.js";
-
-const { CLOUD_NAME, API_KEY, API_SECRET } = process.env;
-
-cloudinary.config({
-  cloud_name: CLOUD_NAME,
-  api_key: API_KEY,
-  api_secret: API_SECRET,
-});
-
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "uploads",
-    format: async (req, file) => {
-      if (file.mimetype === "image/jpeg") {
-        return "jpg";
-      } else if (file.mimetype === "image/png") {
-        return "png";
-      } else {
-        return "png";
-      }
-    },
-    // public_id: (req, file) => path.parse(file.originalname).name,
-  },
-});
-
-const upload = multer({ storage: storage });
-
-export default upload;
-
 import {
   getAllOrderShipmentsController,
   getOrderShipmentByIdController,
+  createOrderShipmentController,
   updateOrderShipmentController,
   deleteOrderShipmentController,
 } from "../controllers/orderShipmentsController.js";
@@ -47,6 +13,7 @@ import {
   validateLengthFromTo,
   splitAndFixNames,
   validateExactLength,
+  validateMissingInformation,
 } from "../utils/Validate/validateOrderShipments/validateOrderShipments.js";
 
 const getAllOrderShipmentsHandler = async (req, res) => {
@@ -55,10 +22,12 @@ const getAllOrderShipmentsHandler = async (req, res) => {
     cedula_claimant,
     cellphone_claimant,
     name_transmiter,
+    surname_transmiter,
     celphone_transmiter,
     city_transmiter,
     pay_method,
     typeShipmentId,
+    measureId,
     city_receiver,
     declared_value,
     name_receiver,
@@ -73,10 +42,12 @@ const getAllOrderShipmentsHandler = async (req, res) => {
       cedula_claimant,
       cellphone_claimant,
       name_transmiter,
+      surname_transmiter,
       celphone_transmiter,
       city_transmiter,
       pay_method,
       typeShipmentId,
+      measureId,
       city_receiver,
       declared_value,
       name_receiver,
@@ -116,36 +87,35 @@ const createOrderShipmentHandler = async (req, res) => {
       declared_value,
       product_image,
       pay_method,
-      // typeShipmentId,
-      // measureId,
-      // user_id,
+      typeShipmentId,
+      measureId,
+      user_id,
     } = req.body;
 
-    let { name_claimant, name_transmiter, name_receiver } = req.body;
+    let { name_claimant, name_transmiter, name_receiver, surname_transmiter } =
+      req.body;
 
-    // const imageResult = req.file.path;
-
-    if (
-      !name_claimant ||
-      !cedula_claimant ||
-      !cellphone_claimant ||
-      !name_transmiter ||
-      !celphone_transmiter ||
-      !city_transmiter ||
-      !address_transmiter ||
-      !name_receiver ||
-      !celphone_receiver ||
-      !city_receiver ||
-      !address_receiver ||
-      !weight ||
-      !declared_value ||
-      !product_image ||
-      !pay_method
-      // !typeShipmentId ||
-      // !measureId ||
-      // !user_id
-    )
-      throw new Error("Missing required information");
+    validateMissingInformation({
+      name_claimant,
+      cedula_claimant,
+      cellphone_claimant,
+      name_transmiter,
+      surname_transmiter,
+      celphone_transmiter,
+      city_transmiter,
+      address_transmiter,
+      name_receiver,
+      celphone_receiver,
+      city_receiver,
+      address_receiver,
+      weight,
+      declared_value,
+      product_image,
+      pay_method,
+      typeShipmentId,
+      measureId,
+      user_id,
+    });
 
     validateLengthFromTo(
       { name_claimant, name_receiver, name_transmiter },
@@ -174,6 +144,7 @@ const createOrderShipmentHandler = async (req, res) => {
     validateOnlyLettersRgex({
       name_claimant,
       name_transmiter,
+      surname_transmiter,
       name_receiver,
       city_transmiter,
       city_receiver,
@@ -189,27 +160,28 @@ const createOrderShipmentHandler = async (req, res) => {
     if (String(weight).length < 1 || String(weight).length > 3)
       throw Error("Digits of weigth must be between 1 and 3");
 
-    const newShipment = await OrderShipment.create({
-      name_claimant: splitAndFixNames(name_claimant),
+    const newShipment = await createOrderShipmentController(
+      splitAndFixNames(name_claimant),
       cedula_claimant,
       cellphone_claimant,
-      name_transmiter: splitAndFixNames(name_transmiter),
+      splitAndFixNames(name_transmiter),
+      splitAndFixNames(surname_transmiter),
       celphone_transmiter,
       city_transmiter,
       address_transmiter,
-      name_receiver: splitAndFixNames(name_receiver),
+      splitAndFixNames(name_receiver),
       celphone_receiver,
       city_receiver,
       address_receiver,
       weight,
       declared_value,
-      product_image: "imagen.jpg",
-      // product_image: imageResult,
+      product_image,
       pay_method,
-      // typeShipmentId,
-      // measureId,
-      // user_id
-    });
+      typeShipmentId,
+      measureId,
+      user_id
+    );
+
     res.status(201).json({ "OrderShipment created": newShipment });
   } catch (error) {
     res.status(400).send({ error: error.message });
@@ -232,12 +204,29 @@ const updateOrderShipmentHandler = async (req, res) => {
       declared_value,
       product_image,
       pay_method,
-      // typeShipmentId,
-      // measureId,
-      // user_id,
     } = req.body;
 
-    let { name_claimant, name_transmiter, name_receiver } = req.body;
+    let { name_claimant, name_transmiter, name_receiver, surname_transmiter } =
+      req.body;
+
+    validateMissingInformation({
+      name_claimant,
+      cedula_claimant,
+      cellphone_claimant,
+      name_transmiter,
+      surname_transmiter,
+      celphone_transmiter,
+      city_transmiter,
+      address_transmiter,
+      name_receiver,
+      celphone_receiver,
+      city_receiver,
+      address_receiver,
+      weight,
+      declared_value,
+      product_image,
+      pay_method,
+    });
 
     validateLengthFromTo({ city_transmiter, city_receiver }, 4, 20);
 
@@ -260,12 +249,11 @@ const updateOrderShipmentHandler = async (req, res) => {
     validateOnlyLettersRgex({
       name_claimant,
       name_transmiter,
+      surname_transmiter,
       name_receiver,
       city_transmiter,
       city_receiver,
     });
-
-    // validateURLs({ product_image });
 
     if (
       pay_method !== "Efectivo" &&
@@ -283,6 +271,7 @@ const updateOrderShipmentHandler = async (req, res) => {
       cedula_claimant,
       cellphone_claimant,
       splitAndFixNames(name_transmiter),
+      splitAndFixNames(surname_transmiter),
       celphone_transmiter,
       city_transmiter,
       address_transmiter,
@@ -302,6 +291,7 @@ const updateOrderShipmentHandler = async (req, res) => {
         cedula_claimant,
         cellphone_claimant,
         name_transmiter: splitAndFixNames(name_transmiter),
+        surname_transmiter: splitAndFixNames(surname_transmiter),
         celphone_transmiter,
         city_transmiter: city_transmiter,
         address_transmiter: address_transmiter,
@@ -312,7 +302,7 @@ const updateOrderShipmentHandler = async (req, res) => {
         weight,
         declared_value,
         product_image,
-        pay_method: pay_method.toLowerCase(),
+        pay_method: pay_method,
       },
     });
   } catch (error) {
