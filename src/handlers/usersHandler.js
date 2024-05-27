@@ -4,6 +4,7 @@ import {
   updateUserController,
   deleteUserController,
   registercontroller,
+  registerAuth0controller,
   loginController,
   updateProfileController,
 } from "../controllers/usersController.js";
@@ -22,9 +23,9 @@ const getUserByIdHandler = async (req, res) => {
   try {
     const { id } = req.params;
     // Obtener el rol del usuario autenticado desde la solicitud
-    const userRole = req.user.role;
-    if (userRole !== "admin")
-      return res.status(400).json({ error: "User Unauthorized" });
+   // const userRole = req.user.role;
+    //if (userRole !== "admin")
+      //return res.status(400).json({ error: "User Unauthorized" });
     const user = await getUserByIdController(id);
     if (!user) throw new Error("User not found");
     res.status(200).send(user);
@@ -32,6 +33,17 @@ const getUserByIdHandler = async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 };
+
+const genereteAuth0User = async (req, res) => {
+  const { email, name } = req.body;
+  try {
+    const user = await registerAuth0controller(email, name);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 
 const registerHandler = async (req, res) => {
   const { email, password, name } = req.body;
@@ -120,6 +132,7 @@ export {
   updateUserHandler,
   deleteUserHandler,
   registerHandler,
+  genereteAuth0User,
   loginHandler,
   updateProfileHandler,
 };
