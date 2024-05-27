@@ -15,7 +15,7 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
-          is: /^[a-zA-Z\s]+$/, // Permite solo letras y espacios
+          is: /^[a-zA-ZÀ-ÿ\s]+$/u,
         }
       },
       

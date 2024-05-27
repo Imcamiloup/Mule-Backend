@@ -6,6 +6,33 @@ import {
 } from "../utils/helperToken/jwt.js";
 import { sendConfirmationEmail } from "../email/emailService.js";
 
+
+const registerAuth0controller = async (email, name) => {
+  try {
+    const user = await User.findOne({ where: { email } });
+    if(!user){
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash('secretpassword', salt);
+      const newUser = await User.create({ email, password: hash, name });
+      const verificationToken = generateEmailVerificationToken(email, name);
+      await sendConfirmationEmail({ verificationCode: verificationToken, email });
+    }
+    const token = generateAuthToken(
+      user.id,
+      user.email,
+      user.role,
+      user.name,
+      user.isActive
+    );
+
+    return token;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+
+
 const registercontroller = async (email, password, name, role, isActive) => {
   try {
     if (name === "admin") {
@@ -182,6 +209,7 @@ export {
   updateUserController,
   deleteUserController,
   registercontroller,
+  registerAuth0controller,
   loginController,
   registercontrollerAdminDefault,
   updateProfileController
