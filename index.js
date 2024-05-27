@@ -8,7 +8,7 @@ import { createDefaultUser } from "./src/database/initial/AdminDefault.js";
 const { PORT } = process.env;
 
 sequelize
-  .sync({ alter: true })
+  .sync()
   .then(() => {
     server.listen(PORT, () => {
       console.log("Database connection succesful!");
