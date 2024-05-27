@@ -60,7 +60,7 @@ export default (sequelize) => {
         unique: true,
         validate: {
           isNumeric: true,
-          len: [10, 11],
+          len: [8, 11],
         },
       },
       cel_Phone_Number: {
