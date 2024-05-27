@@ -134,6 +134,34 @@ const updateUserController = async (id, updatedFields) => {
     throw new Error("Error updating user: " + error.message);
   }
 };
+const updateProfileController = async (id, updatedFields) => {
+  try {
+    // Buscar el usuario por su ID
+    const user = await User.findByPk(id);
+
+    // Verificar si el usuario existe
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Actualizar los datos del usuario
+    for (const key in updatedFields) {
+      if (updatedFields.hasOwnProperty(key)) {
+        user[key] = updatedFields[key];
+      }
+    }
+
+    // Guardar los cambios en la base de datos
+    await user.save();
+
+    // Devolver el usuario actualizado
+    return user;
+  } catch (error) {
+    // Manejar errores
+    throw new Error("Error updating user: " + error.message);
+  }
+}
+
 
 const deleteUserController = async (id) => {
   try {
@@ -156,4 +184,5 @@ export {
   registercontroller,
   loginController,
   registercontrollerAdminDefault,
+  updateProfileController
 };

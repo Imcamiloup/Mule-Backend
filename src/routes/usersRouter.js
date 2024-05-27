@@ -6,6 +6,7 @@ import {
   deleteUserHandler,
   registerHandler,
   loginHandler,
+  updateProfileHandler
 } from "../handlers/usersHandler.js";
 import { confirmEmail } from "../email/sendgridController.js";
 import { authenticateToken } from "../utils/helperToken/authenticateToken.js";
@@ -18,6 +19,7 @@ usersRouter.get("/email-confirmation/:verificationCode", confirmEmail);
 usersRouter.post("/register", registerHandler);
 usersRouter.post("/login", loginHandler);
 usersRouter.put("/:id", authenticateToken, updateUserHandler);
+usersRouter.put("/profile/:id", updateProfileHandler)
 usersRouter.delete("/:id", authenticateToken, deleteUserHandler);
 
 export default usersRouter;
