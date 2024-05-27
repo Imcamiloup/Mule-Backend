@@ -12,17 +12,17 @@ const bulkCreateMeasures = async () => {
   const measuresData = [
     {
       name: "small",
-      value: 15000,
+      value: 3000,
       measures: "10 x 10 x 10",
     },
     {
       name: "medium",
-      value: 30000,
+      value: 4500,
       measures: "20 x 20 x 20",
     },
     {
       name: "big",
-      value: 45000,
+      value: 6000,
       measures: "30 x 30 x 30",
     },
   ];
