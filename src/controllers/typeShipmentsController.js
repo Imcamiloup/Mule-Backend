@@ -1,51 +1,40 @@
 import { TypeShipment } from "../database/db.js";
 
-const getOrCreateShipmentsController = async () => {
-  const branchToDoor = await TypeShipment.findOrCreate({
-    where: {
+const getTypeShipmentsController = async () => {
+  const shipments = await TypeShipment.findAll();
+
+  if (shipments.length === 0) throw Error("No Typeshipments found");
+
+  return shipments;
+};
+
+const bulkCreateTypeShipments = async () => {
+  const typeShipments = [
+    {
       name: "branch to door",
       description: "description of branch to door",
     },
-  });
-
-  const branchToBranch = await TypeShipment.findOrCreate({
-    where: {
+    {
       name: "branch to branch",
       description: "description of branch to branch",
     },
-  });
-
-  const doorToBranch = await TypeShipment.findOrCreate({
-    where: {
+    {
       name: "door to branch",
       description: "description of door to branch",
     },
-  });
-
-  const pickUp = await TypeShipment.findOrCreate({
-    where: {
+    {
       name: "pickup",
       description: "description of branch to door",
     },
-  });
-
-  function mapResults(result) {
-    return {
-      id: result[0].id,
-      name: result[0].name,
-      description: result[0].description,
-    };
-  }
-
-  const results = [
-    mapResults(branchToDoor),
-    mapResults(branchToBranch),
-    mapResults(doorToBranch),
-    mapResults(pickUp),
   ];
 
-  return results;
+  const shipments = await TypeShipment.findAll();
+
+  if (shipments.length === 0) {
+    await TypeShipment.bulkCreate(typeShipments);
+  }
 };
+
 
 const getTypeShipmentByIdController = async (id) => {
   try {
@@ -57,4 +46,8 @@ const getTypeShipmentByIdController = async (id) => {
   }
 };
 
-export { getOrCreateShipmentsController, getTypeShipmentByIdController };
+export {
+  getTypeShipmentsController,
+  getTypeShipmentByIdController,
+  bulkCreateTypeShipments,
+};

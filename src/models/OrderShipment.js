@@ -1,4 +1,3 @@
-
 import { DataTypes, UUIDV4, fn } from "sequelize";
 
 export default (sequelize) => {
@@ -18,7 +17,6 @@ export default (sequelize) => {
         validate: {
           is: /^[a-zA-Z\s]+$/,
           len: [3, 30],
-
         },
       },
 
@@ -41,6 +39,15 @@ export default (sequelize) => {
       },
 
       name_transmiter: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          is: /^[a-zA-Z\s]+$/,
+          len: [3, 30],
+        },
+      },
+
+      surname_transmiter: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
@@ -137,16 +144,6 @@ export default (sequelize) => {
       pay_method: {
         type: DataTypes.ENUM("Efectivo", "Credito", "Debito"),
         allowNull: false,
-      },
-
-      status: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
-      },
-
-      paymentId: {
-        type: DataTypes.STRING,
-        allowNull: true,
       },
 
       created_at: {

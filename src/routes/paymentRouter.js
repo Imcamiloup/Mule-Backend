@@ -4,17 +4,19 @@ const paymentRouter = Router();
 import {
   createPreferenceHandler,
   getPaymentById,
+  getPaymentTypes,
   getPayments,
   successPayment,
   FailurePayment,
   pendingPayment,
 } from "../handlers/paymentHandler.js";
 
+paymentRouter.get("/payment_types", getPaymentTypes);
 paymentRouter.post("/", createPreferenceHandler);
 paymentRouter.get("/", getPayments);
 paymentRouter.get("/:id", getPaymentById);
 
-paymentRouter.get("/succes", successPayment);
+paymentRouter.get("/success", successPayment);
 paymentRouter.get("/failure", FailurePayment);
 paymentRouter.get("/pending", pendingPayment);
 

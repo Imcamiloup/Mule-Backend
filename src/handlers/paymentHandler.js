@@ -7,9 +7,24 @@ const client = new MercadoPagoConfig({
 });
 
 export const createPreferenceHandler = async (req, res) => {
-  const { id, title, quantity, unit_price } = req.body;
+  const { id, title, quantity, unit_price, payer, pay_method, shipments } =
+    req.body;
 
   const idempotencyKey = req.headers["x-idempotency-key"];
+
+  function excludePaymentTypes(pay_method) {
+    if (pay_method === "Credito") {
+      return [{ id: "debit_card" }, { id: "bank_transfer" }, { id: "ticket" }];
+    } else if (pay_method === "Debito") {
+      return [{ id: "credit_card" }, { id: "bank_transfer" }, { id: "ticket" }];
+    } else if (pay_method === "Efectivo") {
+      return [
+        { id: "credit_card" },
+        { id: "bank_transfer" },
+        { id: "debit_card" },
+      ];
+    }
+  }
 
   try {
     const preference = new Preference(client);
@@ -17,28 +32,19 @@ export const createPreferenceHandler = async (req, res) => {
     const createPreference = await preference.create({
       body: {
         payment_methods: {
-          excluded_payment_types: [
-            {
-              id: "atm",
-            },
-            {
-              id: "ticket",
-            },
-            {
-              id: "bank_transfer",
-            },
-          ],
+          excluded_payment_types: excludePaymentTypes(pay_method),
           installments: 12,
           default_installments: 1,
         },
-
+        payer,
+        shipments,
         items: [
           {
             id,
             title,
             quantity: Number(quantity),
             unit_price: Number(unit_price),
-            currency_id: "COP",
+            currency_id: "ARS",
           },
         ],
         back_urls: {
@@ -116,6 +122,28 @@ export const getPayments = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+};
+
+export const getPaymentTypes = async (req, res) => {
+  const petition = await fetch(
+    "https://api.mercadopago.com/v1/payment_methods",
+    {
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${ACCESS_TOKEN}`,
+      },
+    }
+  );
+  const data = await petition.json();
+
+  const payMethods = data.map((elem) => {
+    return {
+      name: elem.name,
+      payment_type_id: elem.payment_type_id,
+    };
+  });
+
+  res.status(200).json(payMethods);
 };
 
 export const successPayment = (req, res) => {

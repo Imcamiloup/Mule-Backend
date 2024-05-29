@@ -15,7 +15,7 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
-          is: /^[a-zA-Z\s]+$/, // Permite solo letras y espacios
+          is: /^[a-zA-ZÀ-ÿ\s]+$/u,
         }
       },
       
@@ -60,7 +60,7 @@ export default (sequelize) => {
         unique: true,
         validate: {
           isNumeric: true,
-          len: [10, 11],
+          len: [8, 11],
         },
       },
       cel_Phone_Number: {
@@ -89,12 +89,8 @@ export default (sequelize) => {
         },
       },
       age: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        validate: {
-          min: 18,
-          max: 100,
-        },
+        type: DataTypes.STRING,
+        allowNull: true,       
       },
       role: {
         type: DataTypes.ENUM("admin", "user", "asesor"),

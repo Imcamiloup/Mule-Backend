@@ -25,7 +25,7 @@ export const createVehicle = async (
 };
 
 export const getVehicles = async () => {
-  const vehicles = await Vehicle.findAll({});
+  const vehicles = await Vehicle.findAll();
 
   if (vehicles.length === 0) throw Error("Vehicles not found");
 
