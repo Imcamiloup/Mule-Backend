@@ -7,6 +7,7 @@ import {
   getPaymentTypes,
   getPayments,
   successPayment,
+  getPaymentsByEmail,
   FailurePayment,
   pendingPayment,
 } from "../handlers/paymentHandler.js";
@@ -14,6 +15,7 @@ import {
 paymentRouter.get("/payment_types", getPaymentTypes);
 paymentRouter.post("/", createPreferenceHandler);
 paymentRouter.get("/", getPayments);
+paymentRouter.get("/:email", getPaymentsByEmail);
 paymentRouter.get("/:id", getPaymentById);
 
 paymentRouter.get("/success", successPayment);
