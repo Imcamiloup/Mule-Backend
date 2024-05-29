@@ -35,27 +35,15 @@ const registerAuth0controller = async (email, name) => {
 
 const registercontroller = async (email, password, name, role, isActive) => {
   try {
-    if (name === "admin") {
-      const salt = await bcrypt.genSalt(10);
-      const hash = await bcrypt.hash(password, salt);
-      await User.create({
-        email,
-        password: hash,
-        name,
-        role: "admin",
-        isActive,
-      });
-    }
+    console.log("datos: " ,email,password, name, role, isActive);
     const user = await User.findOne({ where: { email } });
     if (user) throw new Error("User already exists");
-    //! Validación para crear a el admin por default en construccion pero funcional...
-
-    //! ------------------------------------------------------------------------------------------------
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
-    const newUser = await User.create({ email, password: hash, name });
+    const newUser = await User.create({ email, password: hash, name , role, isActive});
     const verificationToken = generateEmailVerificationToken(email, name);
     await sendConfirmationEmail({ verificationCode: verificationToken, email });
+    console.log("user: ", newUser );
     return newUser;
   } catch (error) {
     throw new Error(error.message);
@@ -96,14 +84,6 @@ const getUserByIdController = async (id, userRole) => {
     if (!user) {
       throw new Error("Usuario no encontrado");
     }
-    // // Si el rol del usuario es admin, devolver todos los campos del usuario
-    // if (userRole === 'admin') {
-    //   return user;
-    // } else {
-    //   // Si el rol del usuario no es admin, devolver solo ciertos campos
-    //   const { id, name, email } = user;
-    //   return { id, name, email };
-    // }
     return user;
   } catch (error) {
     throw new Error("Error al obtener el usuario por ID: " + error.message);
@@ -155,16 +135,16 @@ const updateUserController = async (id, updatedFields) => {
     await user.save();
 
     // Devolver el usuario actualizado
-    return user;
+    return "Usuario Actualizado con Exito.";
   } catch (error) {
     // Manejar errores
     throw new Error("Error updating user: " + error.message);
   }
 };
-const updateProfileController = async (id, updatedFields) => {
+const updateProfileController = async (idOrEmail, updatedFields) => {
   try {
     // Buscar el usuario por su ID
-    const user = await User.findByPk(id);
+    const user = await User.findOne({where: idOrEmail});
 
     // Verificar si el usuario existe
     if (!user) {
@@ -182,7 +162,7 @@ const updateProfileController = async (id, updatedFields) => {
     await user.save();
 
     // Devolver el usuario actualizado
-    return user;
+    return "Usuario Actualizado con Exito.";
   } catch (error) {
     // Manejar errores
     throw new Error("Error updating user: " + error.message);

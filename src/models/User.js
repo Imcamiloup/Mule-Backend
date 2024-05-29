@@ -89,12 +89,8 @@ export default (sequelize) => {
         },
       },
       age: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        validate: {
-          min: 18,
-          max: 100,
-        },
+        type: DataTypes.STRING,
+        allowNull: true,       
       },
       role: {
         type: DataTypes.ENUM("admin", "user", "asesor"),
