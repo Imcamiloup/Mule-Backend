@@ -1,7 +1,13 @@
 import {
   getEnlistments,
   getEnlistmentById,
+  patchEnlistment,
 } from "../controllers/enlistmentsController.js";
+
+import {
+  validateMissingInformation,
+  validateOnlyLetters,
+} from "../utils/Validate/validateReviews/validateReviews.js";
 
 export const getEnlistmentsHandler = async (req, res) => {
   const {
@@ -41,6 +47,29 @@ export const getEnlistmentByIdHandler = async (req, res) => {
     if (!enlistmentById) throw Error(`Enlistment with ID: ${id} not found`);
 
     res.status(200).json({ enlistment: enlistmentById });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export const patchEnlistmentHandler = async (req, res) => {
+  const { id } = req.params;
+  const { state, delivery_time } = req.body;
+
+  try {
+    validateMissingInformation({ state, delivery_time });
+
+    validateOnlyLetters(state, "state");
+
+    await patchEnlistment(id, state, delivery_time);
+
+    res.status(200).json({
+      "Updated Enlistment": {
+        id,
+        state,
+        delivery_time,
+      },
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

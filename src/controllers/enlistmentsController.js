@@ -34,3 +34,14 @@ export const getEnlistmentById = async (id) => {
 
   return enlistmentById;
 };
+
+export const patchEnlistment = async (id, state, delivery_time) => {
+  const enlistment = await Enlistment.findByPk(id);
+
+  if (!enlistment) throw Error("No enlistment found");
+
+  enlistment.state = state;
+  enlistment.delivery_time = delivery_time;
+
+  await enlistment.save();
+};
