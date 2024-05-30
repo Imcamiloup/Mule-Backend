@@ -60,6 +60,7 @@ export const patchEnlistmentHandler = async (req, res) => {
     validateMissingInformation({ state, delivery_time });
 
     validateOnlyLetters(state, "state");
+    validateOnlyLetters(delivery_time, "delivery time");
 
     await patchEnlistment(id, state, delivery_time);
 
