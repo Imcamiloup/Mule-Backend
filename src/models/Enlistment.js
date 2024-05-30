@@ -17,8 +17,8 @@ export default (sequelize) => {
         unique: true,
         validate: {
           is: /^\d+$/,
-          len: [10]
-        }
+          len: [10],
+        },
       },
 
       //const regex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
@@ -43,7 +43,7 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
-          is: /^\d+$/,
+          is: /^[a-zA-Z0-9\s]+$/,
         },
       },
 
@@ -61,7 +61,6 @@ export default (sequelize) => {
           is: /^\d+$/,
         },
       },
-      
     },
     { timestamps: false }
   );
