@@ -1,4 +1,7 @@
-import { OrderShipment, User } from "../database/db.js";
+import { OrderShipment, User, Enlistment , TypeShipment} from "../database/db.js";
+import DISTANCES from "../utils/EnlistmentHelpers/distancesApi.js";
+import statesByTypeShipment from "../utils/EnlistmentHelpers/stateCalculate.js";
+import {calculateCost, calculateWeightByInput} from "../utils/EnlistmentHelpers/distancesApi.js"
 
 const getAllOrderShipmentsController = async (
   name_claimant,
@@ -99,6 +102,29 @@ const createOrderShipmentController = async (
       measureId,
       user_id,
     });
+
+    //////////////////////777
+    
+    
+///////////////////////7
+
+    if (newOrderShipment) {
+
+      
+     const numRandom = Math.floor(Math.random() * 10000000000);
+
+     const distanceCalculated = DISTANCES[city_transmiter][city_receiver]
+
+      const newEnlistment =  await Enlistment.create({
+            guide_number: numRandom,
+            distance: distanceCalculated,
+            price_order: calculateCost(calculateWeightByInput(measureId), distanceCalculated),
+            ordershipment_id: newOrderShipment.id,
+            state: "Paquete Asignado" 
+      })
+      if (!newEnlistment) throw Error("Error create enlistment");
+
+    }
 
     return newOrderShipment;
   } catch (error) {
