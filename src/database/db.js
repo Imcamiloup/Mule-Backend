@@ -11,6 +11,7 @@ import OrderShipmentModel from "../models/OrderShipment.js";
 import TypeShipmentModel from "../models/TypeShipment.js";
 import MeasureModel from "../models/Measure.js";
 import BranchModel from "../models/Branch.js";
+import ReviewModel from "../models/Review.js";
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DATABASE_NAME}`,
@@ -26,6 +27,7 @@ OrderShipmentModel(sequelize);
 TypeShipmentModel(sequelize);
 MeasureModel(sequelize);
 BranchModel(sequelize);
+ReviewModel(sequelize);
 
 const {
   User,
@@ -37,6 +39,7 @@ const {
   TypeShipment,
   Measure,
   Branch,
+  Review,
 } = sequelize.models;
 
 User.hasMany(OrderShipment, { foreignKey: "user_id" });
@@ -60,6 +63,9 @@ Enlistment.belongsTo(OrderShipment, { foreignKey: "ordershipment_id" });
 Branch.hasMany(OrderShipment, { foreignKey: "branch_id" });
 OrderShipment.belongsTo(Branch, { foreignKey: "branch_id" });
 
+User.hasMany(Review, { foreignKey: "user_id" });
+Review.belongsTo(User, { foreignKey: "user_id" });
+
 export {
   User,
   Admin,
@@ -70,6 +76,7 @@ export {
   TypeShipment,
   Measure,
   Branch,
+  Review,
 };
 
 export default sequelize;

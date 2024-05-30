@@ -8,6 +8,7 @@ import TypeShipmentsRouter from "./typeShipmentsRouter.js";
 import measureRouter from "./measuresRoutes.js";
 import paymentRouter from "./paymentRouter.js";
 import branchesRouter from "./branchesRoutes.js";
+import reviewsRouter from "./reviewsRouter.js";
 
 const router = Router();
 
@@ -27,5 +28,6 @@ router.use("/type_shipments", TypeShipmentsRouter);
 router.use("/measures", measureRouter);
 router.use("/branches", branchesRouter);
 router.use("/payments", paymentRouter);
+router.use("/reviews", reviewsRouter);
 
 export default router;
