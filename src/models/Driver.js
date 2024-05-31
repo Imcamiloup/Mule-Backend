@@ -1,36 +1,51 @@
-const { DataTypes, UUIDV4 } = require('sequelize');
+import { DataTypes, UUIDV4 } from "sequelize";
 
-module.exports = (sequelize) => {
-  // defino el modelo
-  sequelize.define('Driver', {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue:UUIDV4,
-      primaryKey: true,
-      unique: true,
+export default (sequelize) => {
+  sequelize.define(
+    "Driver",
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: UUIDV4,
+        primaryKey: true,
+        unique: true,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          is: /^(?!\s)(?!.*\s$)[A-Za-z\s]{8,35}$/i
+
+        }
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true,
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      debit: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+          len:[16, 24]
+        },
+      },
+      antiquity: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      status: {
+        type: DataTypes.ENUM("available", "on assignment","on Route" ),
+        allowNull: true,
+      },
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull:true
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull:true
-    },
-    debt: {
-      type: DataTypes.NUMBER,
-      allowNull:true
-    },
-    antiquity: {
-      type:DataTypes.STRING,
-      allowNull: true
-    },
-    User_Type: {
-      type: DataTypes.STRING,
-      allowNull:true
-    }
-  },
-  { timestamps: false });
+    { timestamps: false }
+  );
 };
-
-
