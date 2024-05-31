@@ -141,11 +141,12 @@ const updateUserController = async (id, updatedFields) => {
     throw new Error("Error updating user: " + error.message);
   }
 };
-const updateProfileController = async (idOrEmail, updatedFields) => {
+const updateProfileController = async (id, updatedFields) => {
+  console.log("X", id);
   try {
-    // Buscar el usuario por su ID
-    const user = await User.findOne({where: idOrEmail});
 
+      const user = await User.findOne({ where: { id: id } });
+      console.log("Xe", user);
     // Verificar si el usuario existe
     if (!user) {
       throw new Error("User not found");

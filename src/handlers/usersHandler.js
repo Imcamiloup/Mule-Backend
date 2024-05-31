@@ -53,8 +53,9 @@ const genereteAuth0User = async (req, res) => {
 
 const registerHandler = async (req, res) => {
   const { email, password, name } = req.body;
-const userExisting = await User.findOne({where: {email}});
-if (userExisting)  return res.status(400).json({ message: "User already exists" });
+  const userExisting = await User.findOne({ where: { email } });
+  if (userExisting)
+    return res.status(400).json({ message: "User already exists" });
   try {
     const user = await registercontroller(email, password, name);
     res.status(200).json(user);
@@ -65,7 +66,7 @@ if (userExisting)  return res.status(400).json({ message: "User already exists" 
 
 const loginHandler = async (req, res) => {
   const { email, password, name } = req.body;
-  console.log(email,password,name);
+  console.log(email, password, name);
   let userExisting = null;
   try {
     if (email != undefined) {
@@ -116,13 +117,10 @@ const updateUserHandler = async (req, res) => {
 
 const updateProfileHandler = async (req, res) => {
   try {
-    const { email, id } = req.params;
+    const { id } = req.params;
     const updatedFields = req.body;
 
-    const updatedUser = await updateProfileController(
-      id ? id : email,
-      updatedFields
-    );
+    const updatedUser = await updateProfileController(id, updatedFields);
     res.status(200).send(updatedUser);
   } catch (error) {
     res.status(500).send({ message: error.message });
