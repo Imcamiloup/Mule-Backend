@@ -194,8 +194,30 @@ export const getPaymentsByEmail = async (req, res) => {
   }
 };
 
-export const successPayment = (req, res) => {
-  res.json("Payment succes");
+export const successPayment = async (req, res) => {
+  const { payment_id, collection_status, status } = req.query;
+
+  const petition = await fetch(
+    `https://api.mercadopago.com/v1/payments/${payment_id}`,
+    {
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${ACCESS_TOKEN}`,
+      },
+    }
+  );
+
+  const response = await petition.json();
+
+  const infoMaped = response.map((elem) => {
+    return {
+      id: elem.id,
+      status,
+      collection_status,
+    };
+  });
+
+  res.json(`Payment ${status}: ${infoMaped} `);
 };
 export const FailurePayment = (req, res) => {
   res.json("Payment failure");
