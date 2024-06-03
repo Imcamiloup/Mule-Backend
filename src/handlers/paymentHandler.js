@@ -48,9 +48,9 @@ export const createPreferenceHandler = async (req, res) => {
           },
         ],
         back_urls: {
-          success: "http://localhost:3000/payments/success",
-          failure: "http://localhost:3000/payments/failure",
-          pending: "http://localhost:3000/payments/pending",
+          success: "https://mule-server.onrender.com/payments/success",
+          failure: "https://mule-server.onrender.com/payments/failure",
+          pending: "https://mule-server.onrender.com/payments/pending",
         },
       },
       idempotencyKey,
