@@ -52,7 +52,7 @@ export const createPreferenceHandler = async (req, res) => {
           failure: "https://mule-server.onrender.com/payments/failure",
           pending: "https://mule-server.onrender.com/payments/pending",
         },
-        auto_return: "approved",
+        // auto_return: "approved",
       },
       idempotencyKey,
     });
