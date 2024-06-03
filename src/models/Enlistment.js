@@ -1,4 +1,4 @@
-import { DataTypes, UUIDV4 } from "sequelize";
+import { DataTypes, UUIDV4, Sequelize } from "sequelize";
 
 export default (sequelize) => {
   sequelize.define(
@@ -15,21 +15,27 @@ export default (sequelize) => {
         type: DataTypes.BIGINT,
         allowNull: false,
         unique: true,
+        validate: {
+          is: /^\d+$/,
+          len: [10],
+        },
       },
 
+      //const regex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
       state: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: "Pending",
         validate: {
           is: /^[a-zA-Z0-9\s]+$/,
         },
       },
 
       distance: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          is: /^[a-zA-Z0-9\s]+$/,
+          is: /^\d+$/,
         },
       },
 
@@ -41,12 +47,11 @@ export default (sequelize) => {
         },
       },
 
+      // YYYY-MM-DD HH:MM:SS
       order_time: {
-        type: DataTypes.STRING,
+        type: DataTypes.DATE,
         allowNull: false,
-        validate: {
-          is: /^[a-zA-Z0-9\s]+$/,
-        },
+        defaultValue: Sequelize.NOW,
       },
 
       price_order: {
@@ -54,30 +59,6 @@ export default (sequelize) => {
         allowNull: false,
         validate: {
           is: /^\d+$/,
-        },
-      },
-
-      qualify_user: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          is: /^[a-zA-Z0-9\s]+$/,
-        },
-      },
-
-      qualify: {
-        type: DataTypes.ENUM("1", "2", "3", "4", "5"),
-        allowNullL: false,
-        validate: {
-          is: /^\d+$/,
-        },
-      },
-
-      comment: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          is: /^[a-zA-Z0-9\s]+$/,
         },
       },
     },

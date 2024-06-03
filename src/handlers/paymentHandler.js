@@ -146,6 +146,53 @@ export const getPaymentTypes = async (req, res) => {
   res.status(200).json(payMethods);
 };
 
+export const getPaymentsByEmail = async (req, res) => {
+  const { email } = req.params;
+  const { sort, criteria, external_reference, range, begin_date, end_date } =
+    req.query;
+
+  try {
+    const queryParams = new URLSearchParams();
+
+    if (sort) queryParams.append("sort", sort);
+    if (criteria) queryParams.append("criteria", criteria);
+    if (external_reference)
+      queryParams.append("external_reference", external_reference);
+    if (range) queryParams.append("range", range);
+    if (begin_date) queryParams.append("begin_date", begin_date);
+    if (end_date) queryParams.append("end_date", end_date);
+
+    const queryString = queryParams.toString();
+
+    const payments = await fetch(
+      `https://api.mercadopago.com/v1/payments/search${
+        queryString ? "?" + queryString : ""
+      }`,
+      {
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${ACCESS_TOKEN}`,
+        },
+      }
+    );
+
+    const response = await payments.json();
+
+    const { results } = response;
+
+    const resultsFiltered = results.filter((result) => {
+      return result.payer.email === email;
+    });
+
+    if (resultsFiltered.length === 0)
+      throw Error(`Not payments found with email: ${email}`);
+
+    res.status(200).json(resultsFiltered);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 export const successPayment = (req, res) => {
   res.json("Payment succes");
 };
