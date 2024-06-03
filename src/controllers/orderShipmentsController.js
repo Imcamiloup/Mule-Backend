@@ -4,6 +4,7 @@ import DISTANCES from "../utils/EnlistmentHelpers/distancesApi.js";
 import {
   calculateCost,
   calculateWeightByInput,
+  TIMES,
 } from "../utils/EnlistmentHelpers/distancesApi.js";
 
 const getAllOrderShipmentsController = async (
@@ -110,6 +111,7 @@ const createOrderShipmentController = async (
       const numRandom = Math.floor(Math.random() * 10000000000);
 
       const distanceCalculated = DISTANCES[city_transmiter][city_receiver];
+      const timeCalculated = TIMES[city_transmiter][city_receiver];
 
       const newEnlistment = await Enlistment.create({
         guide_number: numRandom,
@@ -118,6 +120,7 @@ const createOrderShipmentController = async (
           calculateWeightByInput(measureId),
           distanceCalculated
         ),
+        delivery_time: timeCalculated,
         ordershipment_id: newOrderShipment.id,
         state: "Paquete Asignado",
       });
