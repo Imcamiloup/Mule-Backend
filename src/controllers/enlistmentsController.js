@@ -1,4 +1,4 @@
-import { Enlistment } from "../database/db.js";
+import { Enlistment, Driver } from "../database/db.js";
 
 export const getEnlistments = async (
   guide_number,
@@ -23,6 +23,13 @@ export const getEnlistments = async (
   const enlistments = await Enlistment.findAll({
     where,
     order,
+    include: {
+      model: Driver,
+      attributes: ["id"],
+      through: {
+        attributes: [],
+      },
+    },
   });
   if (enlistments.length === 0) throw Error("Enlistments not found");
 

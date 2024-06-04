@@ -28,14 +28,6 @@ export default (sequelize) => {
         },
       },
 
-      zip_code: {
-        type: DataTypes.STRING,
-        allownull: true,
-        validate: {
-          is: /^[A-Z]?\d{4}[A-Z]{0,3}$/i,
-        },
-      },
-
       direction: {
         type: DataTypes.STRING,
         allownull: true,
@@ -51,15 +43,6 @@ export default (sequelize) => {
         validate: {
           is: /^\d+$/,
           len: [10, 10],
-        },
-      },
-
-      type: {
-        type: DataTypes.STRING,
-        allownull: true,
-        validate: {
-          len: [2, 15],
-          is: /^[a-zA-Z\s]+$/,
         },
       },
     },
