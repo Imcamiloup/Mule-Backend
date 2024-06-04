@@ -48,7 +48,7 @@ export const createPreferenceHandler = async (req, res) => {
           },
         ],
         back_urls: {
-          success: "https://mule-server.onrender.com/payments/success",
+          success: "https://mule-front.onrender.com",
           failure: "https://mule-server.onrender.com/payments/failure",
           pending: "https://mule-server.onrender.com/payments/pending",
         },
