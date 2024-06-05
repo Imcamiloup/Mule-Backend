@@ -14,7 +14,7 @@ import { User } from "../database/db.js";
 const getAllUsersHandler = async (req, res) => {
   // Obtener el rol del usuario autenticado desde la solicitud
   const userRole = req.user.role;
-  console.log(userRole);
+  
   // // Verificar si el usuario autenticado tiene permiso para actualizar
   if (userRole !== "admin") {
     return res

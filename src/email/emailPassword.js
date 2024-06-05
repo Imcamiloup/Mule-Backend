@@ -19,7 +19,7 @@ const sendPasswordResetEmail = async ({ email }) => {
 
   try {
     await sgMail.send(message);
-    console.log("Password reset email sent");
+    
   } catch (error) {
     console.error("Error sending password reset email:", error);
     throw new Error("Error sending password reset email");

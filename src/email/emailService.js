@@ -15,7 +15,7 @@ const sendConfirmationEmail = async ({ email, verificationCode }) => {
   };
   try {
     await sgMail.send(message);
-    console.log("Confirmation email sent");
+    
   } catch (error) {
     if (error.response) {
       console.error("Response error:", error.response.body);
