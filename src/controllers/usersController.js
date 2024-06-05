@@ -110,9 +110,10 @@ const getUserByIdController = async (id, userRole) => {
   }
 };
 
-const getUserByDNIController = async (dni, userRole) => {
+const getUserByDNIController = async (cedula, userRole) => {
   try {
-    const user = await User.findOne(dni);
+    const user = await User.findOne({
+      where : {cedula}});
     if (!user) {
       throw new Error("Usuario no encontrado");
     }
