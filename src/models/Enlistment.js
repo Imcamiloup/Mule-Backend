@@ -21,10 +21,9 @@ export default (sequelize) => {
         },
       },
 
-      //const regex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
       state: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
         defaultValue: "Pending",
         validate: {
           is: /^[a-zA-Z0-9\s]+$/,
@@ -33,7 +32,7 @@ export default (sequelize) => {
 
       distance: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
         validate: {
           is: /^\d+$/,
         },
@@ -41,7 +40,7 @@ export default (sequelize) => {
 
       delivery_time: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
         validate: {
           is: /^[a-zA-Z0-9\s]+$/,
         },

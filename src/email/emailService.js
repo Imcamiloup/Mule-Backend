@@ -5,7 +5,7 @@ const sendConfirmationEmail = async ({ email, verificationCode }) => {
   const confirmationUrl = `http://localhost:3000/users/email-confirmation/${verificationCode}`;
   const message = {
     to: email,
-    from: "RegisterEmail@Mule.com",
+    from: "ryze1520@gmail.com",
     subject: "Confirma tú correo electronico",
     templateId: "d-55f63bc38cac4d7dab55018d3b9dfa25",
     dynamicTemplateData: {

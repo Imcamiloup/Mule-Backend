@@ -28,7 +28,7 @@ const getAllDriversHandler = async (req, res) => {
     }
     res.status(200).send(drivers);
   } catch (error) {
-    res.status(500).send({ error: error.message });
+    res.status(400).send({ error: error.message });
   }
 };
 
@@ -41,7 +41,7 @@ const getDriverByIdHandler = async (req, res) => {
     const driverByID = await getDriverByIdController(id); // Esperar a que se resuelva la promesa
     res.status(200).send(driverByID);
   } catch (error) {
-    res.status(500).send({ error: error.message }); // Usar error.message en lugar de error.error
+    res.status(400).send({ error: error.message }); // Usar error.message en lugar de error.error
   }
 };
 
@@ -73,8 +73,16 @@ const getDriverByIdHandler = async (req, res) => {
 
 const postDriverHandler = async (req, res) => {
   try {
-    const { name, email, password, debit, antiquity, status, vehicle_id } =
-      req.body;
+    const {
+      name,
+      email,
+      password,
+      debit,
+      antiquity,
+      status,
+      vehicle_id,
+      branch_id,
+    } = req.body;
 
     if (!name || !email || !password || !debit || !antiquity || !status) {
       let missingField = "";
@@ -88,7 +96,7 @@ const postDriverHandler = async (req, res) => {
       throw new Error(`El campo ${missingField} es obligatorio.`);
     }
 
-    const newDriver = await createDriverController({
+    await createDriverController({
       name,
       email,
       password,
@@ -96,9 +104,10 @@ const postDriverHandler = async (req, res) => {
       antiquity,
       status,
       vehicle_id,
+      branch_id,
     });
 
-    res.status(200).send(newDriver);
+    res.sendStatus(201);
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
@@ -119,7 +128,7 @@ const updateDriverHandler = async (req, res) => {
     }); // Pasar un objeto con todas las propiedades
     res.status(200).send(driverModif);
   } catch (error) {
-    res.status(500).send({ error: error.message });
+    res.status(400).send({ error: error.message });
   }
 };
 
@@ -132,7 +141,7 @@ const deleteDriverHandler = async (req, res) => {
 
     res.status(200).send(driverDelete);
   } catch (error) {
-    res.status(500).send({ error: error.message });
+    res.status(400).send({ error: error.message });
   }
 };
 

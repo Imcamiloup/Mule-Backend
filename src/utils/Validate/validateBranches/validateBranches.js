@@ -7,12 +7,6 @@ export const validateOnlyLetters = (params) => {
   }
 };
 
-export const validateZipCode = (param) => {
-  if (!/^[A-Z]?\d{4}[A-Z]{0,3}$/i.test(param))
-    throw Error(
-      "Zip code is incorrect,  must be in this format: 'A1234BCD', no special characters allowed"
-    );
-};
 
 export const validateOnlyNumbers = (param) => {
   if (!/^\d+$/.test(param))
