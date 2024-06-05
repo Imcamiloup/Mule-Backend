@@ -6,16 +6,18 @@ import {
 } from "../utils/helperToken/jwt.js";
 import { sendConfirmationEmail } from "../email/emailService.js";
 
-
 const registerAuth0controller = async (email, name) => {
   try {
     const user = await User.findOne({ where: { email } });
-    if(!user){
+    if (!user) {
       const salt = await bcrypt.genSalt(10);
-      const hash = await bcrypt.hash('secretpassword', salt);
+      const hash = await bcrypt.hash("secretpassword", salt);
       const newUser = await User.create({ email, password: hash, name });
       const verificationToken = generateEmailVerificationToken(email, name);
-      await sendConfirmationEmail({ verificationCode: verificationToken, email });
+      await sendConfirmationEmail({
+        verificationCode: verificationToken,
+        email,
+      });
     }
     const token = generateAuthToken(
       user.id,
@@ -31,15 +33,19 @@ const registerAuth0controller = async (email, name) => {
   }
 };
 
-
-
 const registercontroller = async (email, password, name, role, isActive) => {
   try {
     const user = await User.findOne({ where: { email } });
     if (user) throw new Error("User already exists");
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
-    const newUser = await User.create({ email, password: hash, name , role, isActive});
+    const newUser = await User.create({
+      email,
+      password: hash,
+      name,
+      role,
+      isActive,
+    });
     const verificationToken = generateEmailVerificationToken(email, name);
 
     await sendConfirmationEmail({ verificationCode: verificationToken, email });
@@ -79,13 +85,24 @@ const getAllUsersController = async () => {
 const getUserByIdController = async (id, userRole) => {
   try {
     const user = await User.findByPk(id, {
-      attributes: ["name", "email", "photo", "age", "role" ,"isActive","cel_Phone_Number","cedula","nickname","emailVerified"]
+      attributes: [
+        "name",
+        "email",
+        "photo",
+        "age",
+        "role",
+        "isActive",
+        "cel_Phone_Number",
+        "cedula",
+        "nickname",
+        "emailVerified",
+      ],
     });
     if (!user) {
       throw new Error("Usuario no encontrado");
     }
     if (!user.isActive) {
-      return  "Usuario Inactivo";
+      return "Usuario Inactivo";
     }
     return user;
   } catch (error) {
@@ -146,8 +163,7 @@ const updateUserController = async (id, updatedFields) => {
 };
 const updateProfileController = async (id, updatedFields) => {
   try {
-
-      const user = await User.findOne({ where: { id: id } });
+    const user = await User.findOne({ where: { id: id } });
     // Verificar si el usuario existe
     if (!user) {
       throw new Error("User not found");
@@ -169,8 +185,7 @@ const updateProfileController = async (id, updatedFields) => {
     // Manejar errores
     throw new Error("Error updating user: " + error.message);
   }
-}
-
+};
 
 const deleteUserController = async (id) => {
   try {
@@ -194,5 +209,5 @@ export {
   registerAuth0controller,
   loginController,
   registercontrollerAdminDefault,
-  updateProfileController
+  updateProfileController,
 };
