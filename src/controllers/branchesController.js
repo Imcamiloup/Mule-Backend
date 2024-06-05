@@ -1,20 +1,10 @@
 import { Branch } from "../database/db.js";
 
-export const createBranch = async (
-  province,
-  city,
-  zip_code,
-  direction,
-  phone,
-  type
-) => {
+export const createBranch = async (province, direction, phone) => {
   const newBranch = await Branch.create({
     province,
-    city,
-    zip_code,
     direction,
     phone,
-    type,
   });
 
   return newBranch;
@@ -22,22 +12,16 @@ export const createBranch = async (
 
 export const getBranches = async (
   province,
-  city,
-  zip_code,
   direction,
   phone,
-  type,
   orderBy,
   orderDirection
 ) => {
   let where = {};
 
   if (province) where = { ...where, province };
-  if (city) where = { ...where, city };
-  if (zip_code) where = { ...where, zip_code };
   if (direction) where = { ...where, direction };
   if (phone) where = { ...where, phone };
-  if (type) where = { ...where, type };
 
   let order = [];
 
@@ -63,41 +47,38 @@ export const getBranchById = async (id) => {
   return branch;
 };
 
-export const updateBranch = async (
-  id,
-  province,
-  city,
-  zip_code,
-  direction,
-  phone,
-  type
-) => {
-  if (!id) throw Error("Missing id field");
-
-  const branchById = await Branch.findByPk(id);
-
-  if (!branchById) throw Error(`Branch with ID: ${id} not found`);
-
-  await branchById.update({
-    province,
-    city,
-    zip_code,
-    direction,
-    phone,
-    type,
-  });
-};
-
-export const deleteBranch = async (id) => {
-  if (!id) throw Error();
-
-  const branchById = Branch.findByPk(id);
-
-  if (!branchById) throw Error(`Branch with ID: ${id} not found`);
-
-  branchById.destroy({
-    where: {
-      id: id,
+export const bulkCreateBranches = async () => {
+  const BranchesData = [
+    {
+      province: "cordoba",
+      direction: "Independencia 258",
+      phone: 3517642569,
     },
-  });
+    {
+      province: "corrientes",
+      direction: "Ayacucho 2767",
+      phone: 3797698741,
+    },
+    {
+      province: "santa fe",
+      direction: "Belgrano 3599",
+      phone: 3427612435,
+    },
+    {
+      province: "entre rios",
+      direction: "Ayacucho 1643",
+      phone: 3434685231,
+    },
+    {
+      province: "buenos aires",
+      direction: "Moreno 306",
+      phone: 1117654426,
+    },
+  ];
+
+  const branches = await Branch.findAll();
+
+  if (branches.length === 0) {
+    await Branch.bulkCreate(BranchesData);
+  }
 };

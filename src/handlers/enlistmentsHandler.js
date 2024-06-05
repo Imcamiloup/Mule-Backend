@@ -64,13 +64,7 @@ export const patchEnlistmentHandler = async (req, res) => {
 
     await patchEnlistment(id, state, delivery_time);
 
-    res.status(200).json({
-      "Updated Enlistment": {
-        id,
-        state,
-        delivery_time,
-      },
-    });
+    res.sendStatus(200);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

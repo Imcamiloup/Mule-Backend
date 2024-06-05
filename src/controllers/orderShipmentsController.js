@@ -5,6 +5,7 @@ import {
   calculateCost,
   calculateWeightByInput,
   TIMES,
+  selectDriver,
 } from "../utils/EnlistmentHelpers/distancesApi.js";
 
 const getAllOrderShipmentsController = async (
@@ -108,22 +109,29 @@ const createOrderShipmentController = async (
     });
 
     if (newOrderShipment) {
-      const numRandom = Math.floor(Math.random() * 10000000000);
+      function generarNumeroAleatorio() {
+        const min = 1000000000;
+        const max = 9999999999;
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
 
       const distanceCalculated = DISTANCES[city_transmiter][city_receiver];
       const timeCalculated = TIMES[city_transmiter][city_receiver];
 
       const newEnlistment = await Enlistment.create({
-        guide_number: numRandom,
+        guide_number: generarNumeroAleatorio(),
         distance: distanceCalculated,
         price_order: calculateCost(
           calculateWeightByInput(measureId),
           distanceCalculated
         ),
         delivery_time: timeCalculated,
-        ordershipment_id: newOrderShipment.id,
         state: "Paquete Asignado",
+        ordershipment_id: newOrderShipment.id,
       });
+
+      newEnlistment.addDrivers(await selectDriver(city_transmiter));
+
       if (!newEnlistment) throw Error("Error create enlistment");
     }
 

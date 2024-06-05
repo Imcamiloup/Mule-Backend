@@ -14,9 +14,8 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          is: /^(?!\s)(?!.*\s$)[A-Za-z\s]{8,35}$/i
-
-        }
+          is: /^(?!\s)(?!.*\s$)[A-Za-z\s]{5,35}$/i,
+        },
       },
       email: {
         type: DataTypes.STRING,
@@ -34,7 +33,7 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
-          len:[16, 24]
+          len: [16, 24],
         },
       },
       antiquity: {
@@ -42,7 +41,7 @@ export default (sequelize) => {
         allowNull: true,
       },
       status: {
-        type: DataTypes.ENUM("available", "on assignment","on Route" ),
+        type: DataTypes.ENUM("disponible", "en asignacion", "en ruta"),
         allowNull: true,
       },
     },

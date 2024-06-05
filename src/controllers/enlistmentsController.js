@@ -31,9 +31,24 @@ export const getEnlistments = async (
       },
     },
   });
-  if (enlistments.length === 0) throw Error("Enlistments not found");
 
-  return enlistments;
+  const enlistmentsMaped = enlistments.map((elem) => {
+    return {
+      id: elem.id,
+      guide_number: elem.guide_number,
+      state: elem.state,
+      distance: elem.distance,
+      delivery_time: elem.delivery_time,
+      order_time: elem.order_time,
+      price_order: elem.price_order,
+      ordershipment_id: elem.ordershipment_id,
+      drivers: elem.Drivers.map((elem) => elem.id),
+    };
+  });
+
+  if (enlistmentsMaped.length === 0) throw Error("Enlistments not found");
+
+  return enlistmentsMaped;
 };
 
 export const getEnlistmentById = async (id) => {

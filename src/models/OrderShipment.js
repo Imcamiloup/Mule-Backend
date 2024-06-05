@@ -124,7 +124,6 @@ export default (sequelize) => {
         allowNull: false,
         validate: {
           is: /^\d+$/,
-          len: [1, 3],
         },
       },
 
