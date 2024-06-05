@@ -21,9 +21,9 @@ const confirmEmail = async (req, res) => {
     user.emailVerified = true;
     await user.save();
 
-    return res
-      .status(200)
-      .json({ message: "Correo electrónico verificado con éxito." });
+
+    //return res.redirect('https://mule-front.onrender.com/header');
+    return res.redirect('http://localhost:4000/auth/emailConfirm');
   } catch (error) {
     if (error.name === "JsonWebTokenError") {
       return res.status(401).json({ message: "Token inválido." });
