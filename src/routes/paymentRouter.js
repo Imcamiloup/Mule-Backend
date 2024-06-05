@@ -18,8 +18,4 @@ paymentRouter.get("/", getPayments);
 paymentRouter.get("/:email", getPaymentsByEmail);
 paymentRouter.get("/:id", getPaymentById);
 
-paymentRouter.get("/success", successPayment);
-paymentRouter.get("/failure", FailurePayment);
-paymentRouter.get("/pending", pendingPayment);
-
 export default paymentRouter;

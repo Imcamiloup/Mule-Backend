@@ -192,13 +192,3 @@ export const getPaymentsByEmail = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
-export const successPayment = (req, res) => {
-  res.json("Payment succes");
-};
-export const FailurePayment = (req, res) => {
-  res.json("Payment failure");
-};
-export const pendingPayment = (req, res) => {
-  res.json("Payment pending");
-};
