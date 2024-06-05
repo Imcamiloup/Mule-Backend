@@ -1,6 +1,7 @@
 import {
   getAllUsersController,
   getUserByIdController,
+  getUserByDNIController,
   updateUserController,
   deleteUserController,
   registercontroller,
@@ -33,6 +34,17 @@ const getUserByIdHandler = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await getUserByIdController(id);
+    if (!user) throw new Error("User not found");
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
+
+const getUserByDNIHandler = async (req, res) => {
+  try {
+    const { dni } = req.params;
+    const user = await getUserByDNIController(dni);
     if (!user) throw new Error("User not found");
     res.status(200).send(user);
   } catch (error) {
@@ -147,6 +159,7 @@ const deleteUserHandler = async (req, res) => {
 export {
   getAllUsersHandler,
   getUserByIdHandler,
+  getUserByDNIHandler,
   updateUserHandler,
   deleteUserHandler,
   registerHandler,

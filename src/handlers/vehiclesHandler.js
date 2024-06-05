@@ -3,7 +3,9 @@ import {
   getVehicleById,
   updateVehicle,
   getVehiclesByQuery,
+  createVehicle
 } from "../controllers/vehiclesController.js";
+
 
 export const createVehicleHandler = async (req, res) => {
   const {
@@ -80,6 +82,7 @@ export const createVehicleHandler = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 export const getVehiclesHandler = async (req, res) => {
   if (req.query) {

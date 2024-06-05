@@ -9,6 +9,7 @@ import {
 const vehiclesRouter = Router();
 
 vehiclesRouter.get("/", getVehiclesHandler);
+vehiclesRouter.post("/", createVehicleHandler);
 vehiclesRouter.get("/:id", getVehicleByIdHandler);
 vehiclesRouter.post("/", createVehicleHandler);
 vehiclesRouter.patch("/:id", updateVehicleHandler);

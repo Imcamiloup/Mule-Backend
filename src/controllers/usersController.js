@@ -110,6 +110,23 @@ const getUserByIdController = async (id, userRole) => {
   }
 };
 
+const getUserByDNIController = async (cedula, userRole) => {
+  try {
+    const user = await User.findOne({
+      where : {cedula}});
+    if (!user) {
+      throw new Error("Usuario no encontrado");
+    }
+    if (!user.isActive) {
+      return  "Usuario Inactivo";
+    }
+    return user;
+  } catch (error) {
+    throw new Error("Error al obtener el usuario por DNI: " + error.message);
+  }
+};
+
+
 const loginController = async (userExisting, password) => {
   try {
     if (password !== "Admin123$") {
@@ -203,6 +220,7 @@ const deleteUserController = async (id) => {
 export {
   getAllUsersController,
   getUserByIdController,
+  getUserByDNIController,
   updateUserController,
   deleteUserController,
   registercontroller,

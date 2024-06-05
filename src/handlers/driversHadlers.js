@@ -1,4 +1,3 @@
-import { Driver } from "../database/db.js";
 import {
   getAllDriversController,
   getDriverByIdController,
@@ -7,26 +6,34 @@ import {
   deleteDriverController,
 } from "../controllers/driversController.js";
 
-import filteredAndOrderedData from "../utils/helperFilteredAndSorted/filteredAndOrderedData.js";
-
 //Funciona
 const getAllDriversHandler = async (req, res) => {
-  const { name, orderBy, orderDirection } = req.query; // Agrega orderBy y orderDirection a los parámetros que acepta getAllDriversHandler
+  const {
+    name,
+    email,
+    debit,
+    antiquity,
+    status,
+    vehicle_id,
+    branch_id,
+    orderBy,
+    orderDirection,
+  } = req.query;
 
   try {
-    let drivers;
-    if (name || orderBy || orderDirection) {
-      // Si se proporciona alguno de estos parámetros, utilizar el helper FilteredAndOrderedData
-      drivers = await filteredAndOrderedData(
-        Driver,
-        { name },
-        orderBy,
-        orderDirection
-      ); // Ajusta los parámetros según tus necesidades
-    } else {
-      drivers = await getAllDriversController();
-    }
-    res.status(200).send(drivers);
+    const drivers = await getAllDriversController(
+      name,
+      email,
+      debit,
+      antiquity,
+      status,
+      vehicle_id,
+      branch_id,
+      orderBy,
+      orderDirection
+    );
+
+    res.status(200).json(drivers);
   } catch (error) {
     res.status(400).send({ error: error.message });
   }

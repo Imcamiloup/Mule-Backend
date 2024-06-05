@@ -32,6 +32,7 @@ export const createVehicle = async (
   return newVehicle;
 };
 
+
 export const getVehiclesByQuery = async (
   model,
   state,
