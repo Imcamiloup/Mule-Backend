@@ -6,10 +6,7 @@ import {
   getPaymentById,
   getPaymentTypes,
   getPayments,
-  successPayment,
   getPaymentsByEmail,
-  FailurePayment,
-  pendingPayment,
 } from "../handlers/paymentHandler.js";
 
 paymentRouter.get("/payment_types", getPaymentTypes);
