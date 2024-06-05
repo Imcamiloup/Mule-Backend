@@ -19,7 +19,7 @@ const usersRouter = Router();
 
 usersRouter.get("/", authenticateToken, getAllUsersHandler);
 usersRouter.get("/:id", getUserByIdHandler);
-usersRouter.get("/:dni", getUserByDNIHandler);
+usersRouter.get("/dni/:dni", getUserByDNIHandler);
 usersRouter.get("/email-confirmation/:verificationCode", confirmEmail);
 usersRouter.post("/register", registerHandler);
 usersRouter.post("/register-auth0", genereteAuth0User);
