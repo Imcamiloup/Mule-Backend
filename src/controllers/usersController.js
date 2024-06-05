@@ -35,7 +35,6 @@ const registerAuth0controller = async (email, name) => {
 
 const registercontroller = async (email, password, name, role, isActive) => {
   try {
-    console.log("datos: " ,email,password, name, role, isActive);
     const user = await User.findOne({ where: { email } });
     if (user) throw new Error("User already exists");
     const salt = await bcrypt.genSalt(10);
@@ -43,8 +42,7 @@ const registercontroller = async (email, password, name, role, isActive) => {
     const newUser = await User.create({ email, password: hash, name , role, isActive});
     const verificationToken = generateEmailVerificationToken(email, name);
     await sendConfirmationEmail({ verificationCode: verificationToken, email });
-    console.log("user: ", newUser );
-    return newUser;
+    return "Usuario creado con exito!";
   } catch (error) {
     throw new Error(error.message);
   }
@@ -69,7 +67,6 @@ const getAllUsersController = async () => {
   // Logic to get all users
   try {
     const users = await User.findAll({
-      attributes: ["name", "email", "photo", "age"],
       where: { isActive: true },
     });
     return users;
@@ -80,9 +77,14 @@ const getAllUsersController = async () => {
 
 const getUserByIdController = async (id, userRole) => {
   try {
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id, {
+      attributes: ["name", "email", "photo", "age", "role" ,"isActive","cel_Phone_Number","cedula","nickname","emailVerified"]
+    });
     if (!user) {
       throw new Error("Usuario no encontrado");
+    }
+    if (!user.isActive) {
+      return  "Usuario Inactivo";
     }
     return user;
   } catch (error) {
@@ -142,11 +144,9 @@ const updateUserController = async (id, updatedFields) => {
   }
 };
 const updateProfileController = async (id, updatedFields) => {
-  console.log("X", id);
   try {
 
       const user = await User.findOne({ where: { id: id } });
-      console.log("Xe", user);
     // Verificar si el usuario existe
     if (!user) {
       throw new Error("User not found");

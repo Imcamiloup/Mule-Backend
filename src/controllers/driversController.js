@@ -1,5 +1,5 @@
 // Importa los modelos y las funciones de validación necesarias
-import { Driver, Enlistment } from "../database/db.js";
+import { Driver, Enlistment, Branch, Vehicle } from "../database/db.js";
 
 import {
   isValidEmail,
@@ -33,7 +33,23 @@ const getAllDriversController = async () => {
         through: { attributes: [] },
       },
     });
-    return drivers;
+
+    const driversMaped = drivers.map((elem) => {
+      return {
+        id: elem.id,
+        name: elem.name,
+        email: elem.email,
+        password: elem.password,
+        debit: elem.debit,
+        antiquity: elem.antiquity,
+        status: elem.status,
+        vehicle_id: elem.vehicle_id,
+        branch_id: elem.branch_id,
+        enlistments: elem.Enlistments.map((elem) => elem.id),
+      };
+    });
+
+    return driversMaped;
   } catch (error) {
     throw new Error("Error getting drivers: " + error.message);
   }
@@ -69,6 +85,7 @@ const createDriverController = async ({
   antiquity,
   status,
   vehicle_id,
+  branch_id,
 }) => {
   if (
     !name ||
@@ -77,7 +94,8 @@ const createDriverController = async ({
     !debit ||
     !antiquity ||
     !status ||
-    !vehicle_id
+    !vehicle_id ||
+    !branch_id
   ) {
     throw new Error("Missing required fields");
   }
@@ -121,6 +139,7 @@ const createDriverController = async ({
     antiquity: antiquity,
     status: status,
     vehicle_id: vehicle_id,
+    branch_id: branch_id,
   });
 };
 
@@ -201,6 +220,122 @@ const deleteDriverController = async (id) => {
   // Eliminar el conductor
   await driver.destroy();
   return { message: "Driver deleted successfully" };
+};
+
+export const bulkCreateDrivers = async () => {
+  setTimeout(async () => {
+    const branches = await Branch.findAll();
+    const vehicles = await Vehicle.findAll();
+
+    const driversData = [
+      {
+        name: "Javier Gonzalez",
+        email: "javier.gonzalez@gmail.com",
+        password: "Clave123@",
+        debit: "8917239928374289211036",
+        antiquity: "1",
+        status: "disponible",
+        vehicle_id: vehicles[0].id,
+        branch_id: branches[0].id,
+      },
+      {
+        name: "Maria Fernandez",
+        email: "maria.fernandez@yahoo.com",
+        password: "Contraseña2021#",
+        debit: "7921683798273612842219",
+        antiquity: "2",
+        status: "disponible",
+        vehicle_id: vehicles[1].id,
+        branch_id: branches[0].id,
+      },
+      {
+        name: "Carlos Lopez",
+        email: "carlos.lopez@outlook.com",
+        password: "Seguro123$",
+        debit: "6918273645091827219671",
+        antiquity: "3",
+        status: "disponible",
+        vehicle_id: vehicles[2].id,
+        branch_id: branches[1].id,
+      },
+      {
+        name: "Ana Martinez",
+        email: "ana.martinez@gmail.com",
+        password: "Password2022!",
+        debit: "5162718937456382911213",
+        antiquity: "4",
+        status: "en asignacion",
+        vehicle_id: vehicles[3].id,
+        branch_id: branches[1].id,
+      },
+      {
+        name: "Juan Perez",
+        email: "juan.perez@hotmail.com",
+        password: "ClaveSegura@",
+        debit: "4983917264509182734721",
+        antiquity: "1",
+        status: "disponible",
+        vehicle_id: vehicles[4].id,
+        branch_id: branches[2].id,
+      },
+      {
+        name: "Laura Rodriguez",
+        email: "laura.rodriguez@yahoo.com",
+        password: "Contra123$",
+        debit: "3718293746527361213647",
+        antiquity: "5",
+        status: "en asignacion",
+        vehicle_id: vehicles[5].id,
+        branch_id: branches[2].id,
+      },
+      {
+        name: "Pedro Sanchez",
+        email: "pedro.sanchez@outlook.com",
+        password: "Passw0rd@2023",
+        debit: "2827364509182736217412",
+        antiquity: "2",
+        status: "en asignacion",
+        vehicle_id: vehicles[6].id,
+        branch_id: branches[3].id,
+      },
+      {
+        name: "Sofia Garcia",
+        email: "sofia.garcia@gmail.com",
+        password: "C0ntraseña#",
+        debit: "1736182937465238219641",
+        antiquity: "3",
+        status: "en ruta",
+        vehicle_id: vehicles[7].id,
+        branch_id: branches[3].id,
+      },
+      {
+        name: "Miguel Torres",
+        email: "miguel.torres@hotmail.com",
+        password: "ClaveFuerte123!",
+        debit: "9172645091827364211023",
+        antiquity: "4",
+        status: "en ruta",
+        vehicle_id: vehicles[8].id,
+        branch_id: branches[4].id,
+      },
+      {
+        name: "Lucia Ramirez",
+        email: "lucia.ramirez@outlook.com",
+        password: "P4ssw0rd!",
+        debit: "8827364509182736212589",
+        antiquity: "5",
+        status: "en ruta",
+        vehicle_id: vehicles[9].id,
+        branch_id: branches[4].id,
+      },
+    ];
+
+    const drivers = await Driver.findAll();
+
+    if (drivers.length === 0) {
+      Driver.bulkCreate(driversData);
+    }
+  }, 3000);
 };
 
 export {

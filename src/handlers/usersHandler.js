@@ -1,4 +1,3 @@
-import { where } from "sequelize";
 import {
   getAllUsersController,
   getUserByIdController,
@@ -9,7 +8,6 @@ import {
   loginController,
   updateProfileController,
 } from "../controllers/usersController.js";
-import { Op } from "sequelize";
 import { User } from "../database/db.js";
 
 const getAllUsersHandler = async (req, res) => {
@@ -66,7 +64,6 @@ const registerHandler = async (req, res) => {
 
 const loginHandler = async (req, res) => {
   const { email, password, name } = req.body;
-  console.log(email, password, name);
   let userExisting = null;
   try {
     if (email != undefined) {
