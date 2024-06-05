@@ -50,7 +50,7 @@ const isValidAntiquity = (antiquity) => {
 
 const isValidStatus = (status) => {
   // Validar que el estado sea uno de los valores válidos
-  const validStatuses = ["available", "on assignment", "on route"];
+  const validStatuses = ["disponible", "en asignacion", "en ruta"];
   if (!validStatuses.includes(status)) {
     throw new Error("Invalid status format");
   }
@@ -69,4 +69,11 @@ const isValidVehicleId = (vehicle_id) => {
   return true;
 };
 
-export { isValidEmail, isValidPassword, isValidDebit, isValidAntiquity, isValidStatus, isValidVehicleId };
+export {
+  isValidEmail,
+  isValidPassword,
+  isValidDebit,
+  isValidAntiquity,
+  isValidStatus,
+  isValidVehicleId,
+};

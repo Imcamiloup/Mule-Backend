@@ -15,7 +15,7 @@ export default (sequelize) => {
         allowNull: false,
         validate: {
           len: [3, 100],
-          is: /^[a-zA-Z,.\s]+$/,
+          is: /^[a-zA-Z0-9,.\s]+$/,
         },
       },
 

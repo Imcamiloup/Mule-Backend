@@ -182,7 +182,7 @@ const createOrderShipmentHandler = async (req, res) => {
       user_id
     );
 
-    res.status(201).json({ "OrderShipment created": newShipment });
+    if (newShipment) res.sendStatus(201);
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
@@ -265,7 +265,7 @@ const updateOrderShipmentHandler = async (req, res) => {
     if (String(weight).length < 1 || String(weight).length > 3)
       throw Error("Digits of weigth must be between 1 and 3");
 
-    await updateOrderShipmentController(
+    const shipmentUpdated = await updateOrderShipmentController(
       id,
       splitAndFixNames(name_claimant),
       cedula_claimant,
@@ -285,26 +285,7 @@ const updateOrderShipmentHandler = async (req, res) => {
       pay_method
     );
 
-    res.status(200).json({
-      "OrderShipment Updated: ": {
-        name_claimant: splitAndFixNames(name_claimant),
-        cedula_claimant,
-        cellphone_claimant,
-        name_transmiter: splitAndFixNames(name_transmiter),
-        surname_transmiter: splitAndFixNames(surname_transmiter),
-        celphone_transmiter,
-        city_transmiter: city_transmiter,
-        address_transmiter: address_transmiter,
-        name_receiver: splitAndFixNames(name_receiver),
-        celphone_receiver,
-        city_receiver: city_receiver,
-        address_receiver: address_receiver,
-        weight,
-        declared_value,
-        product_image,
-        pay_method: pay_method,
-      },
-    });
+    if (shipmentUpdated) res.sendStatus(200);
   } catch (error) {
     res.status(400).send({ error: error.message });
   }

@@ -1,3 +1,5 @@
+import { Driver } from "../../database/db.js";
+
 const DISTANCES = {
   "buenos aires": {
     cordoba: 695,
@@ -77,6 +79,49 @@ export const calculateWeightByInput = (idMeasure) => {
 export const calculateCost = (weight, distance) => {
   const ratePerKgPerKm = 0.01;
   return weight * distance * ratePerKgPerKm;
+};
+
+export const selectDriver = async (city_transmiter) => {
+  function elegirAleatoriamente() {
+    return Math.floor(Math.random() * 2);
+  }
+
+  if (city_transmiter === "cordoba") {
+    const findDriver = await Driver.findAll({
+      where: {
+        branch_id: 1,
+      },
+    });
+    return findDriver[elegirAleatoriamente()].id;
+  } else if (city_transmiter === "corrientes") {
+    const findDriver = await Driver.findAll({
+      where: {
+        branch_id: 2,
+      },
+    });
+    return findDriver[elegirAleatoriamente()].id;
+  } else if (city_transmiter === "santa fe") {
+    const findDriver = await Driver.findAll({
+      where: {
+        branch_id: 3,
+      },
+    });
+    return findDriver[elegirAleatoriamente()].id;
+  } else if (city_transmiter === "entre rios") {
+    const findDriver = await Driver.findAll({
+      where: {
+        branch_id: 4,
+      },
+    });
+    return findDriver[elegirAleatoriamente()].id;
+  } else if (city_transmiter === "buenos aires") {
+    const findDriver = await Driver.findAll({
+      where: {
+        branch_id: 5,
+      },
+    });
+    return findDriver[elegirAleatoriamente()].id;
+  }
 };
 
 export default DISTANCES;

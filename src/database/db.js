@@ -60,11 +60,11 @@ OrderShipment.belongsTo(Measure, { foreignKey: "measureId" });
 OrderShipment.hasOne(Enlistment, { foreignKey: "ordershipment_id" });
 Enlistment.belongsTo(OrderShipment, { foreignKey: "ordershipment_id" });
 
-Branch.hasMany(OrderShipment, { foreignKey: "branch_id" });
-OrderShipment.belongsTo(Branch, { foreignKey: "branch_id" });
-
 User.hasMany(Review, { foreignKey: "user_id" });
 Review.belongsTo(User, { foreignKey: "user_id" });
+
+Branch.hasOne(Driver, { foreignKey: "branch_id" });
+Driver.belongsTo(Branch, { foreignKey: "branch_id" });
 
 export {
   User,
