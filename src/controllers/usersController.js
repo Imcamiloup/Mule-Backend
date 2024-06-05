@@ -42,7 +42,7 @@ const registercontroller = async (email, password, name, role, isActive) => {
     const newUser = await User.create({ email, password: hash, name , role, isActive});
     const verificationToken = generateEmailVerificationToken(email, name);
     await sendConfirmationEmail({ verificationCode: verificationToken, email });
-    return newUser;
+    return "Usuario creado con exito!";
   } catch (error) {
     throw new Error(error.message);
   }
@@ -67,7 +67,6 @@ const getAllUsersController = async () => {
   // Logic to get all users
   try {
     const users = await User.findAll({
-      attributes: ["name", "email", "photo", "age"],
       where: { isActive: true },
     });
     return users;
@@ -78,9 +77,14 @@ const getAllUsersController = async () => {
 
 const getUserByIdController = async (id, userRole) => {
   try {
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id, {
+      attributes: ["name", "email", "photo", "age", "role" ,"isActive","cel_Phone_Number","cedula","nickname","emailVerified"]
+    });
     if (!user) {
       throw new Error("Usuario no encontrado");
+    }
+    if (!user.isActive) {
+      return  "Usuario Inactivo";
     }
     return user;
   } catch (error) {
