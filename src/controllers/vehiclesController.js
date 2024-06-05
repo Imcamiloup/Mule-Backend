@@ -8,6 +8,31 @@ export const getVehicles = async () => {
   return vehicles;
 };
 
+export const createVehicle = async (
+  model,
+  state,
+  car_insurance,
+  plate,
+  tecnical_review,
+  driving_licence,
+  cargo_manifest,
+  news
+) => {
+  const newVehicle = await Vehicle.create({
+    model,
+    state,
+    car_insurance,
+    plate,
+    tecnical_review,
+    driving_licence,
+    cargo_manifest,
+    news,
+  });
+
+  return newVehicle;
+};
+
+
 export const getVehiclesByQuery = async (
   model,
   state,
