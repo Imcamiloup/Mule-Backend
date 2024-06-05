@@ -24,7 +24,30 @@ const isValidUUID = (id) => {
 // };
 
 // Controlador para obtener todos los conductores
-const getAllDriversController = async () => {
+const getAllDriversController = async (
+  name,
+  email,
+  debit,
+  antiquity,
+  status,
+  vehicle_id,
+  branch_id,
+  orderBy,
+  orderDirection
+) => {
+  let where = {};
+
+  if (name) where = { ...where, name };
+  if (email) where = { ...where, email };
+  if (debit) where = { ...where, debit };
+  if (antiquity) where = { ...where, antiquity };
+  if (status) where = { ...where, status };
+  if (vehicle_id) where = { ...where, vehicle_id };
+  if (branch_id) where = { ...where, branch_id };
+
+  let order = [];
+  if (orderBy && orderDirection) order = [[orderBy, orderDirection]];
+
   try {
     const drivers = await Driver.findAll({
       include: {
@@ -32,6 +55,8 @@ const getAllDriversController = async () => {
         attributes: ["id"],
         through: { attributes: [] },
       },
+      where,
+      order,
     });
 
     const driversMaped = drivers.map((elem) => {
@@ -48,6 +73,8 @@ const getAllDriversController = async () => {
         enlistments: elem.Enlistments.map((elem) => elem.id),
       };
     });
+
+    if (driversMaped.length === 0) throw Error("No drivers found");
 
     return driversMaped;
   } catch (error) {
