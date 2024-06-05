@@ -3,6 +3,7 @@ import {
   getVehicleById,
   updateVehicle,
   getVehiclesByQuery,
+  createVehicle
 } from "../controllers/vehiclesController.js";
 
 

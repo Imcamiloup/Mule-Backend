@@ -3,7 +3,7 @@ import {
   getVehiclesHandler,
   getVehicleByIdHandler,
   updateVehicleHandler,
-  updateVehicleHandler,
+  createVehicleHandler,
 } from "../handlers/vehiclesHandler.js";
 
 const vehiclesRouter = Router();

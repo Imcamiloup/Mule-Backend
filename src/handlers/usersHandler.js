@@ -48,7 +48,7 @@ const getUserByDNIHandler = async (req, res) => {
     if (!user) throw new Error("User not found");
     res.status(200).send(user);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(400).send({ message: error.message });
   }
 };
 
