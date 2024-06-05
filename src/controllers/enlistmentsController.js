@@ -67,3 +67,11 @@ export const patchEnlistment = async (id, state, delivery_time) => {
 
   await enlistment.save();
 };
+
+export const deleteEnlistment = async (id) => {
+  const enlistment = await Enlistment.findByPk(id);
+
+  if (!enlistment) throw Error("No enlistment found");
+
+  await enlistment.destroy();
+};
