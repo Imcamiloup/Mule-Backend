@@ -2,6 +2,7 @@ import {
   getEnlistments,
   getEnlistmentById,
   patchEnlistment,
+  deleteEnlistment,
 } from "../controllers/enlistmentsController.js";
 
 import {
@@ -75,3 +76,15 @@ export const patchEnlistmentHandler = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+export const deleteEnlistmentHandler = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await deleteEnlistment(id);
+
+    res.status(200).json({ message: `Enlistment with ID: ${id} deleted` });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+

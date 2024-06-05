@@ -42,7 +42,7 @@ const registercontroller = async (email, password, name, role, isActive) => {
     const hash = await bcrypt.hash(password, salt);
     const newUser = await User.create({ email, password: hash, name , role, isActive});
     const verificationToken = generateEmailVerificationToken(email, name);
-    await sendConfirmationEmail({ verificationCode: verificationToken, email });
+    //await sendConfirmationEmail({ verificationCode: verificationToken, email });
     console.log("user: ", newUser );
     return newUser;
   } catch (error) {
@@ -69,7 +69,6 @@ const getAllUsersController = async () => {
   // Logic to get all users
   try {
     const users = await User.findAll({
-      attributes: ["name", "email", "photo", "age"],
       where: { isActive: true },
     });
     return users;
@@ -146,7 +145,7 @@ const updateProfileController = async (id, updatedFields) => {
   try {
 
       const user = await User.findOne({ where: { id: id } });
-      console.log("Xe", user);
+      //console.log("Xe", user);
     // Verificar si el usuario existe
     if (!user) {
       throw new Error("User not found");

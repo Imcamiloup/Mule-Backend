@@ -130,6 +130,17 @@ const createOrderShipmentController = async (
   }
 };
 
+const patchEnlistmentController = async (id, state) => {
+  try {
+    const enlistment = await Enlistment.findByPk(id);
+    if (!enlistment) throw new Error("Enlistment not found");
+
+    await enlistment.update({ state });
+  } catch (error) {
+    throw new Error("Error patch enlistment: " + error.message);
+  }
+}
+
 const getOrderShipmentByIdController = async (id) => {
   try {
     const shipment = await OrderShipment.findByPk(id);
