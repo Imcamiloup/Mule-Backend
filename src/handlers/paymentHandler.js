@@ -48,11 +48,10 @@ export const createPreferenceHandler = async (req, res) => {
           },
         ],
         back_urls: {
-          success: "https://mule-front.onrender.com",
-          failure: "https://mule-server.onrender.com/payments/failure",
-          pending: "https://mule-server.onrender.com/payments/pending",
+          success: "https://mule-front.onrender.com/auth/dashboard",
+          failure: "https://mule-front.onrender.com/auth/dashboard",
+          pending: "https://mule-front.onrender.com/auth/dashboard",
         },
-        // auto_return: "approved",
       },
       idempotencyKey,
     });
