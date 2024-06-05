@@ -36,7 +36,7 @@ const getUserByIdHandler = async (req, res) => {
     if (!user) throw new Error("User not found");
     res.status(200).send(user);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(400).send({ message: error.message });
   }
 };
 
@@ -109,7 +109,7 @@ const updateUserHandler = async (req, res) => {
     const updatedUser = await updateUserController(id, updatedFields);
     res.status(200).send(updatedUser);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(400).send({ message: error.message });
   }
 };
 
@@ -121,7 +121,7 @@ const updateProfileHandler = async (req, res) => {
     const updatedUser = await updateProfileController(id, updatedFields);
     res.status(200).send(updatedUser);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(400).send({ message: error.message });
   }
 };
 
@@ -140,7 +140,7 @@ const deleteUserHandler = async (req, res) => {
     const deletedUser = await deleteUserController(id);
     res.status(200).send(deletedUser);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(400).send({ message: error.message });
   }
 };
 

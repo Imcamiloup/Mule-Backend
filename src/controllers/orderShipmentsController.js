@@ -141,17 +141,6 @@ const createOrderShipmentController = async (
   }
 };
 
-const patchEnlistmentController = async (id, state) => {
-  try {
-    const enlistment = await Enlistment.findByPk(id);
-    if (!enlistment) throw new Error("Enlistment not found");
-
-    await enlistment.update({ state });
-  } catch (error) {
-    throw new Error("Error patch enlistment: " + error.message);
-  }
-}
-
 const getOrderShipmentByIdController = async (id) => {
   try {
     const shipment = await OrderShipment.findByPk(id);
@@ -159,49 +148,6 @@ const getOrderShipmentByIdController = async (id) => {
   } catch (error) {
     throw new Error("Error get shipment by id: " + error.message);
   }
-};
-
-const updateOrderShipmentController = async (
-  id,
-  name_claimant,
-  cedula_claimant,
-  cellphone_claimant,
-  name_transmiter,
-  surname_transmiter,
-  celphone_transmiter,
-  city_transmiter,
-  address_transmiter,
-  name_receiver,
-  celphone_receiver,
-  city_receiver,
-  address_receiver,
-  weight,
-  declared_value,
-  product_image,
-  pay_method
-) => {
-  const orderShipment = await OrderShipment.findByPk(id);
-
-  if (!orderShipment) throw Error("Ordershipment not found");
-
-  await orderShipment.update({
-    name_claimant,
-    cedula_claimant,
-    cellphone_claimant,
-    name_transmiter,
-    surname_transmiter,
-    celphone_transmiter,
-    city_transmiter,
-    address_transmiter,
-    name_receiver,
-    celphone_receiver,
-    city_receiver,
-    address_receiver,
-    weight,
-    declared_value,
-    product_image,
-    pay_method,
-  });
 };
 
 const deleteOrderShipmentController = async (id) => {
@@ -219,6 +165,5 @@ export {
   getAllOrderShipmentsController,
   createOrderShipmentController,
   getOrderShipmentByIdController,
-  updateOrderShipmentController,
   deleteOrderShipmentController,
 };
