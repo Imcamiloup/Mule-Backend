@@ -41,6 +41,7 @@ const registercontroller = async (email, password, name, role, isActive) => {
     const hash = await bcrypt.hash(password, salt);
     const newUser = await User.create({ email, password: hash, name , role, isActive});
     const verificationToken = generateEmailVerificationToken(email, name);
+
     await sendConfirmationEmail({ verificationCode: verificationToken, email });
     return "Usuario creado con exito!";
   } catch (error) {
