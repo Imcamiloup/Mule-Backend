@@ -8,11 +8,11 @@ import { sendConfirmationEmail } from "../email/emailService.js";
 
 const registerAuth0controller = async (email, name) => {
   try {
-    const user = await User.findOne({ where: { email } });
+    let user = await User.findOne({ where: { email } });
     if (!user) {
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash("secretpassword", salt);
-      const newUser = await User.create({ email, password: hash, name });
+      user = await User.create({ email, password: hash, name });
       const verificationToken = generateEmailVerificationToken(email, name);
       await sendConfirmationEmail({
         verificationCode: verificationToken,
@@ -174,7 +174,7 @@ const updateUserController = async (id, updatedFields) => {
     await user.save();
 
     // Devolver el usuario actualizado
-    return "Usuario Actualizado con Exito.";
+    return user;
   } catch (error) {
     // Manejar errores
     throw new Error("Error updating user: " + error.message);
@@ -199,7 +199,7 @@ const updateProfileController = async (id, updatedFields) => {
     await user.save();
 
     // Devolver el usuario actualizado
-    return "Usuario Actualizado con Exito.";
+    return user;
   } catch (error) {
     // Manejar errores
     throw new Error("Error updating user: " + error.message);
