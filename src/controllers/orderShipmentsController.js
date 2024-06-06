@@ -5,6 +5,7 @@ import {
   calculateCost,
   calculateWeightByInput,
   TIMES,
+  selectDriver,
 } from "../utils/EnlistmentHelpers/distancesApi.js";
 
 const getAllOrderShipmentsController = async (
@@ -108,22 +109,29 @@ const createOrderShipmentController = async (
     });
 
     if (newOrderShipment) {
-      const numRandom = Math.floor(Math.random() * 10000000000);
+      function generarNumeroAleatorio() {
+        const min = 1000000000;
+        const max = 9999999999;
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
 
       const distanceCalculated = DISTANCES[city_transmiter][city_receiver];
       const timeCalculated = TIMES[city_transmiter][city_receiver];
 
       const newEnlistment = await Enlistment.create({
-        guide_number: numRandom,
+        guide_number: generarNumeroAleatorio(),
         distance: distanceCalculated,
         price_order: calculateCost(
           calculateWeightByInput(measureId),
           distanceCalculated
         ),
         delivery_time: timeCalculated,
-        ordershipment_id: newOrderShipment.id,
         state: "Paquete Asignado",
+        ordershipment_id: newOrderShipment.id,
       });
+
+      newEnlistment.addDrivers(await selectDriver(city_transmiter));
+
       if (!newEnlistment) throw Error("Error create enlistment");
     }
 
@@ -142,49 +150,6 @@ const getOrderShipmentByIdController = async (id) => {
   }
 };
 
-const updateOrderShipmentController = async (
-  id,
-  name_claimant,
-  cedula_claimant,
-  cellphone_claimant,
-  name_transmiter,
-  surname_transmiter,
-  celphone_transmiter,
-  city_transmiter,
-  address_transmiter,
-  name_receiver,
-  celphone_receiver,
-  city_receiver,
-  address_receiver,
-  weight,
-  declared_value,
-  product_image,
-  pay_method
-) => {
-  const orderShipment = await OrderShipment.findByPk(id);
-
-  if (!orderShipment) throw Error("Ordershipment not found");
-
-  await orderShipment.update({
-    name_claimant,
-    cedula_claimant,
-    cellphone_claimant,
-    name_transmiter,
-    surname_transmiter,
-    celphone_transmiter,
-    city_transmiter,
-    address_transmiter,
-    name_receiver,
-    celphone_receiver,
-    city_receiver,
-    address_receiver,
-    weight,
-    declared_value,
-    product_image,
-    pay_method,
-  });
-};
-
 const deleteOrderShipmentController = async (id) => {
   try {
     if (!id) throw new Error("Missing id field");
@@ -200,6 +165,5 @@ export {
   getAllOrderShipmentsController,
   createOrderShipmentController,
   getOrderShipmentByIdController,
-  updateOrderShipmentController,
   deleteOrderShipmentController,
 };

@@ -19,9 +19,9 @@ export const createReviewHandler = async (req, res) => {
     validateOnlyNumbers(score, "score");
     validateMinMax(score, "score");
 
-    const newReview = await createReview(comment, score, user_id);
+    await createReview(comment, score, user_id);
 
-    res.status(200).json({ "Review created": newReview });
+    res.sendStatus(201);
   } catch (error) {
     res.status(400).send({ error: error.message });
   }

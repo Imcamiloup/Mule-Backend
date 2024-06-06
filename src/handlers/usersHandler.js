@@ -1,4 +1,3 @@
-import { where } from "sequelize";
 import {
   getAllUsersController,
   getUserByIdController,
@@ -10,12 +9,12 @@ import {
   loginController,
   updateProfileController,
 } from "../controllers/usersController.js";
-import { Op } from "sequelize";
 import { User } from "../database/db.js";
 
 const getAllUsersHandler = async (req, res) => {
   // Obtener el rol del usuario autenticado desde la solicitud
   const userRole = req.user.role;
+  console.log(userRole);
   // // Verificar si el usuario autenticado tiene permiso para actualizar
   if (userRole !== "admin") {
     return res
@@ -38,7 +37,7 @@ const getUserByIdHandler = async (req, res) => {
     if (!user) throw new Error("User not found");
     res.status(200).send(user);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(400).send({ message: error.message });
   }
 };
 
@@ -78,7 +77,6 @@ const registerHandler = async (req, res) => {
 
 const loginHandler = async (req, res) => {
   const { email, password, name } = req.body;
-  console.log(email, password, name);
   let userExisting = null;
   try {
     if (email != undefined) {
@@ -123,7 +121,7 @@ const updateUserHandler = async (req, res) => {
     const updatedUser = await updateUserController(id, updatedFields);
     res.status(200).send(updatedUser);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(400).send({ message: error.message });
   }
 };
 
@@ -135,7 +133,7 @@ const updateProfileHandler = async (req, res) => {
     const updatedUser = await updateProfileController(id, updatedFields);
     res.status(200).send(updatedUser);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(400).send({ message: error.message });
   }
 };
 
@@ -154,7 +152,7 @@ const deleteUserHandler = async (req, res) => {
     const deletedUser = await deleteUserController(id);
     res.status(200).send(deletedUser);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(400).send({ message: error.message });
   }
 };
 

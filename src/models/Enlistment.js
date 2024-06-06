@@ -21,7 +21,6 @@ export default (sequelize) => {
         },
       },
 
-      //const regex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
       state: {
         type: DataTypes.STRING,
         allowNull: false,

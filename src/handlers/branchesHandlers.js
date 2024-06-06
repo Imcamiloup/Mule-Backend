@@ -2,39 +2,24 @@ import {
   createBranch,
   getBranches,
   getBranchById,
-  // updateBranch,
-  // deleteBranch,
 } from "../controllers/branchesController.js";
 
 import {
   validateOnlyLetters,
   validateOnlyNumbers,
-  validateZipCode,
   validateDirection,
   validateLengthFromTo,
   validateExactLength,
 } from "../utils/Validate/validateBranches/validateBranches.js";
 
 export const getBranchesHandler = async (req, res) => {
-  const {
-    province,
-    city,
-    zip_code,
-    direction,
-    phone,
-    type,
-    orderBy,
-    orderDirection,
-  } = req.query;
+  const { province, direction, phone, orderBy, orderDirection } = req.query;
 
   try {
     const branches = await getBranches(
       province,
-      city,
-      zip_code,
       direction,
       phone,
-      type,
       orderBy,
       orderDirection
     );
@@ -46,29 +31,19 @@ export const getBranchesHandler = async (req, res) => {
 };
 
 export const createBranchHandler = async (req, res) => {
-  const { province, city, zip_code, direction, phone, type } = req.body;
+  const { province, direction, phone } = req.body;
 
   try {
-    validateOnlyLetters({ province, city, type });
+    validateOnlyLetters({ province });
     validateOnlyNumbers(phone);
-    validateZipCode(zip_code);
     validateDirection(direction);
     validateLengthFromTo(province, 3, 30, "province");
-    validateLengthFromTo(city, 3, 20, "city");
     validateLengthFromTo(direction, 3, 25, "direction");
-    validateLengthFromTo(type, 2, 15, "direction");
     validateExactLength(phone, 10, "phone");
 
-    const newBranch = await createBranch(
-      province,
-      city,
-      zip_code,
-      direction,
-      phone,
-      type
-    );
+    await createBranch(province, direction, phone);
 
-    res.status(201).json({ "Branch created": newBranch });
+    res.sendStatus(201);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
