@@ -18,7 +18,7 @@ export const requestPasswordReset  = async (req, res) => {
     sendEmail({
         to: email,
         subject: "Reset your password",
-        text: `To reset your password, click on this link: http://localhost:3000/reset-password/${verificationCode}`
+        text: `To reset your password, click on this link: https://mule-server.onrender.com/reset-password/${verificationCode}`
     });
     res.status(200).json({ message: "Email sent" });
 }
