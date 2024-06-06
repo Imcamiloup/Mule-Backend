@@ -20,7 +20,7 @@ const registerAuth0controller = async (email, name) => {
       });
     }
     const token = generateAuthToken(
-      user.id,
+      // user.id,
       user.email,
       user.role,
       user.name,
