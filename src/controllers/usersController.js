@@ -19,17 +19,17 @@ const registerAuth0controller = async (email, name) => {
         email,
       });
     }
-    // const token = generateAuthToken(
-    //   user.id,
-    //   user.email,
-    //   user.role,
-    //   user.name,
-    //   user.isActive
-    // );
+    const token = generateAuthToken(
+      user.id,
+      user.email,
+      user.role,
+      user.name,
+      user.isActive
+    );
 
-    // return token;
+    return token;
 
-    return "Usuario generado con exito!";
+    // return "Usuario generado con exito!";
   } catch (error) {
     throw new Error(error.message);
   }

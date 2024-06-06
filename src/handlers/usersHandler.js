@@ -55,8 +55,11 @@ const getUserByDNIHandler = async (req, res) => {
 const genereteAuth0User = async (req, res) => {
   const { email, name } = req.body;
   try {
-    if (await registerAuth0controller(email, name))
-      res.redirect("https://mule-front.onrender.com/auth/dashboard");
+    const token = await registerAuth0controller(email, name);
+
+    // if (await registerAuth0controller(email, name))
+    //   res.redirect("https://mule-front.onrender.com/auth/dashboard");
+    res.status(200).json(token);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
