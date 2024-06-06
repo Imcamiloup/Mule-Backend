@@ -13,13 +13,13 @@ const confirmEmail = async (req, res) => {
     }
 
     if (user.emailVerified) {
-      return res.redirect("https://mule-front.onrender.com/header");
+      return res.redirect(`${process.env.FRONT_END_URL}/header`);
     }
 
     user.emailVerified = true;
     await user.save();
 
-    return res.redirect("https://mule-front.onrender.com/header");
+    return res.redirect(`${process.env.FRONT_END_URL}/header`);
     // return res.redirect('http://localhost:4000/auth/emailConfirm');
   } catch (error) {
     if (error.name === "JsonWebTokenError") {
