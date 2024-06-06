@@ -8,11 +8,11 @@ import { sendConfirmationEmail } from "../email/emailService.js";
 
 const registerAuth0controller = async (email, name) => {
   try {
-    const user = await User.findOne({ where: { email } });
+    let user = await User.findOne({ where: { email } });
     if (!user) {
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash("secretpassword", salt);
-      const newUser = await User.create({ email, password: hash, name });
+      user = await User.create({ email, password: hash, name });
       const verificationToken = generateEmailVerificationToken(email, name);
       await sendConfirmationEmail({
         verificationCode: verificationToken,
@@ -111,6 +111,25 @@ const getUserByIdController = async (id, userRole) => {
     throw new Error("Error al obtener el usuario por ID: " + error.message);
   }
 };
+
+const getUserByNameController = async (name) => {
+  try {
+    const user = await User.findOne({
+      where: { name },
+    });
+
+    if (!user) {
+      throw new Error("Usuario no encontrado");
+    }
+    if (!user.isActive) {
+      return "Usuario Inactivo";
+    }
+    return user;
+  } catch (error) {
+    throw new Error("Error al obtener el usuario por nombre: " + error.message);
+  }
+};
+
 
 const getUserByDNIController = async (cedula, userRole) => {
   try {
@@ -230,4 +249,5 @@ export {
   loginController,
   registercontrollerAdminDefault,
   updateProfileController,
+  getUserByNameController,
 };

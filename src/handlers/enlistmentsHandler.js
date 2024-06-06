@@ -1,6 +1,7 @@
 import {
   getEnlistments,
   getEnlistmentById,
+  getEnlistmentByGN,      
   patchEnlistment,
   deleteEnlistment,
 } from "../controllers/enlistmentsController.js";
@@ -52,6 +53,20 @@ export const getEnlistmentByIdHandler = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+export const getEnlistmentByGNHandler = async (req, res) => {
+  const { guide_number } = req.params;
+  try {
+    const enlistmentByGN = await getEnlistmentByGN(guide_number);
+
+    if (!enlistmentByGN)
+      throw Error(`Enlistment with Guide Number: ${guide_number} not found`);
+
+    res.status(200).json({ enlistment: enlistmentByGN });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
 
 export const patchEnlistmentHandler = async (req, res) => {
   const { id } = req.params;

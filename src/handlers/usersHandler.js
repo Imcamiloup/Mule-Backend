@@ -8,6 +8,7 @@ import {
   registerAuth0controller,
   loginController,
   updateProfileController,
+  getUserByNameController,
 } from "../controllers/usersController.js";
 import { User } from "../database/db.js";
 
@@ -40,6 +41,18 @@ const getUserByIdHandler = async (req, res) => {
     res.status(400).send({ message: error.message });
   }
 };
+
+const getUserByNameHandler = async (req, res) => {
+  try {
+    const { name } = req.params;
+    const user = await getUserByNameController(name);
+    if (!user) throw new Error("User not found");
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
+
 
 const getUserByDNIHandler = async (req, res) => {
   try {
@@ -160,6 +173,7 @@ const deleteUserHandler = async (req, res) => {
 export {
   getAllUsersHandler,
   getUserByIdHandler,
+  getUserByNameHandler,
   getUserByDNIHandler,
   updateUserHandler,
   deleteUserHandler,
