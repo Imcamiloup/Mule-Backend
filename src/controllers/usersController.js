@@ -193,7 +193,7 @@ const updateUserController = async (id, updatedFields) => {
     await user.save();
 
     // Devolver el usuario actualizado
-    return "Usuario Actualizado con Exito.";
+    return user;
   } catch (error) {
     // Manejar errores
     throw new Error("Error updating user: " + error.message);
@@ -218,7 +218,7 @@ const updateProfileController = async (id, updatedFields) => {
     await user.save();
 
     // Devolver el usuario actualizado
-    return "Usuario Actualizado con Exito.";
+    return user;
   } catch (error) {
     // Manejar errores
     throw new Error("Error updating user: " + error.message);
