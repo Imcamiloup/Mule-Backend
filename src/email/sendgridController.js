@@ -13,9 +13,7 @@ const confirmEmail = async (req, res) => {
     }
 
     if (user.emailVerified) {
-      return res
-        .status(400)
-        .json({ message: "El correo electrónico ya ha sido verificado." });
+      return  res.redirect('http://localhost:4000/auth/emailConfirm');
     }
 
     user.emailVerified = true;

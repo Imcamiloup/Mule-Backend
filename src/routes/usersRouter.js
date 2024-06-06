@@ -25,7 +25,7 @@ usersRouter.post("/register", registerHandler);
 usersRouter.post("/register-auth0", genereteAuth0User);
 usersRouter.post("/login", loginHandler);
 usersRouter.post("/request-password-reset", requestPasswordReset);
-usersRouter.post("/reset-password", resetPassword);
+usersRouter.patch("/reset-password", resetPassword);
 usersRouter.patch("/:id", authenticateToken, updateUserHandler);
 usersRouter.patch("/profile/:id", updateProfileHandler)
 usersRouter.delete("/:id", authenticateToken, deleteUserHandler);
