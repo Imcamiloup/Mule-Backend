@@ -13,26 +13,21 @@ const confirmEmail = async (req, res) => {
     }
 
     if (user.emailVerified) {
-      return res
-        .status(400)
-        .json({ message: "El correo electrónico ya ha sido verificado." });
+      return res.redirect(`${process.env.FRONT_END_URL}/header`);
     }
 
     user.emailVerified = true;
     await user.save();
 
-
-    return res.redirect('https://mule-front.onrender.com/header');
+    return res.redirect(`${process.env.FRONT_END_URL}/header`);
     // return res.redirect('http://localhost:4000/auth/emailConfirm');
   } catch (error) {
     if (error.name === "JsonWebTokenError") {
       return res.status(401).json({ message: "Token inválido." });
     } else {
-      return res
-        .status(500)
-        .json({
-          message: "Error al verificar el correo electrónico." + error.message,
-        });
+      return res.status(500).json({
+        message: "Error al verificar el correo electrónico." + error.message,
+      });
     }
   }
 };

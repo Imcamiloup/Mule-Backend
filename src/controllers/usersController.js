@@ -28,6 +28,8 @@ const registerAuth0controller = async (email, name) => {
     );
 
     return token;
+
+    // return "Usuario generado con exito!";
   } catch (error) {
     throw new Error(error.message);
   }
@@ -113,19 +115,19 @@ const getUserByIdController = async (id, userRole) => {
 const getUserByDNIController = async (cedula, userRole) => {
   try {
     const user = await User.findOne({
-      where : {cedula}});
+      where: { cedula },
+    });
     if (!user) {
       throw new Error("Usuario no encontrado");
     }
     if (!user.isActive) {
-      return  "Usuario Inactivo";
+      return "Usuario Inactivo";
     }
     return user;
   } catch (error) {
     throw new Error("Error al obtener el usuario por DNI: " + error.message);
   }
 };
-
 
 const loginController = async (userExisting, password) => {
   try {

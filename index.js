@@ -15,7 +15,7 @@ sequelize
   .then(() => {
     server.listen(PORT, () => {
       console.log("Database connection succesful!");
-      console.log(`Server listening on port: http://localhost:${PORT}`);
+      console.log(`Server listening on port: ${PORT}`);
       bulkCreateTypeShipments();
       bulkCreateMeasures();
       createDefaultUser();
