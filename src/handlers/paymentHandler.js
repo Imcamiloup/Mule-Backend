@@ -48,9 +48,9 @@ export const createPreferenceHandler = async (req, res) => {
           },
         ],
         back_urls: {
-          success: "https://mule-front.onrender.com",
-          failure: "https://mule-front.onrender.com",
-          pending: "https://mule-front.onrender.com",
+          success: "https://mule-front.onrender.com/auth/dashboard",
+          failure: "https://mule-front.onrender.com/auth/dashboard",
+          pending: "https://mule-front.onrender.com/auth/dashboard",
         },
       },
       idempotencyKey,
