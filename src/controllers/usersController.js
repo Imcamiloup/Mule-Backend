@@ -1,4 +1,5 @@
 import { User } from "../database/db.js";
+import { Op } from "sequelize";
 import bcrypt from "bcrypt";
 import {
   generateAuthToken,
@@ -133,7 +134,11 @@ const getUserByNameController = async (name) => {
 const getUserByDNIController = async (cedula, userRole) => {
   try {
     const user = await User.findOne({
-      where: { cedula },
+      where: {
+        cedula: {
+          [Op.like]: `%${cedula}%`,
+        },
+      },
     });
     if (!user) {
       throw new Error("Usuario no encontrado");
