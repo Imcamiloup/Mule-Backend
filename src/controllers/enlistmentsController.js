@@ -1,5 +1,4 @@
 import { Enlistment, Driver } from "../database/db.js";
-import { Op } from "sequelize";
 
 export const getEnlistments = async (
   guide_number,
@@ -13,8 +12,7 @@ export const getEnlistments = async (
 ) => {
   let where = {};
 
-  if (guide_number)
-    where = { ...where, guide_number: { [Op.like]: `%${guide_number}%` } };
+  if (guide_number) where = { ...where, guide_number };
   if (state) where = { ...where, state };
   if (distance) where = { ...where, distance };
   if (delivery_time) where = { ...where, delivery_time };
