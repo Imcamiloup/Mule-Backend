@@ -107,22 +107,22 @@ const getDriverByIdController = async (id) => {
 const createDriverController = async ({
   name,
   email,
-  password,
+  // password,
   debit,
   antiquity,
   status,
-  vehicle_id,
-  branch_id,
+  // vehicle_id,
+  // branch_id,
 }) => {
   if (
     !name ||
     !email ||
-    !password ||
+    // !password ||
     !debit ||
     !antiquity ||
-    !status ||
-    !vehicle_id ||
-    !branch_id
+    !status
+    // !vehicle_id ||
+    // !branch_id
   ) {
     throw new Error("Missing required fields");
   }
@@ -137,9 +137,9 @@ const createDriverController = async ({
     throw new Error("Email is already in use");
   }
 
-  if (!isValidPassword(password)) {
-    throw new Error("Invalid password format");
-  }
+  // if (!isValidPassword(password)) {
+  //   throw new Error("Invalid password format");
+  // }
 
   if (!isValidDebit(debit)) {
     throw new Error("Invalid debit format");
@@ -153,20 +153,20 @@ const createDriverController = async ({
     throw new Error("Invalid status format");
   }
 
-  if (!isValidVehicleId(vehicle_id)) {
-    throw new Error("Invalid vehicle ID format");
-  }
+  // if (!isValidVehicleId(vehicle_id)) {
+  //   throw new Error("Invalid vehicle ID format");
+  // }
 
   // Crear el conductor
   return await Driver.create({
     name: name,
     email: email,
-    password: password,
+    // password: password,
     debit: debit,
     antiquity: antiquity,
     status: status,
-    vehicle_id: vehicle_id,
-    branch_id: branch_id,
+    // vehicle_id: vehicle_id,
+    // branch_id: branch_id,
   });
 };
 
