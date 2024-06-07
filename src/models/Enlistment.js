@@ -12,11 +12,10 @@ export default (sequelize) => {
       },
 
       guide_number: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.STRING,
         allowNull: false,
         unique: true,
         validate: {
-          is: /^\d+$/,
           len: [10],
         },
       },
