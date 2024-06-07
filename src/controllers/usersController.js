@@ -130,7 +130,6 @@ const getUserByNameController = async (name) => {
   }
 };
 
-
 const getUserByDNIController = async (cedula, userRole) => {
   try {
     const user = await User.findOne({
@@ -202,6 +201,10 @@ const updateUserController = async (id, updatedFields) => {
 const updateProfileController = async (id, updatedFields) => {
   try {
     const user = await User.findOne({ where: { id: id } });
+    const dni = await User.findOne({ where: { cedula: updatedFields.cedula } });
+
+    if (dni) throw Error("DNI already exists!");
+
     // Verificar si el usuario existe
     if (!user) {
       throw new Error("User not found");
