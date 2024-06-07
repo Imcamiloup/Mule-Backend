@@ -20,7 +20,6 @@ const confirmEmail = async (req, res) => {
     await user.save();
 
     return res.redirect(`${process.env.FRONT_END_URL}/header`);
-    // return res.redirect('http://localhost:4000/auth/emailConfirm');
   } catch (error) {
     if (error.name === "JsonWebTokenError") {
       return res.status(401).json({ message: "Token inválido." });
