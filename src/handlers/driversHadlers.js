@@ -83,19 +83,18 @@ const postDriverHandler = async (req, res) => {
     const {
       name,
       email,
-      password,
+      // password,
       debit,
       antiquity,
       status,
-      vehicle_id,
-      branch_id,
+      // vehicle_id,
+      // branch_id,
     } = req.body;
 
-    if (!name || !email || !password || !debit || !antiquity || !status) {
+    if (!name || !email || !debit || !antiquity || !status) {
       let missingField = "";
       if (!name) missingField = "name";
       else if (!email) missingField = "email";
-      else if (!password) missingField = "password";
       else if (!debit) missingField = "debit";
       else if (!antiquity) missingField = "antiquity";
       else if (!status) missingField = "status";
@@ -106,12 +105,12 @@ const postDriverHandler = async (req, res) => {
     await createDriverController({
       name,
       email,
-      password,
+      // password,
       debit,
       antiquity,
       status,
-      vehicle_id,
-      branch_id,
+      // vehicle_id,
+      // branch_id,
     });
 
     res.sendStatus(201);
