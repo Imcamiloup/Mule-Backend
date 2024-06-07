@@ -47,7 +47,7 @@ export const getEnlistments = async (
     };
   });
 
-  if (enlistmentsMaped.length === 0) throw Error("Enlistments not found");
+  if (enlistmentsMaped.length === 0) return "Enlistment not found";
 
   return enlistmentsMaped;
 };
