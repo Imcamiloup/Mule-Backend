@@ -17,7 +17,7 @@ const sendReservationConfirmationEmail = async ({ username, email }) => {
 
   try {
     await sgMail.send(message);
-    console.log('Reservation confirmation email sent successfully.');
+    c
   } catch (error) {
     console.error('Error sending reservation confirmation email:', error);
     throw error;

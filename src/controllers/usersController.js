@@ -112,6 +112,25 @@ const getUserByIdController = async (id, userRole) => {
   }
 };
 
+const getUserByNameController = async (name) => {
+  try {
+    const user = await User.findOne({
+      where: { name },
+    });
+
+    if (!user) {
+      throw new Error("Usuario no encontrado");
+    }
+    if (!user.isActive) {
+      return "Usuario Inactivo";
+    }
+    return user;
+  } catch (error) {
+    throw new Error("Error al obtener el usuario por nombre: " + error.message);
+  }
+};
+
+
 const getUserByDNIController = async (cedula, userRole) => {
   try {
     const user = await User.findOne({
@@ -230,4 +249,5 @@ export {
   loginController,
   registercontrollerAdminDefault,
   updateProfileController,
+  getUserByNameController,
 };

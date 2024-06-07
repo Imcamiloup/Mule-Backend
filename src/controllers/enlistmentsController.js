@@ -57,6 +57,12 @@ export const getEnlistmentById = async (id) => {
   return enlistmentById;
 };
 
+export const getEnlistmentByGN = async (guide_number) => {
+  const enlistmentByGN = Enlistment.findOne({ where: { guide_number } });
+
+  return enlistmentByGN;
+}
+
 export const patchEnlistment = async (id, state, delivery_time) => {
   const enlistment = await Enlistment.findByPk(id);
 
