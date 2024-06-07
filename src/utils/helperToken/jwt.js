@@ -20,7 +20,6 @@ const generatePasswordReset = (email) => {
     const token = jwt.sign({ email }, process.env.JWT_SECRET, {
       expiresIn: "5m",
     });
-    console.log("Token generado:", token);
 
     return token;
   } catch (error) {
