@@ -11,7 +11,7 @@ import { bulkCreateDrivers } from "./src/controllers/driversController.js";
 const { PORT } = process.env;
 
 sequelize
-  .sync()
+  .sync({})
   .then(() => {
     server.listen(PORT, () => {
       console.log("Database connection succesful!");

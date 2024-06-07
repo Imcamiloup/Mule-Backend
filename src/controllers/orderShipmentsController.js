@@ -8,6 +8,8 @@ import {
   selectDriver,
 } from "../utils/EnlistmentHelpers/distancesApi.js";
 
+import { sendGuideEmail } from "../email/emailGuideSend.js";
+
 const getAllOrderShipmentsController = async (
   name_claimant,
   cedula_claimant,
@@ -132,6 +134,8 @@ const createOrderShipmentController = async (
 
       newEnlistment.addDrivers(await selectDriver(city_transmiter));
 
+      sendGuideEmail(newOrderShipment.user_id, newEnlistment.guide_number);
+      
       if (!newEnlistment) throw Error("Error create enlistment");
     }
 
